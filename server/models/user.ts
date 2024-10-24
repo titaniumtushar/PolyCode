@@ -4,6 +4,7 @@ interface DUser extends Document {
     username: string;
     email: string;
     password: string;
+    role: string; // Add role here
     submissions: Submission[] | undefined;
     problems_starred: string[];
     problems_solved: string[];
@@ -26,6 +27,11 @@ const userSchema = new mongoose.Schema<DUser>({
     },
     password: {
         type: String,
+        required: true,
+    },
+    role: {
+        type: String,
+        enum: ["admin", "participant"], // Limit the role options
         required: true,
     },
     submissions: Array,
