@@ -78,7 +78,13 @@ accounts.post("/signup", async (req, res) => {
 
 accounts.post<
     {},
-    { id?: string; token?: string; success: boolean; message: string },
+    {
+        id?: string;
+        token?: string;
+        success: boolean;
+        message: string;
+        role?: string;
+    },
     { username_or_email: string; password: string }
 >("/login", async (req, res) => {
     const { username_or_email, password } = req.body;
@@ -119,6 +125,7 @@ accounts.post<
                 id: user.id,
                 success: true,
                 message: "Logged in successfully",
+                role: user.role,
             });
         } else {
             console.log(
