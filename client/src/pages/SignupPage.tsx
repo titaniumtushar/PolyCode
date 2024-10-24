@@ -15,6 +15,8 @@ const SignupPage = ({
     };
 }) => {
     const [username, setUsername] = useState("");
+    const [role, setRole] = useState("");
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -25,7 +27,6 @@ const SignupPage = ({
     const handleSignUp = () => {
         setisLoading(true);
 
-        
         try {
             if (password !== confirmPassword) {
                 setMessage(
@@ -38,12 +39,21 @@ const SignupPage = ({
                     username: username,
                     email: email,
                     password: password,
+                    role: role,
                 })
                 .then(({ data }) => {
                     console.log(data);
+
                     Data.setTokenFunction(data.token);
                     Data.setIdFunction(data.id);
-                    navigate("/problemset");
+                    document.cookie = `token=${data.token}; path=/; max-age=${
+                        7 * 24 * 60 * 60
+                    };`;
+                    if (role === "participant") {
+                        navigate("/problemset"); // Navigate to problemset for participants
+                    } else if (role === "admin") {
+                        navigate("/admin"); // Navigate to admin page for admins
+                    }
                 })
                 .catch((e: AxiosError) => {
                     setisLoading(false);
@@ -98,6 +108,30 @@ const SignupPage = ({
                             required={true}
                         />
                     </div>
+                    <div className="mb-4 relative">
+                        <select
+                            className="appearance-none border w-full py-2 px-3 placeholder:text-text_2 focus:placeholder:text-orange-500 bg-black rounded border-borders leading-tight focus:outline-none focus:border-orange-500"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                            required={true}
+                        >
+                            <option value="" disabled>
+                                Select Role
+                            </option>
+                            <option value="admin">Admin</option>
+                            <option value="participant">Participant</option>
+                        </select>
+                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <svg
+                                className="fill-current h-4 w-4 text-gray-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                            >
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
+                        </div>
+                    </div>
+
                     <div className="mb-4">
                         <input
                             className="appearance-none border w-full py-2 px-3 placeholder:text-text_2 focus:placeholder:text-orange-500 bg-black rounded border-borders leading-tight focus:outline-none focus:border-orange-500"
@@ -122,9 +156,7 @@ const SignupPage = ({
                         <button
                             className="bg-orange-500 hover:bg-red-600 text-black font-bold py-[6px] px-4 rounded focus:outline-none focus:shadow-outline w-full transition"
                             type="button"
-                            onClick={()=>{
-                                console.log("heelllo")
-                            }}
+                            onClick={handleSignUp}
                         >
                             {isLoading ? (
                                 <div className="w-full block h-[21px]">

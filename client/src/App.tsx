@@ -15,8 +15,8 @@ import AdminProblemListPage from "./pages/AdminProblemListPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
-export const API_URL = "https://fire-code-api.vercel.app";
-// export const API_URL = "http://localhost:80";
+// export const API_URL = "https://fire-code-api.vercel.app";
+export const API_URL = "http://localhost:8080";
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem(TOKEN_STORAGE_KEY));
@@ -151,23 +151,14 @@ function App() {
                         element={<ProfilePage token={token} id={id} />}
                     />
 
-                    <Route
-                        path="/admin"
-                        element={<AdminPage  />}
-                    />
+                    <Route path="/admin" element={<AdminPage />} />
 
-                    <Route
-                        path="/marketplace"
-                        element={<MarketplacePage  />}
-                    />
-                    <Route
-                        path="/listproduct"
-                        element={<ListProductPage  />}
-                    />
+                    <Route path="/marketplace" element={<MarketplacePage />} />
+                    <Route path="/listproduct" element={<ListProductPage />} />
 
                     <Route
                         path="/listproblems"
-                        element={<AdminProblemListPage  />}
+                        element={<AdminProblemListPage />}
                     />
 
                     <Route
