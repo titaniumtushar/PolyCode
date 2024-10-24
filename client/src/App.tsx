@@ -8,6 +8,10 @@ import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingPage from "./pages/SettingPage";
+import AdminPage from "./pages/AdminPage";
+import MarketplacePage from "./pages/MarketplacePage";
+import ListProductPage from "./pages/ListProductPage";
+import AdminProblemListPage from "./pages/AdminProblemListPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -145,6 +149,25 @@ function App() {
                     <Route
                         path="/accounts/:name"
                         element={<ProfilePage token={token} id={id} />}
+                    />
+
+                    <Route
+                        path="/admin"
+                        element={<AdminPage  />}
+                    />
+
+                    <Route
+                        path="/marketplace"
+                        element={<MarketplacePage  />}
+                    />
+                    <Route
+                        path="/listproduct"
+                        element={<ListProductPage  />}
+                    />
+
+                    <Route
+                        path="/listproblems"
+                        element={<AdminProblemListPage  />}
                     />
 
                     <Route

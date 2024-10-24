@@ -24,6 +24,8 @@ const SignupPage = ({
 
     const handleSignUp = () => {
         setisLoading(true);
+
+        
         try {
             if (password !== confirmPassword) {
                 setMessage(
@@ -38,6 +40,7 @@ const SignupPage = ({
                     password: password,
                 })
                 .then(({ data }) => {
+                    console.log(data);
                     Data.setTokenFunction(data.token);
                     Data.setIdFunction(data.id);
                     navigate("/problemset");
@@ -64,10 +67,10 @@ const SignupPage = ({
                     id="logo-cont"
                     className="inline-block relative text-[24px] left-1/2 -translate-x-1/2 font-bold italic mx-auto mt-[12px]"
                 >
-                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 px-[1px]">
-                        Fire
+                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-600 px-[1px]">
+                        PolyCode
                     </span>
-                    <span>Code</span>
+                    <span>Arena</span>
                 </div>
             </Link>
             <div className="min-h-fit w-[300px] mx-auto text-[14px]">
@@ -119,7 +122,9 @@ const SignupPage = ({
                         <button
                             className="bg-orange-500 hover:bg-red-600 text-black font-bold py-[6px] px-4 rounded focus:outline-none focus:shadow-outline w-full transition"
                             type="button"
-                            onClick={handleSignUp}
+                            onClick={()=>{
+                                console.log("heelllo")
+                            }}
                         >
                             {isLoading ? (
                                 <div className="w-full block h-[21px]">

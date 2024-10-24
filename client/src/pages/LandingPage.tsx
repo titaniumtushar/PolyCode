@@ -60,14 +60,15 @@ const LandingPage = ({
                 />
             )}
             <div className="w-[100vw] overflow-hidden h-[calc(100vh-60px)] absolute">
-                <div className="circle-1-animation absolute top-[6%] left-[55%] -translate-x-1/2 w-[500px] h-[500px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-red-800 opacity-60 z-10"></div>
-                <div className="absolute circle-2-animation top-[8%] left-[45%] -translate-x-1/2 w-[500px] h-[500px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-orange-500 opacity-60 z-10"></div>
-                <div className="absolute circle-3-animation top-[10%] left-[45%] -translate-x-1/2 w-[400px] h-[300px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-yellow-600 opacity-60 z-10"></div>
-                <div className="absolute circle-4-animation top-[10%] left-[50%] -translate-x-1/2 w-[200px] h-[200px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-red-600 opacity-60 z-10"></div>
-                <div className="absolute circle-5-animation top-[10%] left-[45%] -translate-x-1/2 w-[400px] h-[400px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-orange-800 opacity-60 z-10"></div>
-                <div className="absolute top-[20%] left-[47%] -translate-x-1/2 w-[600px] h-[500px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-orange-600 opacity-60 z-10"></div>
-                <div className="absolute circle-7-animation top-[10%] left-[50%] -translate-x-1/2 w-[400px] h-[400px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-orange-800 opacity-60 z-10"></div>
-            </div>
+    <div className="circle-1-gamified absolute top-[6%] left-[45%] -translate-x-1/2 w-[500px] h-[500px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-purple-800 opacity-70 z-10 animate-pulse-rotate"></div>
+    <div className="absolute circle-2-gamified top-[8%] left-[40%] -translate-x-1/2 w-[550px] h-[550px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-yellow-500 opacity-70 z-10 animate-pulse-move"></div>
+    <div className="absolute circle-3-gamified top-[12%] left-[38%] -translate-x-1/2 w-[450px] h-[400px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-purple-600 opacity-70 z-10 animate-pulse-rotate"></div>
+    <div className="absolute circle-4-gamified top-[10%] left-[40%] -translate-x-1/2 w-[300px] h-[300px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-yellow-600 opacity-70 z-10 animate-pulse-move"></div>
+    <div className="absolute circle-5-gamified top-[20%] left-[35%] -translate-x-1/2 w-[500px] h-[500px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-purple-900 opacity-70 z-10 animate-pulse-rotate"></div>
+    <div className="absolute top-[18%] left-[50%] -translate-x-1/2 w-[700px] h-[600px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-yellow-800 opacity-70 z-10 animate-pulse-move"></div>
+    <div className="absolute circle-7-gamified top-[5%] left-[35%] -translate-x-1/2 w-[400px] h-[400px] rounded-full filter blur-[99px] bg-gradient-to-br from-transparent to-purple-700 opacity-70 z-10 animate-pulse-move"></div>
+</div>
+
             {verifiedCertain && verified ? (
                 <>
                     <h1 className="absolute text-[38px] md:text-[48px] mx-auto text-center font-bold mt-[100px] z-50 inset-0 top-[100px]">
@@ -94,7 +95,7 @@ const LandingPage = ({
                     <div className="absolute md:top-[450px] top-[550px] left-1/2 -translate-x-1/2 z-50">
                         <Link
                             to="/problemset"
-                            className="relative ml-[8px] font-bold inline-block bg-gradient-to-r from-orange-500 to-red-600 rounded-md text-black text-[18px] hover:bg-red-800"
+                            className="relative ml-[8px] font-bold inline-block bg-gradient-to-r from-orange-500 to-purple-600 rounded-md text-black text-[18px] hover:bg-purple-800"
                         >
                             <div className="w-full h-full bg-black text-white py-[6px] px-[16px] rounded-[6px] border border-black hover:bg-[#00000000] hover:border-[#00000000] hover:text-black transition active:bg-red-700">
                                 Problem List
@@ -129,14 +130,14 @@ const LandingPage = ({
                     </h1>
                     <p className="absolute md:w-1/2 w-3/4 text-center mx-auto mt-[50px] z-50 inset-0 top-[300px]">
                         Reach the pinnacle of your coding potential with
-                        FireCode. Elevate your skills, conquer challenges, and
+                        Polycode. Elevate your skills, conquer challenges, and
                         excel in technical interviews, propelling your
                         programming journey to new heights.
                     </p>
                     <div className=" absolute top-[500px] left-1/2 -translate-x-1/2 z-50">
                         <Link
                             to="/signup"
-                            className=" relative ml-[8px] font-bold inline-block bg-gradient-to-r from-orange-500 to-red-600 rounded-md text-black text-[18px] hover:bg-red-800"
+                            className=" relative ml-[8px] font-bold inline-block bg-gradient-to-r from-orange-500 to-purple-600 rounded-md text-black text-[18px] hover:bg-purple-700"
                         >
                             <div className="w-full h-full bg-black text-white py-[6px] px-[16px] rounded-[6px] border border-black hover:bg-[#00000000] hover:border-[#00000000] hover:text-black transition active:bg-red-700">
                                 Get Started

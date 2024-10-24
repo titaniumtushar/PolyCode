@@ -16,10 +16,10 @@ const MainHeading = ({ data }: { data?: MainHeadingData }) => {
                         id="logo-cont"
                         className="inline-block text-[24px] font-bold italic mx-[36px] mt-[12px]"
                     >
-                        <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 px-[1px]">
-                            Fire
+                        <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-yellow-600 px-[1px]">
+                            PolyCode
                         </span>
-                        <span>Code</span>
+                        <span>Arena</span>
                     </div>
                 </Link>
                 {data != undefined &&
@@ -78,7 +78,7 @@ const MainHeading = ({ data }: { data?: MainHeadingData }) => {
                         </Link>
                         <Link
                             to="/signup"
-                            className="ml-[8px] font-bold inline-block py-[6px] px-[16px] bg-gradient-to-r from-orange-500 to-red-600 border rounded-md border-borders text-black text-[14px] hover:bg-red-800"
+                            className="ml-[8px] font-bold inline-block py-[6px] px-[16px] bg-gradient-to-r from-orange-500 to-purple-700 border rounded-md border-borders text-black text-[14px] hover:bg-red-800"
                         >
                             Sign Up
                         </Link>

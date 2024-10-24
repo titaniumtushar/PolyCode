@@ -109,6 +109,11 @@ code {
     margin-top: 20px;
 }
 
+.border-neon-blue {
+    border-color: #c968fa;
+  }
+  
+
 .cm-line,
 .cm-gutters,
 .cm-editor,
