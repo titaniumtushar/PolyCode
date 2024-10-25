@@ -8,12 +8,25 @@ require("dotenv");
 import Filter from "bad-words";
 import ProblemModel from "../models/problem";
 import { customCors } from "../middlewares/cors";
+import { Types } from "mongoose";
+
+function convertToString(objID: any): string {
+    // Convert to ObjectId
+    const objectId = new Types.ObjectId(objID);
+
+    // Return the string representation
+    return objectId.toString();
+}
+export { convertToString };
 
 const accounts = express.Router();
 
 accounts.post("/signup", async (req, res) => {
     try {
         const { username, email, password, role } = req.body; // Destructure role
+        const arena_wallet_id = `${Date.now().toString(36)}-${Math.random()
+            .toString(36)
+            .substring(2, 10)}`;
 
         if (!username || !email || !password || !role) {
             // Include role in validation
@@ -42,7 +55,8 @@ accounts.post("/signup", async (req, res) => {
             username: username,
             email: email,
             password: hashedPas,
-            role: role, // Add role to user object
+            role: role,
+            arena_wallet_id: arena_wallet_id,
         };
 
         const userModel = new UserModel(user);
@@ -57,7 +71,7 @@ accounts.post("/signup", async (req, res) => {
         const id = userFromDb ? userFromDb.id.toString() : "none";
 
         const token = jwt.sign(
-            { username, role },
+            { username, role, arena_wallet_id },
             process.env.ACCESS_TOKEN_SECRET!
         ); // Include role in token payload
 
@@ -114,10 +128,14 @@ accounts.post<
         }
 
         if (await bcrypt.compare(password, user.password)) {
-            const token = jwt.sign(
-                user.username,
-                process.env.ACCESS_TOKEN_SECRET!
-            );
+            const payload = {
+                id: convertToString(user._id),
+                role: user.role,
+                wallet_id: user.arena_wallet_id,
+                crypt0_wallet_id: user.crypto_wallet_id,
+            };
+            console.log(payload, "this is payload after login");
+            const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET!);
 
             console.log("User '", user.username, "' logged in at ", new Date());
             res.json({

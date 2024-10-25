@@ -64,7 +64,7 @@ const LoginPage = ({
                     className="inline-block relative text-[24px] left-1/2 -translate-x-1/2 font-bold italic mx-auto mt-[12px]"
                 >
                     <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 px-[1px]">
-                        Fire
+                        Poly
                     </span>
                     <span>Code</span>
                 </div>

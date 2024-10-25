@@ -14,6 +14,10 @@ interface DUser extends Document {
     views: number;
     solution_count: number;
     reputation_count: number;
+    arena_wallet_id: String;
+    crypto_wallet_id: String;
+    transactions: object[];
+    current_balance: Number;
 }
 
 const userSchema = new mongoose.Schema<DUser>({
@@ -54,6 +58,19 @@ const userSchema = new mongoose.Schema<DUser>({
     reputation_count: {
         type: Number,
         default: 0,
+    },
+    arena_wallet_id: String,
+    crypto_wallet_id: {
+        type: String,
+        default: "",
+    },
+    transactions: {
+        type: [mongoose.Schema.Types.Mixed],
+        default: [],
+    },
+    current_balance: {
+        type: Number,
+        default: 5000,
     },
 });
 
