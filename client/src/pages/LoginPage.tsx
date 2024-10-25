@@ -35,7 +35,11 @@ const LoginPage = ({
                     }
                     Data.setTokenFunction(data.token);
                     Data.setIdFunction(data.id);
-                    navigate("/problemset");
+                    if (data.role === "participant") {
+                        navigate("/problemset"); // Navigate to problemset for participants
+                    } else if (data.role === "admin") {
+                        navigate("/admin"); // Navigate to admin page for admins
+                    }
                 })
                 .catch((e: AxiosError) => {
                     setisLoading(false);
