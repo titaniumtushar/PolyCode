@@ -55,7 +55,7 @@ accounts.post("/signup", async (req, res) => {
         });
 
         const id = userFromDb ? userFromDb.id.toString() : "none";
-
+        console.log(process.env.ACCESS_TOKEN_SECRET);
         const token = jwt.sign(
             { username, role },
             process.env.ACCESS_TOKEN_SECRET!

@@ -40,6 +40,9 @@ function App() {
         } else {
             localStorage.removeItem(ID_STORAGE_KEY);
         }
+
+
+        
     }, [token, id]);
 
     return (
@@ -48,52 +51,43 @@ function App() {
                 <Routes>
                     <Route
                         path="/"
-                        element={<LandingPage token={token} id={id} />}
+                        element={<LandingPage />}
                     />
                     <Route
                         path="/problemset"
                         element={<ProblemSet token={token} id={id} />}
                     />
                     <Route
-                        path="/problem/:name/editorial"
-                        element={
-                            <ProblemPage
-                                data={{ activeNavOption: "editorial" }}
-                                token={token}
-                                id={id}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/problem/:name/solutions"
-                        element={
-                            <ProblemPage
-                                data={{ activeNavOption: "solutions" }}
-                                token={token}
-                                id={id}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/problem/:name/submissions"
-                        element={
-                            <ProblemPage
-                                data={{ activeNavOption: "submissions" }}
-                                token={token}
-                                id={id}
-                            />
-                        }
-                    />
-                    <Route
-                        path="/problem/:name"
-                        element={
-                            <ProblemPage
-                                data={{ activeNavOption: "description" }}
-                                token={token}
-                                id={id}
-                            />
-                        }
-                    />
+    path="/problem/:name"
+    element={
+        <ProblemPage
+            problemName="Two Sum"
+            description={`
+                Given an array of integers \`nums\` and an integer \`target\`, 
+                return indices of the two numbers such that they add up to the target.
+                You may assume that each input would have exactly one solution, 
+                and you may not use the same element twice.
+                You can return the answer in any order.
+            `}
+            testCases={[
+                "Input: nums = [2,7,11,15], target = 9 | Output: [0,1]",
+                "Input: nums = [3,2,4], target = 6 | Output: [1,2]",
+                "Input: nums = [3,3], target = 6 | Output: [0,1]",
+            ]}
+            initialCode={`
+                function twoSum(nums, target) {
+                    // Write your solution here
+                }
+            `}
+            onSubmit={(code) => {
+                console.log("Submitted Code:", code);
+                // Add submission logic here
+            }}
+        />
+    }
+/>
+
+                   
                     <Route
                         path="/signup"
                         element={
@@ -144,11 +138,11 @@ function App() {
                     />
                     <Route
                         path="/settings"
-                        element={<SettingPage token={token} id={id} />}
+                        element={<SettingPage token={"ndjn"} id={"ksk"} />}
                     />
                     <Route
                         path="/accounts/:name"
-                        element={<ProfilePage token={token} id={id} />}
+                        element={<ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />}
                     />
 
                     <Route path="/admin" element={<AdminPage />} />

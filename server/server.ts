@@ -5,7 +5,7 @@ import router from "./routes/index";
 import mongoose from "mongoose";
 import { customCors } from "./middlewares/cors";
 
-const MONGODB_URI = process.env.MONGODB_URI || "";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/newest";
 console.log(MONGODB_URI);
 
 mongoose.connect(MONGODB_URI);
@@ -19,6 +19,8 @@ db.once("open", () => {
 
 const app: express.Application = express();
 const port = process.env.PORT || 8080;
+
+console.log(process.env.MONGODB_URI)
 
 app.use(customCors);
 // app.use(cors());

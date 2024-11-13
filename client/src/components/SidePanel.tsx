@@ -74,6 +74,8 @@ const SidePanel = ({
                 />
                 <SidePanelItem text="Problem list" to={`/problemset`} />
                 <SidePanelItem text="Settings" to={`/settings`} />
+                <SidePanelItem text="Contests" to={`/settings`} />
+
 
                 <hr className="border-borders w-[88%] mx-auto" />
                 <div
