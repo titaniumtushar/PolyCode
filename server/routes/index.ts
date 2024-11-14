@@ -1,10 +1,8 @@
 import express from "express";
-import problem from "./problem";
-import accounts from "./accounts";
+import { community } from "./community";
 
 const router = express.Router();
 
-router.use("/problem", problem);
-router.use("/accounts", accounts);
+router.use("/community", community);
 
 export default router;

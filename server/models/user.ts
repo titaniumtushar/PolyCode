@@ -1,23 +1,14 @@
-import mongoose, { Document } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
 interface DUser extends Document {
-    username: string;
+    name: string;
     email: string;
     password: string;
-    role: string; // Add role here
-    submissions: Submission[] | undefined;
-    problems_starred: string[];
-    problems_solved: string[];
-    problems_attempted: string[];
-    problems_solved_count: number;
-    rank: number;
-    views: number;
-    solution_count: number;
-    reputation_count: number;
+    
 }
 
 const userSchema = new mongoose.Schema<DUser>({
-    username: {
+    name: {
         type: String,
         required: true,
     },
@@ -29,34 +20,13 @@ const userSchema = new mongoose.Schema<DUser>({
         type: String,
         required: true,
     },
-    role: {
-        type: String,
-        enum: ["admin", "participant"], // Limit the role options
-        required: true,
-    },
-    submissions: Array,
-    problems_starred: Array,
-    problems_solved: Array,
-    problems_attempted: Array,
-    problems_solved_count: {
-        type: Number,
-        default: 0,
-    },
-    rank: Number,
-    views: {
-        type: Number,
-        default: 0,
-    },
-    solution_count: {
-        type: Number,
-        default: 0,
-    },
-    reputation_count: {
-        type: Number,
-        default: 0,
-    },
+    
+    
+   
 });
 
 const UserModel = mongoose.model<DUser>("User", userSchema);
 
-export default UserModel;
+const CommunityModel = mongoose.model<DUser>("Community",userSchema);
+
+export {UserModel,CommunityModel};

@@ -58,35 +58,7 @@ function App() {
                         path="/problemset"
                         element={<ProblemSet token={token} id={id} />}
                     />
-                    <Route
-    path="/problem/:name"
-    element={
-        <ProblemPage
-            problemName="Two Sum"
-            description={`
-                Given an array of integers \`nums\` and an integer \`target\`, 
-                return indices of the two numbers such that they add up to the target.
-                You may assume that each input would have exactly one solution, 
-                and you may not use the same element twice.
-                You can return the answer in any order.
-            `}
-            testCases={[
-                "Input: nums = [2,7,11,15], target = 9 | Output: [0,1]",
-                "Input: nums = [3,2,4], target = 6 | Output: [1,2]",
-                "Input: nums = [3,3], target = 6 | Output: [0,1]",
-            ]}
-            initialCode={`
-                function twoSum(nums, target) {
-                    // Write your solution here
-                }
-            `}
-            onSubmit={(code) => {
-                console.log("Submitted Code:", code);
-                // Add submission logic here
-            }}
-        />
-    }
-/>
+                    
 
                    
                     <Route
@@ -147,7 +119,7 @@ function App() {
                     />
                     <Route element={<PrivateRoutes />}>
 
-                                        <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/admin" element={<AdminPage />} />
 
                     <Route path="/marketplace" element={<MarketplacePage />} />
                     

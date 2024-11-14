@@ -1,0 +1,17 @@
+POST http://localhost:8080/api/community/signup
+Content-Type: application/json
+
+{
+    "name":"par",
+    "email":"kapaisminec",
+    "password":"kdpak"
+}
+###
+POST http://localhost:8080/api/community/login
+Content-Type: application/json
+
+{
+    "name":"par",
+    "email":"kapaisminec",
+    "password":"kdpak"
+}
