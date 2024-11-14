@@ -11,9 +11,9 @@ const LoginPage = ({
 }: {
     Data: {
         token: string;
-        setTokenFunction: (string: string) => void;
+        setTokenFunction: (token: string) => void;
         id: string;
-        setIdFunction: (string: string) => void;
+        setIdFunction: (id: string) => void;
     };
 }) => {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -24,7 +24,6 @@ const LoginPage = ({
 
     const handleLogin = () => {
         setisLoading(true);
-        navigate("/problemset");
 
         try {
             axios
@@ -48,35 +47,27 @@ const LoginPage = ({
                 .catch((e: AxiosError) => {
                     setisLoading(false);
                     setMessage(
-                        (
-                            e.response?.data as {
-                                success: boolean;
-                                message: string;
-                            }
-                        ).message
+                        (e.response?.data as { success: boolean; message: string }).message
                     );
                 });
         } catch (error) {
-            console.error("Sign-up failed:", error);
+            console.error("Login failed:", error);
         }
     };
 
-    const CustomNavData : Navbar = {
+    const CustomNavData: Navbar = {
         items: [
             { text: "Student Login", link_path: "/studentlogin" },
-            { text: "Institution Login", link_path: "/institutelogin" }
+            { text: "Institution Login", link_path: "/institutelogin" },
         ],
     };
-
 
     return (
         <>
             <Link to={"/"}>
-
                 <div>
                     <BackPage />
                 </div>
-
 
                 <div
                     id="logo-cont"
@@ -97,8 +88,6 @@ const LoginPage = ({
                     <div className="text-10px font-semibold whitespace-nowrap mb-4">
                         <CustomNavbar data={CustomNavData} />
                     </div>
-
-
 
                     <div className="mb-4">
                         <input
