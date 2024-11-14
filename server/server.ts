@@ -20,10 +20,12 @@ db.once("open", () => {
 const app: express.Application = express();
 const port = process.env.PORT || 8080;
 
+
+
 console.log(process.env.MONGODB_URI)
 
-app.use(customCors);
-// app.use(cors());
+// app.use(customCors);
+app.use(cors());
 
 app.use(express.json());
 
