@@ -12,6 +12,7 @@ import AdminPage from "./pages/AdminPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import ListProductPage from "./pages/ListProductPage";
 import AdminProblemListPage from "./pages/AdminProblemListPage";
+import { PrivateRoutes } from "./ProtectedRoutes";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -144,10 +145,15 @@ function App() {
                         path="/accounts/:name"
                         element={<ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />}
                     />
+                    <Route element={<PrivateRoutes />}>
 
-                    <Route path="/admin" element={<AdminPage />} />
+                                        <Route path="/admin" element={<AdminPage />} />
 
                     <Route path="/marketplace" element={<MarketplacePage />} />
+                    
+                    </Route>
+
+
                     <Route path="/listproduct" element={<ListProductPage />} />
 
                     <Route
