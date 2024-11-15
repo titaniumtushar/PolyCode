@@ -18,6 +18,12 @@ community.post("/login", async (req, res) => {
 });
 
 
+community.get("/hawa",(req,res)=>{
+  res.cookie("j","as");
+  res.send("W");
+})
+
+
 
 
 

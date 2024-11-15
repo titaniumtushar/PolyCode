@@ -3,7 +3,8 @@ import express from "express";
 import cors from "cors";
 import router from "./routes/index";
 import mongoose from "mongoose";
-import { customCors } from "./middlewares/cors";
+import cookieParser from 'cookie-parser';
+
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/newest";
 console.log(MONGODB_URI);
@@ -20,14 +21,14 @@ db.once("open", () => {
 const app: express.Application = express();
 const port = process.env.PORT || 8080;
 
-
-
-console.log(process.env.MONGODB_URI)
-
-// app.use(customCors);
-app.use(cors());
-
+app.use(cors({
+    origin:true,
+    credentials: true,  
+}));
 app.use(express.json());
+app.use(cookieParser());
+
+
 
 app.use("/api", router);
 
