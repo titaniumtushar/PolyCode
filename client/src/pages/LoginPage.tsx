@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 const LoginPage = () => {
@@ -7,6 +7,8 @@ const LoginPage = () => {
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         setIsLoading(true);
@@ -43,10 +45,11 @@ const LoginPage = () => {
 
             if (res.status===200) {
                 setMessage("Login successful! Redirecting...");
-                await localStorage.setItem("token",data.token);
+                localStorage.setItem("token",data.token);
 
                 // Implement redirect logic (e.g., navigate to another page)
                 // navigate("/dashboard");
+                navigate("/admin");
             } else {
                 setMessage(data.message );
             }

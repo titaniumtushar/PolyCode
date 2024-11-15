@@ -106,9 +106,14 @@ function App() {
                         path="/accounts/:name"
                         element={<ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />}
                     />
-                    <Route element={<PrivateRoutes />}>
+                    <Route element={<PrivateRoutes role={"C"} />}>
 
                     <Route path="/admin" element={<AdminPage />} />
+
+                    
+                    </Route>
+                    <Route element={<PrivateRoutes role={"U"} />}>
+
 
                     <Route path="/marketplace" element={<MarketplacePage />} />
                     
