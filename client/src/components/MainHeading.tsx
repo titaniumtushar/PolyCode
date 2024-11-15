@@ -65,6 +65,7 @@ const MainHeading = ({ data }: { data?: MainHeadingData }) => {
                             display={sidePanelState}
                             data={{
                                 username: data?.username || "",
+                                role:"C"
                             }}
                         />
                     </div>

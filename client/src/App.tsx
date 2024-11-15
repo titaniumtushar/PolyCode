@@ -13,6 +13,7 @@ import MarketplacePage from "./pages/MarketplacePage";
 import ListProductPage from "./pages/ListProductPage";
 import AdminProblemListPage from "./pages/AdminProblemListPage";
 import { PrivateRoutes } from "./ProtectedRoutes";
+import { Layout, LayoutTwo } from "./Layout";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -41,41 +42,16 @@ function App() {
         } else {
             localStorage.removeItem(ID_STORAGE_KEY);
         }
-
-
-        
     }, [token, id]);
 
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={<LandingPage />}
-                    />
-                    <Route
-                        path="/problemset"
-                        element={<ProblemSet token={token} id={id} />}
-                    />
-                    
+                    <Route path="/" element={<LandingPage />} />
 
-                   
-                    <Route
-                        path="/signup"
-                        element={
-                            <SignupPage
-                            />
-                        }
-                    />
-                    <Route
-                        path="/login"
-                        element={
-                            <LoginPage
-                                
-                            />
-                        }
-                    />
+                    <Route path="/signup" element={<SignupPage />} />
+                    <Route path="/login" element={<LoginPage />} />
                     <Route
                         path="/sorry"
                         element={
@@ -98,33 +74,43 @@ function App() {
                             />
                         }
                     />
+
+                    <Route element={<Layout />}>
+                        <Route element={<PrivateRoutes role={"C"} />}>
+                            <Route path="/admin" element={<AdminPage />} />
+                            <Route
+                            path="/problemset"
+                            element={<ProblemSet token={token} id={id} />}
+                        />
+                        <Route
+                            path="/listproduct"
+                            element={<ListProductPage />}
+                        />
+                        </Route>
+
+                        
+
+                        
+                    </Route>
+
+                    <Route element={<LayoutTwo />}>
+                        <Route element={<PrivateRoutes role={"U"} />}>
+                            <Route
+                                path="/marketplace"
+                                element={<MarketplacePage />}
+                            />
+                        </Route>
+                    </Route>
+
                     <Route
                         path="/settings"
                         element={<SettingPage token={"ndjn"} id={"ksk"} />}
                     />
                     <Route
                         path="/accounts/:name"
-                        element={<ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />}
-                    />
-                    <Route element={<PrivateRoutes role={"C"} />}>
-
-                    <Route path="/admin" element={<AdminPage />} />
-
-                    
-                    </Route>
-                    <Route element={<PrivateRoutes role={"U"} />}>
-
-
-                    <Route path="/marketplace" element={<MarketplacePage />} />
-                    
-                    </Route>
-
-
-                    <Route path="/listproduct" element={<ListProductPage />} />
-
-                    <Route
-                        path="/listproblems"
-                        element={<AdminProblemListPage />}
+                        element={
+                            <ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />
+                        }
                     />
 
                     <Route

@@ -46,6 +46,7 @@ interface ProblemPageData {
 
 interface SidePanelData {
     username: string;
+    role:null | undefined | "C" | "U"
 }
 
 interface User {
@@ -116,6 +117,7 @@ interface MainHeadingData {
     username?: string;
     id?: string;
     status?: "loggedin" | "not-loggedin" | "none";
+    role?:"C" | "U"
 }
 
 interface MainHeadingItems {

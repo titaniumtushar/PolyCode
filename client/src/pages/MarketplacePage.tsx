@@ -36,17 +36,8 @@ const MarketplacePage = () => {
 
   return (
     <div>
-      {/* Main Heading */}
-      <MainHeading
-        data={{
-          username: "User",
-          status: "loggedin",
-          items: [
-            { text: "Marketplace", link_path: "/marketplace" },
-            { text: "Store", link_path: "/arenastore" },
-          ],
-        }}
-      />
+     
+      
 
       {/* Marketplace Heading */}
       <h1 className="text-center text-4xl font-bold text-purple-500 mt-10">
