@@ -1,75 +1,64 @@
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../App";
-import Loading from "../components/Loading";
 
-const SignupPage = ({
-    Data,
-}: {
-    Data: {
-        token: string;
-        setTokenFunction: (string: string) => void;
-        id: string;
-        setIdFunction: (string: string) => void;
-    };
-}) => {
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+const SignupPage = () => {
     const [username, setUsername] = useState("");
     const [role, setRole] = useState("");
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [message, setMessage] = useState("");
-    const [isLoading, setisLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleSignUp = () => {
-        setisLoading(true);
+   const handleSignUp = async () => {
+    setIsLoading(true);  // Start loading state
 
-        try {
-            if (password !== confirmPassword) {
-                setMessage(
-                    "Password and confirm password do not match. Please make sure you enter the same password in both fields."
-                );
-                return;
-            }
-            axios
-                .post(`${API_URL}/api/accounts/signup`, {
-                    username: username,
-                    email: email,
-                    password: password,
-                    role: role,
-                })
-                .then(({ data }) => {
-                    console.log(data);
+    if (password !== confirmPassword) {
+        setMessage(
+            "Password and confirm password do not match. Please make sure you enter the same password in both fields."
+        );
+        setIsLoading(false);  // Stop loading state if passwords don't match
+        return;
+    }
 
-                    Data.setTokenFunction(data.token);
-                    Data.setIdFunction(data.id);
-                    document.cookie = `token=${data.token}; path=/; max-age=${
-                        7 * 24 * 60 * 60
-                    };`;
-                    if (role === "participant") {
-                        navigate("/problemset"); // Navigate to problemset for participants
-                    } else if (role === "admin") {
-                        navigate("/admin"); // Navigate to admin page for admins
-                    }
-                })
-                .catch((e: AxiosError) => {
-                    setisLoading(false);
-                    setMessage(
-                        (
-                            e.response?.data as {
-                                success: boolean;
-                                message: string;
-                            }
-                        ).message
-                    );
-                });
-        } catch (error) {
-            console.error("Sign-up failed:", error);
-        }
+    const payload: any = {
+        name: username,
+        email: email,
+        password: password,
     };
+
+    try {
+        const res = await fetch("http://localhost:8080/api/community/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+            
+
+        });
+
+        // Check if response is not ok (status code 2xx)
+        if (!res.ok) {
+            // If response isn't OK, parse the error message and throw an error
+            const errorData = await res.json();
+            throw new Error(errorData.message || "Something went wrong");
+        }
+
+        // If request was successful, get the response data
+        const data = await res.json();
+        setMessage(data.message);  // Show the server message (e.g., success or error message)
+    } catch (error:any) {
+        // Catch network or response errors
+        console.error("Error during sign-up:", error.message);
+        setMessage(error.message);  // Display error message to the user
+    } finally {
+        setIsLoading(false);  // Ensure loading state is turned off regardless of success or failure
+    }
+};
+
+
     return (
         <>
             <Link to={"/"}>
@@ -121,15 +110,6 @@ const SignupPage = ({
                             <option value="admin">Admin</option>
                             <option value="participant">Participant</option>
                         </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <svg
-                                className="fill-current h-4 w-4 text-gray-500"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 20 20"
-                            >
-                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                            </svg>
-                        </div>
                     </div>
 
                     <div className="mb-4">
@@ -159,11 +139,7 @@ const SignupPage = ({
                             onClick={handleSignUp}
                         >
                             {isLoading ? (
-                                <div className="w-full block h-[21px]">
-                                    <div className="absolute left-1/2 -translate-x-1/2">
-                                        <Loading />
-                                    </div>
-                                </div>
+                                <div className="w-full block h-[21px]">Loading...</div>
                             ) : (
                                 "Create Account"
                             )}

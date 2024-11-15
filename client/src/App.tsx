@@ -65,12 +65,6 @@ function App() {
                         path="/signup"
                         element={
                             <SignupPage
-                                Data={{
-                                    token: token || "",
-                                    setTokenFunction: changeToken,
-                                    id: id || "",
-                                    setIdFunction: changeId,
-                                }}
                             />
                         }
                     />
@@ -78,12 +72,7 @@ function App() {
                         path="/login"
                         element={
                             <LoginPage
-                                Data={{
-                                    token: token || "",
-                                    setTokenFunction: changeToken,
-                                    id: id || "",
-                                    setIdFunction: changeId,
-                                }}
+                                
                             />
                         }
                     />

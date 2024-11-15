@@ -1,61 +1,63 @@
-import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { API_URL } from "../App";
+import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
 
-const LoginPage = ({
-    Data,
-}: {
-    Data: {
-        token: string;
-        setTokenFunction: (string: string) => void;
-        id: string;
-        setIdFunction: (string: string) => void;
-    };
-}) => {
+const LoginPage = () => {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const [isLoading, setisLoading] = useState<boolean>(false);
-    const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleLogin = () => {
-        setisLoading(true);
+    const handleLogin = async () => {
+        setIsLoading(true);
+        setMessage(""); // Clear previous messages
+
+        if (!usernameOrEmail || !password) {
+            setMessage("Please fill in both fields.");
+            setIsLoading(false);
+            return;
+        }
+
+        // Prepare payload for login request
+        const payload = {
+            email: usernameOrEmail,
+            password: password,
+        };
+
         try {
-            axios
-                .post(`${API_URL}/api/accounts/login`, {
-                    username_or_email: usernameOrEmail,
-                    password: password,
-                })
-                .then(({ data }) => {
-                    if (data.success === false) {
-                        setMessage(data.message);
-                        return;
-                    }
-                    Data.setTokenFunction(data.token);
-                    Data.setIdFunction(data.id);
-                    if (data.role === "participant") {
-                        navigate("/problemset"); // Navigate to problemset for participants
-                    } else if (data.role === "admin") {
-                        navigate("/admin"); // Navigate to admin page for admins
-                    }
-                })
-                .catch((e: AxiosError) => {
-                    setisLoading(false);
-                    setMessage(
-                        (
-                            e.response?.data as {
-                                success: boolean;
-                                message: string;
-                            }
-                        ).message
-                    );
-                });
+            // Simulate login request using POST
+            const res = await fetch("http://localhost:8080/api/community/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            // Check if the response is okay
+            const data = await res.json();
+
+            
+
+
+
+            if (res.status===200) {
+                setMessage("Login successful! Redirecting...");
+                await localStorage.setItem("token",data.token);
+
+                // Implement redirect logic (e.g., navigate to another page)
+                // navigate("/dashboard");
+            } else {
+                setMessage(data.message );
+            }
         } catch (error) {
-            console.error("Sign-up failed:", error);
+            console.error("Login failed:", error);
+            setMessage("An error occurred. Please try again later.");
+        } finally {
+            setIsLoading(false);
         }
     };
+
     return (
         <>
             <Link to={"/"}>
@@ -81,7 +83,7 @@ const LoginPage = ({
                             placeholder="Username or Email"
                             value={usernameOrEmail}
                             onChange={(e) => setUsernameOrEmail(e.target.value)}
-                            required={true}
+                            required
                         />
                     </div>
                     <div className="mb-6">
@@ -91,7 +93,7 @@ const LoginPage = ({
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            required={true}
+                            required
                         />
                     </div>
                     <div className="flex items-center justify-between">
