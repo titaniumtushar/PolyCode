@@ -31,11 +31,7 @@ const ProblemSet = ({
 
     return (
         <>
-            {!verified ? (
-                <MainHeading data={{ username }} />
-            ) : (
-                <MainHeading data={{ status: "none" }} />
-            )}
+            
 
             {/* Problems List */}
             <div className="h-[calc(100vh-60px)] overflow-hidden bg-black">

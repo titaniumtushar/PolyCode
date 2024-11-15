@@ -40,16 +40,7 @@ const ListProductPage = () => {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Main Heading with Credits or Navigation */}
-      <MainHeading
-        data={{
-          username: "User",
-          status: "loggedin",
-          items: [
-            { text: "Marketplace", link_path: "/marketplace" },
-            { text: "Store", link_path: "/arenastore" },
-          ],
-        }}
-      />
+      
       <div className="container mx-auto py-8 flex justify-center">
         {/* Increased width and added rounded-lg for more rounded corners */}
         <div className="w-full max-w-lg p-6 border-4 border-neon-blue rounded-lg space-y-4 text-center">

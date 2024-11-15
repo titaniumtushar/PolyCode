@@ -52,28 +52,7 @@ function App() {
 
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route
-                        path="/sorry"
-                        element={
-                            <ErrorPage
-                                data={{
-                                    header: "Sorry :(",
-                                    message:
-                                        "If you already have an account, please log in. If you don't, please sign up.",
-                                    links: [
-                                        {
-                                            text: "Login",
-                                            link_path: "/login",
-                                        },
-                                        {
-                                            text: "Signup",
-                                            link_path: "/signup",
-                                        },
-                                    ],
-                                }}
-                            />
-                        }
-                    />
+                    
 
                     <Route element={<Layout />}>
                         <Route element={<PrivateRoutes role={"C"} />}>
@@ -102,16 +81,8 @@ function App() {
                         </Route>
                     </Route>
 
-                    <Route
-                        path="/settings"
-                        element={<SettingPage token={"ndjn"} id={"ksk"} />}
-                    />
-                    <Route
-                        path="/accounts/:name"
-                        element={
-                            <ProfilePage token={"kdmskdmmkd"} id={"dmdkm"} />
-                        }
-                    />
+                    
+                    
 
                     <Route
                         path="*"

@@ -48,17 +48,7 @@ const AdminPage = () => {
 
     return (
         <div>
-            <MainHeading
-                data={{
-                    username: "User",
-                    status: "loggedin",
-                    items: [
-                        { text: "Marketplace", link_path: "/marketplace" },
-                        { text: "Store", link_path: "/arenastore" },
-                        { text: "List Product", link_path: "/listproduct" },
-                    ],
-                }}
-            />
+           
             <div className="flex flex-col items-center mt-8">
                 {/* Buttons for Create Contest and Your Marketplace */}
                 <div className="flex space-x-4">
