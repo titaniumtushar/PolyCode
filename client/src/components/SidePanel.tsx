@@ -88,7 +88,7 @@ const SidePanel = ({
                     displayFn={setLogoutState}
                     onOkFn={onLogout}
                     title="Log Out"
-                    message={`Are you sure you want to lot out of ${data.username}?`}
+                    message={`Are you sure you want to log out of ${data.username}?`}
                 />
             </div>
         </>

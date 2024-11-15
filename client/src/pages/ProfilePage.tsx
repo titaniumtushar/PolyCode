@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import MainHeading from "../components/MainHeading";
 import { API_URL } from "../App";
+import SkillTags from './SkillTagsPage';
 
 
 const ProfilePage = ({
@@ -16,6 +17,7 @@ const ProfilePage = ({
     const [verified, setVerified] = useState<boolean>(false);
     const [user, setUser] = useState<PublicUser>();
     const [verifiedCertain, setVerifiedCertain] = useState<boolean>(false);
+    const [skills, setSkills] = useState<string[]>([]);
     const { name } = useParams();
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [eAll, setEAll] = useState<number>();
@@ -77,6 +79,11 @@ const ProfilePage = ({
             .then(({ data }) => setItemsBought(data))
             .catch((e: AxiosError) => console.log(e));
     },);
+    useEffect(() => {
+        // Simulate fetching skills with mock data if the backend is unavailable
+        const mockSkills = ["JavaScript", "React", "CSS", "TypeScript", "HTML", "mmm", "af", "kjanlkjdbsnfjbaksdjbkcaijsbdkfcandsjcnal", "jahGSDYUcvjashyckazUDHBkzudchbk", "kjiasdhcikajsbcxkihvkzdfvcxvzdxv"]; // Mock skill tags
+        setSkills(mockSkills); // Set the mock data to skills state
+      }, []);
 
     const handleInviteSubmit = () => {
         console.log("Invite Code Submitted: ", inviteCode);
@@ -114,6 +121,12 @@ const ProfilePage = ({
             )}
             {user != null ? (
                 <>
+
+                <div>
+                    <SkillTags skills={skills}/>
+                </div>
+
+                        
                     {/* Existing User Profile Section */}
                     <div className="w-[calc(100%-72px)] h-[260px] sm:h-[160px] bg-black mx-auto mt-[8px] rounded-lg border border-borders">
                         <div id="main" className="flex flex-col sm:flex-row h-fit">
