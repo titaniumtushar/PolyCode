@@ -14,7 +14,7 @@ const LandingPage = () => {
             <MainHeading
                     data={{
                         username: username,
-                        status: "loggedin",
+                        status: "not-loggedin",
                     }}
                 />
             <div className="w-[100vw] overflow-hidden h-[calc(100vh-60px)] absolute">

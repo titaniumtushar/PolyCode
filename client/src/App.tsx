@@ -48,13 +48,14 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/" element={<LandingPage  />} />
 
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
                     
 
                     <Route element={<Layout />}>
+
                         <Route element={<PrivateRoutes role={"C"} />}>
                             <Route path="/admin" element={<AdminPage />} />
                             <Route

@@ -47,15 +47,14 @@ const SidePanel = ({
 
     // Mock links for admin and user
     const adminLinks = [
-        { text: "Dashboard", to: "/admin/dashboard" },
-        { text: "Manage Users", to: "/admin/manage-users" },
+        { text: "Create Contests", to: "/admin/dashboard" },
+        { text: "Marketplace", to: "/admin/manage-users" },
         { text: "Settings", to: "/settings" },
     ];
 
     const userLinks = [
         { text: "Your profile", to: `/accounts/${data.username}` },
         { text: "Problem list", to: "/problemset" },
-        { text: "Settings", to: "/settings" },
         { text: "Contests", to: "/contests" },
     ];
 
