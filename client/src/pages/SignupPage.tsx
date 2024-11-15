@@ -22,6 +22,13 @@ const SignupPage = () => {
         return;
     }
 
+    console.log(role);
+    let urlDes:any = "user"
+
+    role==="admin"?urlDes="community":null;
+    
+    
+
     const payload: any = {
         name: username,
         email: email,
@@ -29,7 +36,7 @@ const SignupPage = () => {
     };
 
     try {
-        const res = await fetch("http://localhost:8080/api/community/signup", {
+        const res = await fetch(`http://localhost:8080/api/${urlDes}/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
