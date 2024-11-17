@@ -18,6 +18,26 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:8080/api/community/login
+POST http://localhost:8080/api/community/create/contest
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJrYXBhaXNtaW5lYyIsInJvbGUiOiJDIiwiaWF0IjoxNzMxODY2MDY0fQ.ADN1lBhorsVXP2qVha7f3r9oO67TJ-CDXCxKxRsT4_Q
+
+{
+  "contest_name": "Coding Challenge",
+  "invitation_code": "12345678",
+  "question_set": [
+    {
+      "question_id": 1,
+      "question_text": "What is the capital of France?",
+      "options": ["Paris", "Berlin", "Rome", "Madrid"],
+      "correct_option": "Paris"
+    },
+    {
+      "question_id": 2,
+      "question_text": "What is 2 + 2?",
+      "options": ["3", "4", "5", "6"],
+      "correct_option": "4"
+    }
+  ],
+  "prize_distribution": [4,2,15]
+}
