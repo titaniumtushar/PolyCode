@@ -2,6 +2,8 @@ import {  Models } from "mongoose";
 import { CommunityModel, UserModel } from "../models/user";
 import { compare } from "../utils/hash";
 import jwt from "jsonwebtoken"
+import { JWT_SECRET } from "../server";
+
 type role = "C" | "U";
 
 
@@ -43,7 +45,7 @@ export async function login(req:any,res:any,role:role){
         role:role
         
     }
-    const jwtToken =  jwt.sign(payload,"j");
+    const jwtToken =  jwt.sign(payload,JWT_SECRET);
     return res.status(200).json({token:jwtToken});
         
     } catch (error) {
@@ -53,22 +55,6 @@ export async function login(req:any,res:any,role:role){
 
         
     }
-   
-
-
-
-
-
-
-    
-
-
-    
-
-
-
-
-
 }
 
 

@@ -8,6 +8,7 @@ import cookieParser from 'cookie-parser';
 
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/newest";
 console.log(MONGODB_URI);
+export const JWT_SECRET:any = process.env.JWT_SECRET;
 
 mongoose.connect(MONGODB_URI);
 

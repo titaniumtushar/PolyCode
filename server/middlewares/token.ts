@@ -1,10 +1,11 @@
 import { NextFunction } from "express";
 import express from "express";
 import jwt from "jsonwebtoken";
-require("dotenv");
+import { JWT_SECRET } from "../server";
+import { decode } from "punycode";
 
 interface UserRequest extends express.Request {
-    user?: string;
+    decoded?: string;
 }
 
 export function authenticateToken(
@@ -13,21 +14,28 @@ export function authenticateToken(
     next: NextFunction
 ) {
     const authHeader = req.headers["authorization"];
-    const token = authHeader;
-
+    console.log(authHeader);
+    const token = authHeader?.split(" ")[1];
+    console.log(token);
     if (!token) {
         return res
             .status(401)
-            .json({ success: false, message: "Token not provided" });
+            .json({ message:"Token is required!"});
     }
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET!, (err, decoded) => {
+    jwt.verify(token, JWT_SECRET!, (err:any, decoded:any) => {
         if (err) {
             return res
                 .status(403)
-                .json({ success: false, message: "Invalid token" });
+                .json({ message: "Invalid token" });
         }
-        req.user = decoded?.toString();
+        req.decoded = decoded;
         next();
     });
+
+
+    
 }
+
+
+

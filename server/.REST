@@ -15,3 +15,9 @@ Content-Type: application/json
     "email":"kapaisminec",
     "password":"kdpak"
 }
+
+
+###
+GET http://localhost:8080/api/community
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJrYXBhaXNtaW5lYyIsInJvbGUiOiJDIiwiaWF0IjoxNzMxODY2MDY0fQ.ADN1lBhorsVXP2qVha7f3r9oO67TJ-CDXCxKxRsT4_Q
