@@ -16,7 +16,7 @@ export function authenticateToken(
 
 
     console.log(req.path);
-    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/login"){
+    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup"){
         return next();
     }
     const authHeader = req.headers["authorization"];

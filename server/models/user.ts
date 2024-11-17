@@ -4,6 +4,7 @@ interface DUser extends Document {
     name: string;
     email: string;
     password: string;
+    wallet_id:string;
     
 }
 
@@ -20,7 +21,10 @@ const userSchema = new mongoose.Schema<DUser>({
         type: String,
         required: true,
     },
-    
+    wallet_id:{
+        type:String,
+        required:true
+    }
     
    
 });

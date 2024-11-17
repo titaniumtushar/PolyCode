@@ -1,8 +1,15 @@
 import { CommunityModel, UserModel } from "../models/user";
+import { WalletModel } from "../models/wallet";
 import { hashedPassword } from "../utils/hash";
 
-
 type role = "C" | "U"
+
+interface wallet{
+   wallet_id: string;
+  role: string;
+  current_balance: number;
+  transactions?: [object];
+}
 
 
 
@@ -41,6 +48,8 @@ export async function signup(req:any,res:any,role:role){
 
    }
 
+   const wallet_id = generateRandomString(16);
+
 
    let newModal:any ;
 
@@ -49,7 +58,8 @@ export async function signup(req:any,res:any,role:role){
     newModal= new CommunityModel({
       name:name,
       password:hashedPassword(password),
-      email:email
+      email:email,
+      wallet_id:wallet_id
    });
 
    }
@@ -57,13 +67,15 @@ export async function signup(req:any,res:any,role:role){
     newModal =new UserModel({
       name:name,
       password:hashedPassword(password),
-      email:email
+      email:email,
+      wallet_id:wallet_id
    }); 
    }
 
    
 
    await newModal.save();
+   await generateWallet(wallet_id,role,454);
     
 
     return res.status(200).json({message:"Signup Succesful."})
@@ -72,4 +84,43 @@ export async function signup(req:any,res:any,role:role){
    catch(error:any){
     console.log("error occured")
    }
+}
+
+
+
+async function generateWallet(walletId:string,role:role,current_balance:number){
+
+   const walletObj:wallet = {
+      wallet_id:walletId,
+      role:role,
+      current_balance:current_balance,
+   }
+
+   try {
+
+      const wallet = new WalletModel(walletObj);
+      await wallet.save();
+
+      
+   } catch (error) {
+
+      throw new Error("Error occured creating a wallet!");
+      
+   }
+
+   
+
+}
+
+
+
+
+function generateRandomString(length: number): string {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+  return result;
 }
