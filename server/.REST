@@ -3,18 +3,18 @@ Content-Type: application/json
 
 {
     "name":"par",
-    "email":"kapsdssaisskdmskmminec",
+    "email":"eb",
     "password":"kdpak"
 }
 
 
 ###
-POST http://localhost:8080/api/community/login
+POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
     "name":"par",
-    "email":"kapaisminec",
+    "email":"eb",
     "password":"kdpak"
 }
 
@@ -43,3 +43,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
   ],
   "prize_distribution": [4,2,15]
 }
+
+
+###
+GET http://localhost:8080/api/wallet/pay/NYeUgzX7ddBkLKsb/250
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJrYXBzZHNzYWlzc2tkbXNrbW1pbmVjIiwid2FsbGV0X2lkIjoiVllyZksyamJGd25zeThIYiIsInJvbGUiOiJDIiwiaWF0IjoxNzMxODc4Mjg2fQ.BGlvHYtn5oMZft94BuTsiwLyDeGZlXs4017FmgbHtgg
+

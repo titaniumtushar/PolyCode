@@ -17,11 +17,11 @@ interface Wallet extends Document {
 
 const TransactionSchema: Schema = new Schema(
   {
-    transaction_id: { type: String, required: true },
+    head:{type:String,required:true},
+    tail:{type:String,required:true},
     amount: { type: Number, required: true },
-    type: { type: String, enum: ['credit', 'debit'], required: true },
     timestamp: { type: Date, default: Date.now },
-    description: { type: String, required: false },
+    description: { type: String, required: false,default:"" },
   },
   { _id: false } 
 );
