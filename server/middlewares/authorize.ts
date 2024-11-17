@@ -1,6 +1,12 @@
 function authorizeUser(req:any,res:any,next:any):any{
 
-    if(!req.decoded){
+    console.log(req.path);
+
+    if(req.path ==="/login" || req.path ==="/signup" ){
+        return next();
+    }
+
+    else if(!req.decoded){
         return res.status(500).json({message:"something went wrong"})
     }
 
@@ -17,8 +23,18 @@ function authorizeUser(req:any,res:any,next:any):any{
 
 function authorizeCommunity(req:any,res:any,next:any):any{
 
-    if(!req.decoded){
-        return res.status(500).json({message:"something went wrong"})
+
+    console.log(req.path);
+
+
+    if(req.path ==="/login" || req.path ==="/signup" ){
+        return next();
+    }
+
+    
+
+    else if(!req.decoded){
+        return res.status(500).json({message:"Something went wrong"})
     }
 
     else if(req.decoded.role==="C"){
