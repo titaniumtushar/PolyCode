@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "name":"par",
-    "email":"eb",
+    "email":"parth",
     "password":"kdpak"
 }
 
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
     "name":"par",
-    "email":"eb",
+    "email":"parth",
     "password":"kdpak"
 }
 
@@ -46,6 +46,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
 
 
 ###
-GET http://localhost:8080/api/wallet/pay/NYeUgzX7ddBkLKsb/250
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJrYXBzZHNzYWlzc2tkbXNrbW1pbmVjIiwid2FsbGV0X2lkIjoiVllyZksyamJGd25zeThIYiIsInJvbGUiOiJDIiwiaWF0IjoxNzMxODc4Mjg2fQ.BGlvHYtn5oMZft94BuTsiwLyDeGZlXs4017FmgbHtgg
+GET http://localhost:8080/api/wallet/pay/8jfujEA0hRI1aLOu/250
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
+
+
+###
+GET http://localhost:8080/api/wallet/8jfujEA0hRI1aLOu
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
 

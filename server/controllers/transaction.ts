@@ -1,49 +1,49 @@
 import { WalletModel } from "../models/wallet";
 
-export async function transaction(tailId:string,amount:number,req:any,res:any){
+export async function transaction(receiverId:string,amount:number,req:any,res:any){
 
 
     try {
 
-        const headId = req.decoded.wallet_id
+        const transmitterId= req.decoded.wallet_id
     const wallets = await WalletModel.find({
     $or: [
-      { wallet_id:  tailId},
-      { wallet_id: headId },
+      { wallet_id:  transmitterId},
+      { wallet_id: receiverId },
     ],
   });
 
   // Check if both exist
-  const head = wallets.find(wallet => wallet.wallet_id === headId);
-  const tail = wallets.find(wallet => wallet.wallet_id === tailId);
+  const transmitter = wallets.find(wallet => wallet.wallet_id === transmitterId);
+  const receiver = wallets.find(wallet => wallet.wallet_id === receiverId);
 
 
-  if (!head || !tail) {
+  if (!transmitter || !receiver) {
 
     return res.status(404).json({message:"Either head or tail is not found!"});
   }
 
 
-  console.log(head,tail);
-  if(amount>tail.current_balance){
+  
+  if(amount>transmitter.current_balance){
        return res.json({message:"Your current balance is unsufficient!"});
 
   }
 
   const newTransaction:any = {
-    head:head.wallet_id,
-    tail:tail.wallet_id,
+    head:receiver.wallet_id,
+    tail:transmitter.wallet_id,
     amount:amount
   }
 
-  head.transactions.push(newTransaction);
-  tail.transactions.push(newTransaction);
+  transmitter.transactions.push(newTransaction);
+  receiver.transactions.push(newTransaction);
 
 
-  head.current_balance -= amount
-  tail.current_balance += amount
-  await head.save();
-  await tail.save();
+  transmitter.current_balance = transmitter.current_balance -  amount
+  receiver.current_balance = receiver.current_balance + amount
+  await receiver.save();
+  await transmitter.save();
 
 
 
