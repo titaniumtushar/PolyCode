@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import ProblemPage from "./pages/ProblemPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProblemSet from "./pages/ProblemSet";
 import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
-import ProfilePage from "./pages/ProfilePage";
-import SettingPage from "./pages/SettingPage";
 import AdminPage from "./pages/AdminPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import ListProductPage from "./pages/ListProductPage";
-import AdminProblemListPage from "./pages/AdminProblemListPage";
 import { PrivateRoutes } from "./ProtectedRoutes";
 import { Layout, LayoutTwo } from "./Layout";
+import WalletPage from "./pages/Wallet.jsx";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
-// export const API_URL = "https://fire-code-api.vercel.app";
 export const API_URL = "http://localhost:8080";
 
 function App() {
@@ -44,33 +40,51 @@ function App() {
         }
     }, [token, id]);
 
+    const walletData = {
+        qrLink: "https://example.com", // Replace with your link
+        currentBalance: 1500.75, // Replace with the current balance
+        walletId: "dknd-walletaddress", // Replace with your wallet ID
+        transactions: [
+            { head: "txn1", tail: "walletA", amount: 100.5 },
+            { head: "txn2", tail: "walletB", amount: 200 },
+            { head: "txn3", tail: "walletC", amount: 50.25 },
+        ],
+    };
+
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<LandingPage  />} />
+                    <Route path="/" element={<LandingPage />} />
 
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    
 
                     <Route element={<Layout />}>
-
                         <Route element={<PrivateRoutes role={"C"} />}>
                             <Route path="/admin" element={<AdminPage />} />
                             <Route
-                            path="/problemset"
-                            element={<ProblemSet token={token} id={id} />}
-                        />
-                        <Route
-                            path="/listproduct"
-                            element={<ListProductPage />}
-                        />
+                                path="/problemset"
+                                element={<ProblemSet token={token} id={id} />}
+                            />
+                            <Route
+                                path="/listproduct"
+                                element={<ListProductPage />}
+                            />
+                            <Route
+                                path="/wallet"
+                                element={
+                                    <WalletPage
+                                        qrLink={walletData.qrLink}
+                                        currentBalance={
+                                            walletData.currentBalance
+                                        }
+                                        walletId={walletData.walletId}
+                                        transactions={walletData.transactions}
+                                    />
+                                }
+                            />
                         </Route>
-
-                        
-
-                        
                     </Route>
 
                     <Route element={<LayoutTwo />}>
@@ -81,9 +95,6 @@ function App() {
                             />
                         </Route>
                     </Route>
-
-                    
-                    
 
                     <Route
                         path="*"
