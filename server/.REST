@@ -1,4 +1,4 @@
-POST http://localhost:8080/api/user/signup
+POST http://localhost:8080/api/community/signup
 Content-Type: application/json
 
 {
@@ -13,9 +13,8 @@ POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-    "name":"par",
-    "email":"parth",
-    "password":"kdpak"
+    "email":"parth@parth",
+    "password":"123"
 }
 
 
@@ -46,11 +45,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
 
 
 ###
-GET http://localhost:8080/api/wallet/pay/8jfujEA0hRI1aLOu/250
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
+POST http://localhost:8080/api/wallet/pay
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWF0IjoxNzMyMDAxOTE3fQ.8AH2kNpyyFhQ-bz_pakq0P5_HyALL9ZluY2u6vz9jZk
+Content-Type: application/json
 
+{
+  "headId":"KlpzvAD9E806bOU8",
+  "amount":20
+
+}
 
 ###
-GET http://localhost:8080/api/wallet/8jfujEA0hRI1aLOu
+GET http://localhost:8080/api/wallet/KlpzvAD9E806bOU8
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
 

@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
 
 const LoginPage = () => {
     const [usernameOrEmail, setUsernameOrEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role, setRole] = useState("U"); // Default role
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -15,20 +16,25 @@ const LoginPage = () => {
         setMessage(""); // Clear previous messages
 
         if (!usernameOrEmail || !password) {
-            setMessage("Please fill in both fields.");
+            setMessage("Please fill in all fields.");
             setIsLoading(false);
             return;
         }
 
         // Prepare payload for login request
+        
         const payload = {
             email: usernameOrEmail,
             password: password,
+            role: role,
         };
 
         try {
             // Simulate login request using POST
-            const res = await fetch("http://localhost:8080/api/community/login", {
+            let urlPoint ;
+            role==="C"?urlPoint="community":urlPoint="user"
+            console.log(`http://localhost:8080/api/${urlPoint}/login`);
+            const res = await fetch(`http://localhost:8080/api/${urlPoint}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -39,19 +45,20 @@ const LoginPage = () => {
             // Check if the response is okay
             const data = await res.json();
 
-            
-
-
-
-            if (res.status===200) {
+            if (res.status === 200) {
                 setMessage("Login successful! Redirecting...");
-                localStorage.setItem("token",data.token);
+                localStorage.setItem("token", data.token);
+                if(role==="C"){
+                    navigate("/admin");
 
-                // Implement redirect logic (e.g., navigate to another page)
-                // navigate("/dashboard");
-                navigate("/admin");
+                }
+                else{
+                    navigate("/user/marketplace");
+
+                }
+                
             } else {
-                setMessage(data.message );
+                setMessage(data.message);
             }
         } catch (error) {
             console.error("Login failed:", error);
@@ -89,7 +96,7 @@ const LoginPage = () => {
                             required
                         />
                     </div>
-                    <div className="mb-6">
+                    <div className="mb-4">
                         <input
                             className="appearance-none border w-full py-2 px-3 placeholder:text-text_2 focus:placeholder:text-orange-500 bg-black rounded border-borders leading-tight focus:outline-none focus:border-orange-500"
                             type="password"
@@ -98,6 +105,16 @@ const LoginPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
+                    </div>
+                    <div className="mb-6">
+                        <select
+                            className="appearance-none border w-full py-2 px-3 text-text_2 bg-black rounded border-borders focus:outline-none focus:border-orange-500"
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <option value="C">Admin</option>
+                            <option value="U">Participant</option>
+                        </select>
                     </div>
                     <div className="flex items-center justify-between">
                         <button

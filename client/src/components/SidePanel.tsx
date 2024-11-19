@@ -47,17 +47,15 @@ const SidePanel = ({
 
     // Mock links for admin and user
     const adminLinks = [
-        { text: "Contests", to: "/admin/dashboard" },
-        { text: "Marketplace", to: "/admin/manage-users" },
-        { text: "Wallet", to: "/wallet" },
-
-        { text: "Settings", to: "/settings" },
+        { text: "Contests", to: "/community/contest" },
+        { text: "Marketplace", to: "/community/marketplace" },
+        { text: "Wallet", to: "/community/wallet" },
+        { text: "Settings", to: "/community/settings" },
     ];
 
     const userLinks = [
-        { text: "Your profile", to: `/accounts/${data.username}` },
-        { text: "Problem list", to: "/problemset" },
-        { text: "Contests", to: "/contests" },
+        { text: "Wallet", to: "/user/wallet" },
+        { text: "Contests", to: "/user/contests" },
     ];
 
     // Conditionally select links based on user role

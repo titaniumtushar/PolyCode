@@ -1,49 +1,122 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
+import { decodeToken } from "../ts/utils/decodeToken";
+import { useNavigate, useNavigation } from "react-router-dom";
+
 
 // Mock Transaction Type
-const WalletPage = ({ qrLink, currentBalance, walletId, transactions }) => {
+const WalletPage = () => {
+
+
+     
+         const qrLink =  "https://example.com" // Replace with your link
+         const  currentBalance = 1500.75 // Replace with the current balance
+         const transactions =  [
+             { head: "txn1", tail: "walletA", amount: 100.5 },
+             { head: "txn2", tail: "walletB", amount: 200 },
+             { head: "txn3", tail: "walletC", amount: 50.25 },
+         ]
+    
+
+    const navigation = useNavigate();
+    const [walletId,setWalletId] = useState("");
+    const [data,setData] = useState();
+
+    useEffect(()=>{
+        const decoded = decodeToken();
+        const k = decoded
+        console.log(k.wallet_id);
+        if(!decoded.wallet_id){
+            navigation("Login");
+        }
+
+        setWalletId(k.wallet_id);
+
+        const fetchWallet = async()=>{
+
+            console.log(`${process.env.REACT_APP_BACKEND_URI}/wallet/${k.wallet_id}`);
+            const res = await fetch(
+                `${process.env.REACT_APP_BACKEND_URI}/wallet/${k.wallet_id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            const data = await res.json();
+            const mainJson = data.data;
+            console.log(mainJson);
+            if(!mainJson){
+                console.log("something went wrong!");
+            }
+
+            setData(mainJson);
+
+
+
+
+        }
+
+        fetchWallet();
+        
+    },[])
+
     return (
-        <div style={styles.container}>
-            {/* Top Section */}
-            <div style={styles.topSection}>
-                {/* Left Side: Balance and Wallet ID */}
-                <div style={styles.leftPanel}>
-                    <h1 style={styles.balance}>${currentBalance.toFixed(2)}</h1>
-                    <p style={styles.walletId}>Wallet ID: {walletId}</p>
-                </div>
-
-                {/* Right Side: QR Code */}
-                <div style={styles.rightPanel}>
-                    <QRCode
-                        value={qrLink}
-                        bgColor="#000"
-                        fgColor="#FFF"
-                        size={200}
-                    />
-                </div>
-            </div>
-
-            {/* Bottom Section: Transactions */}
-            <div style={styles.transactionsSection}>
-                <h2 style={styles.transactionsTitle}>Transactions</h2>
-                <div style={styles.transactionsList}>
-                    {transactions.map((tx, index) => (
-                        <div key={index} style={styles.transactionBlock}>
-                            <p>
-                                <strong>Head:</strong> {tx.head}
-                            </p>
-                            <p>
-                                <strong>Tail:</strong> {tx.tail}
-                            </p>
-                            <p>
-                                <strong>Amount:</strong> ${tx.amount.toFixed(2)}
+        <>
+            {data && (
+                <div style={styles.container}>
+                    {/* Top Section */}
+                    <div style={styles.topSection}>
+                        {/* Left Side: Balance and Wallet ID */}
+                        <div style={styles.leftPanel}>
+                            <h1 style={styles.balance}>
+                        ${data.current_balance}
+                    </h1>
+                            <p style={styles.walletId}>
+                                Wallet ID: {walletId}
                             </p>
                         </div>
-                    ))}
+
+                        {/* Right Side: QR Code */}
+                        <div style={styles.rightPanel}>
+                            <QRCode
+                                value={`http://localhost:8080/wallet/pay/${walletId}`}
+                                bgColor="#000"
+                                fgColor="#FFF"
+                                size={200}
+                            />
+                        </div>
+                    </div>
+
+                    {/* Bottom Section: Transactions */}
+                    <div style={styles.transactionsSection}>
+                        <h2 style={styles.transactionsTitle}>Transactions</h2>
+                        <div style={styles.transactionsList}>
+                            {data.transactions &&
+                                data.transactions.map((tx, index) => (
+                                    <div
+                                        key={index}
+                                        style={styles.transactionBlock}
+                                    >
+                                        <p>
+                                            <strong>Head:</strong> {tx.head}
+                                        </p>
+                                        <p>
+                                            <strong>Tail:</strong> {tx.tail}
+                                        </p>
+                                        <p>
+                                            <strong>Amount:</strong> $
+                                            {tx.amount.toFixed(2)}
+                                        </p>
+                                    </div>
+                                ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };
 

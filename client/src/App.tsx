@@ -11,6 +11,7 @@ import ListProductPage from "./pages/ListProductPage";
 import { PrivateRoutes } from "./ProtectedRoutes";
 import { Layout, LayoutTwo } from "./Layout";
 import WalletPage from "./pages/Wallet.jsx";
+import { PaymentForm } from "./pages/Payment";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -40,16 +41,7 @@ function App() {
         }
     }, [token, id]);
 
-    const walletData = {
-        qrLink: "https://example.com", // Replace with your link
-        currentBalance: 1500.75, // Replace with the current balance
-        walletId: "dknd-walletaddress", // Replace with your wallet ID
-        transactions: [
-            { head: "txn1", tail: "walletA", amount: 100.5 },
-            { head: "txn2", tail: "walletB", amount: 200 },
-            { head: "txn3", tail: "walletC", amount: 50.25 },
-        ],
-    };
+   
 
     return (
         <div className="App">
@@ -62,26 +54,19 @@ function App() {
 
                     <Route element={<Layout />}>
                         <Route element={<PrivateRoutes role={"C"} />}>
-                            <Route path="/admin" element={<AdminPage />} />
+                            <Route path="/community/admin" element={<AdminPage />} />
                             <Route
-                                path="/problemset"
+                                path="/community/problemset"
                                 element={<ProblemSet token={token} id={id} />}
                             />
                             <Route
-                                path="/listproduct"
+                                path="/community/listproduct"
                                 element={<ListProductPage />}
                             />
                             <Route
-                                path="/wallet"
+                                path="/community/wallet"
                                 element={
-                                    <WalletPage
-                                        qrLink={walletData.qrLink}
-                                        currentBalance={
-                                            walletData.currentBalance
-                                        }
-                                        walletId={walletData.walletId}
-                                        transactions={walletData.transactions}
-                                    />
+                                    <WalletPage/>
                                 }
                             />
                         </Route>
@@ -90,9 +75,24 @@ function App() {
                     <Route element={<LayoutTwo />}>
                         <Route element={<PrivateRoutes role={"U"} />}>
                             <Route
-                                path="/marketplace"
+                                path="/user/marketplace"
                                 element={<MarketplacePage />}
                             />
+                            <Route
+                                path="/user/wallet"
+                                element={
+                                    <WalletPage
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/user/pay/:receiverid"
+                                element={
+                                    <PaymentForm/>
+                                }
+                            />
+
+                            
                         </Route>
                     </Route>
 
