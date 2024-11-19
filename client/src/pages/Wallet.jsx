@@ -61,11 +61,9 @@ const WalletPage = () => {
                         {/* Left Side: Balance and Wallet ID */}
                         <div style={styles.leftPanel}>
                             <h1 style={styles.balance}>
-                        ${data.current_balance}
-                    </h1>
-                            <p style={styles.walletId}>
-                                Wallet ID: {walletId}
-                            </p>
+                                {data.current_balance} arena_coins
+                            </h1>
+                            <p style={styles.walletId}>Wallet ID: {walletId}</p>
                         </div>
 
                         {/* Right Side: QR Code */}

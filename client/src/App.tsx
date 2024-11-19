@@ -69,6 +69,13 @@ function App() {
                                     <WalletPage/>
                                 }
                             />
+
+                            <Route
+                                path="/community/pay/:receiverid"
+                                element={
+                                    <PaymentForm/>
+                                }
+                            />
                         </Route>
                     </Route>
 
@@ -77,6 +84,10 @@ function App() {
                             <Route
                                 path="/user/marketplace"
                                 element={<MarketplacePage />}
+                            />
+                            <Route
+                                path="/user/problemset"
+                                element={<ProblemSet token={token} id={id} />}
                             />
                             <Route
                                 path="/user/wallet"
