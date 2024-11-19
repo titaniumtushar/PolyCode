@@ -10,11 +10,16 @@ const wallet = express.Router();
 wallet.post("/pay",(req:any,res:any)=>{
 
     const {headId,amount} = req.body;
+    const tailId = req.decoded.wallet_id;
+
     if(!headId || !amount){
         return res.status(400).json({message:"Bad Request"})
     }
+    else if(headId===tailId){
+        return res.status(403).json({message:"Bad Request"})
+    }
 
-    transaction(String(headId),Number(amount),req,res);
+    transaction(String(headId),String(tailId),Number(amount),req,res);
 
 })
 

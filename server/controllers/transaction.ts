@@ -1,11 +1,16 @@
 import { WalletModel } from "../models/wallet";
 
-export async function transaction(receiverId:string,amount:number,req:any,res:any){
+export async function transaction(receiverId:string,transmitterId:string,amount:number,req:any,res:any){
 
+  if(amount<=0){
+        return res.status(400).json({message:"This amount cant be transmitted"});
+
+
+  }
 
     try {
 
-        const transmitterId= req.decoded.wallet_id
+    
     const wallets = await WalletModel.find({
     $or: [
       { wallet_id:  transmitterId},

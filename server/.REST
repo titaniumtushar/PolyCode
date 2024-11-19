@@ -51,7 +51,7 @@ Content-Type: application/json
 
 {
   "headId":"KlpzvAD9E806bOU8",
-  "amount":20
+  "amount":-5
 
 }
 
