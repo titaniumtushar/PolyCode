@@ -7,17 +7,6 @@ import { useNavigate, useNavigation } from "react-router-dom";
 // Mock Transaction Type
 const WalletPage = () => {
 
-
-     
-         const qrLink =  "https://example.com" // Replace with your link
-         const  currentBalance = 1500.75 // Replace with the current balance
-         const transactions =  [
-             { head: "txn1", tail: "walletA", amount: 100.5 },
-             { head: "txn2", tail: "walletB", amount: 200 },
-             { head: "txn3", tail: "walletC", amount: 50.25 },
-         ]
-    
-
     const navigation = useNavigate();
     const [walletId,setWalletId] = useState("");
     const [data,setData] = useState();
@@ -34,7 +23,7 @@ const WalletPage = () => {
 
         const fetchWallet = async()=>{
 
-            console.log(`${process.env.REACT_APP_BACKEND_URI}/wallet/${k.wallet_id}`);
+            
             const res = await fetch(
                 `${process.env.REACT_APP_BACKEND_URI}/wallet/${k.wallet_id}`,
                 {
@@ -82,7 +71,7 @@ const WalletPage = () => {
                         {/* Right Side: QR Code */}
                         <div style={styles.rightPanel}>
                             <QRCode
-                                value={`http://localhost:8080/wallet/pay/${walletId}`}
+                                value={`${window.location.origin}/user/pay/${walletId}`}
                                 bgColor="#000"
                                 fgColor="#FFF"
                                 size={200}
