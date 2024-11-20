@@ -39,11 +39,12 @@ export async function login(req:any,res:any,role:role){
 
     }
     
-    const payload:{name:string,email:string,role:role,wallet_id:string} = {
+    const payload:{name:string,email:string,role:role,wallet_id:string,id:string} = {
         name:loginEntry.name,
         email:loginEntry.email,
         wallet_id:loginEntry.wallet_id,
-        role:role
+        role:role,
+        id:loginEntry._id
         
     }
     const jwtToken =  jwt.sign(payload,JWT_SECRET);

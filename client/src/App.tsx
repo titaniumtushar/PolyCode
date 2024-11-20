@@ -52,6 +52,9 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
 
+
+                    {/* this is route of community */}
+
                     <Route element={<Layout />}>
                         <Route element={<PrivateRoutes role={"C"} />}>
                             <Route path="/community/admin" element={<AdminPage />} />
@@ -79,6 +82,10 @@ function App() {
                         </Route>
                     </Route>
 
+
+
+                    {/* this is route of user */}
+
                     <Route element={<LayoutTwo />}>
                         <Route element={<PrivateRoutes role={"U"} />}>
                             <Route
@@ -88,6 +95,10 @@ function App() {
                             <Route
                                 path="/user/problemset"
                                 element={<ProblemSet token={token} id={id} />}
+                            />
+                            <Route
+                                path="/user/helloworld"
+                                element={<h1>hellp</h1>}
                             />
                             <Route
                                 path="/user/wallet"

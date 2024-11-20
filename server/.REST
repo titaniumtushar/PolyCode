@@ -59,3 +59,9 @@ Content-Type: application/json
 GET http://localhost:8080/api/wallet/KlpzvAD9E806bOU8
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
 
+
+###
+GET http://localhost:8080/api/user/contest
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
+
+

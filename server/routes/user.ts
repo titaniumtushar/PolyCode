@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { CommunityModel,  UserModel } from "../models/user";
 import { signup } from "./signup";
 import { login } from "./login";
+import { findContest } from "../controllers/findContest";
 require("dotenv");
 
 const user = express.Router();
@@ -17,6 +18,10 @@ user.post("/login", async (req, res) => {
   login(req,res,"U");
 });
 
+
+user.get("/contest",findContest);
+
+user.post("/contest/join/:contest_id",findContest)
 
 
 
