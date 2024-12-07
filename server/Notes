@@ -1,0 +1,15 @@
+so the work to do in this :=>
+
+For community
+1. Create a contest. 
+2. A dashboard to view a the contest submissions ,through(polling) and also the leaderboard.
+3. A Cron job to start and end a contest.
+4. A button to distribute certificates.
+5. A button to distribute bounties.
+
+
+For user: 
+Join the contest for user.
+1. To solvation dashboard for user.
+2. User will see their ranking.
+3. User will see the dashboard.
