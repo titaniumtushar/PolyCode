@@ -9,19 +9,19 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:8080/api/user/login
+POST http://localhost:8080/api/community/login
 Content-Type: application/json
 
 {
-    "email":"parth@parth",
-    "password":"123"
+    "email":"parth",
+    "password":"kdpak"
 }
 
 
 ###
 POST http://localhost:8080/api/community/create/contest
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJrYXBhaXNtaW5lYyIsInJvbGUiOiJDIiwiaWF0IjoxNzMxODY2MDY0fQ.ADN1lBhorsVXP2qVha7f3r9oO67TJ-CDXCxKxRsT4_Q
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6IlJ2d3hJSjhQWnpkNUFnc2YiLCJyb2xlIjoiQyIsImlkIjoiNjczYjliOWNhM2YxZGE0ZmNiMzFiMzMzIiwiaWF0IjoxNzMzNTk4OTkwfQ.aSohIFSR5Z_8jmtu2ems4h33yLKOHKPaWHSqvuVi6o4
 
 {
   "contest_name": "Coding Challenge",
@@ -40,26 +40,40 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
       "correct_option": "4"
     }
   ],
-  "prize_distribution": [4,2,15]
+  "prize_distribution": [4,2,15],
+  "start_time":1,
+  "end_time":2
 }
 
 
 ###
 POST http://localhost:8080/api/wallet/pay
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWF0IjoxNzMyMDAxOTE3fQ.8AH2kNpyyFhQ-bz_pakq0P5_HyALL9ZluY2u6vz9jZk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWQiOiI2NzNjM2RhODNmZDgyMDE4OWFjMWQyMjYiLCJpYXQiOjE3MzM1ODk2NTB9.-9qpGt4lXiNfW4CXPK29XaPQsklu48iGBOghGBcuTuM
 Content-Type: application/json
 
 {
   "headId":"KlpzvAD9E806bOU8",
-  "amount":-5
+  "amount":5
 
 }
 
 ###
 GET http://localhost:8080/api/wallet/KlpzvAD9E806bOU8
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6InNHYnhNc01QdEhyY0pQc2oiLCJyb2xlIjoiVSIsImlhdCI6MTczMTk1NjgzOX0.wgywmi5HPyiMQNIhdDtHw_wXleXY2SnqX2h8zpf_S-Y
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWQiOiI2NzNjM2RhODNmZDgyMDE4OWFjMWQyMjYiLCJpYXQiOjE3MzM1ODk2NTB9.-9qpGt4lXiNfW4CXPK29XaPQsklu48iGBOghGBcuTuM
+
 
 
 ###
 GET http://localhost:8080/api/user/contest
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWQiOiI2NzNjM2RhODNmZDgyMDE4OWFjMWQyMjYiLCJpYXQiOjE3MzM1ODk2NTB9.-9qpGt4lXiNfW4CXPK29XaPQsklu48iGBOghGBcuTuM
+
+
+###
+POST http://localhost:8080/api/user/contest/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWQiOiI2NzNjM2RhODNmZDgyMDE4OWFjMWQyMjYiLCJpYXQiOjE3MzM1ODk2NTB9.-9qpGt4lXiNfW4CXPK29XaPQsklu48iGBOghGBcuTuM
+Content-Type: application/json
+
+{
+  "contest_id":"6754a0e9c07b9af26cbe1569"
+
+}

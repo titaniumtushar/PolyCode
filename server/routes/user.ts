@@ -6,6 +6,7 @@ import { CommunityModel,  UserModel } from "../models/user";
 import { signup } from "./signup";
 import { login } from "./login";
 import { findContest } from "../controllers/findContest";
+import { registerContest } from "../controllers/contest";
 require("dotenv");
 
 const user = express.Router();
@@ -19,9 +20,13 @@ user.post("/login", async (req, res) => {
 });
 
 
+
+
+//contest id's
+
 user.get("/contest",findContest);
 
-user.post("/contest/join/:contest_id",findContest)
+user.post("/contest/register",registerContest)
 
 
 

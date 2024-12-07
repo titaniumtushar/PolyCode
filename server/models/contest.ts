@@ -12,12 +12,15 @@ interface IMeta {
   start_time?: number;
   end_time?: number;
   happened?: boolean;
+  _id?:boolean;
 }
 
 interface IContest extends Document {
   meta: IMeta;
   rankings: mongoose.Schema.Types.Mixed[];
   submissions: mongoose.Schema.Types.Mixed[];
+  start_time:Number;
+  end_time:Number;
 }
 
 // Define the Meta Schema
@@ -27,7 +30,7 @@ const metaSchema = new Schema<IMeta>({
   },
   invitation_code: {
     type: String,
-    default: "1234444",
+
   },
   question_set: {
     type: [Schema.Types.Mixed],
@@ -37,23 +40,20 @@ const metaSchema = new Schema<IMeta>({
     type:[Number],
     default:[],
   },
-  active: {
-    type: Boolean,
-    default: false,
-  },
-  happened: {
-    type: Boolean,
-    default: false,
-  },
   community_id: {
     type: String,
   },
   start_time: {
     type: Number,
+    required:true
   },
   end_time: {
     type: Number,
+    required:true
   },
+  _id:false
+  
+  
   
 });
 
@@ -70,6 +70,15 @@ const contestSchema = new Schema<IContest>({
     type: [Schema.Types.Mixed],
     default: [],
   },
+  start_time: {
+    type: Number,
+    required:true
+  },
+  end_time: {
+    type: Number,
+    required:true
+  },
+
 });
 
 // Create and export the Contest Model
