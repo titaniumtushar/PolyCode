@@ -12,6 +12,7 @@ import { PrivateRoutes } from "./ProtectedRoutes";
 import { Layout, LayoutTwo } from "./Layout";
 import WalletPage from "./pages/Wallet.jsx";
 import { PaymentForm } from "./pages/Payment";
+import UserQuestionDashBoard from "./pages/UserQuestionDashBoard";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -96,9 +97,10 @@ function App() {
                                 path="/user/problemset"
                                 element={<ProblemSet token={token} id={id} />}
                             />
+                            
                             <Route
-                                path="/user/helloworld"
-                                element={<h1>hellp</h1>}
+                                path="/user/join/:contest_id"
+                                element={<UserQuestionDashBoard />}
                             />
                             <Route
                                 path="/user/wallet"

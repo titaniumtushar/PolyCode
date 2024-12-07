@@ -16,7 +16,19 @@ export function authenticateToken(
 
 
     console.log(req.path);
-    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup"){
+
+    const m = ()=>{
+        const path = req.path.split("/");
+        console.log(path);
+        if(path[1]==="user" && path[2]==="join" && path.length===4){
+            return true;
+        }
+        return false;
+    }
+    console.log(m())
+    
+    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m()){
+        
         return next();
     }
     const authHeader = req.headers["authorization"];

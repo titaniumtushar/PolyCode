@@ -31,7 +31,7 @@ async function registerContest(req: any, res: any) {
         const registered = await RegisteredModel.findOne({user_id:req.decoded.id,contest_id:contest_id});
         if(registered){
                     return res
-            .status(400)
+            .status(200)
             .json({ message: "User already registered.",token:regToken });
 
         }

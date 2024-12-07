@@ -27,6 +27,34 @@ user.post("/login", async (req, res) => {
 user.get("/contest",findContest);
 
 user.post("/contest/register",registerContest)
+user.get("/join/:token", (req, res) => {
+
+  console.log(req.params.token);
+
+  
+  console.log(req.params.token);
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+
+  const sendEvent = () => {
+    const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() });
+    res.write(`data: ${data}\n\n`);
+  };
+
+  // Send initial data
+  sendEvent();
+
+  // Send periodic updates
+  const interval = setInterval(sendEvent, 5000);
+
+  // Cleanup on connection close
+  req.on('close', () => {
+    clearInterval(interval);
+    res.end();
+  });
+});
+
 
 
 
