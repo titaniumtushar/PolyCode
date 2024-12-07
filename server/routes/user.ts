@@ -6,7 +6,7 @@ import { CommunityModel,  UserModel } from "../models/user";
 import { signup } from "./signup";
 import { login } from "./login";
 import { findContest } from "../controllers/findContest";
-import { registerContest } from "../controllers/contest";
+import { registerContest } from "../controllers/registerContest";
 require("dotenv");
 
 const user = express.Router();

@@ -1,7 +1,6 @@
 import { contestModel } from "../models/contest";
 import { RegisteredModel } from "../models/registered";
 import { CONTEST_SECRET } from "../server";
-import { stringToObjectId } from "../utils/convertToString";
 import jwt from "jsonwebtoken";
 async function registerContest(req: any, res: any) {
     // /contest/register/:contest_id
