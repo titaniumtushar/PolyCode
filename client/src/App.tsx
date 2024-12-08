@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
+import ResumeUpload from "./pages/ResumeUpload";
 import AdminPage from "./pages/AdminPage";
 import MarketplacePage from "./pages/MarketplacePage";
 import ListProductPage from "./pages/ListProductPage";
@@ -64,7 +65,9 @@ function App() {
                             <Route path="/community/create" element={<AdminPage />} />
                             <Route
                                 path="/community/problemset"
-                                element={<ProblemSet  />}
+                                element={<ProblemSet questions={[]} onSubmit={function (code: string): void {
+                                    throw new Error("Function not implemented.");
+                                } } />}
                             />
                             <Route
                                 path="/community/listproduct"
@@ -128,7 +131,13 @@ function App() {
                                     />
                                 }
                             />
-
+                            <Route 
+                                path="/user/resumeupload"
+                                element={
+                                    <ResumeUpload/>
+                                }
+                            
+                            />
                             <Route
                                 path="/user/pay/:receiverid"
                                 element={
