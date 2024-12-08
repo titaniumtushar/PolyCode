@@ -56,7 +56,7 @@ const SidePanel = ({
     const userLinks = [
         { text: "Wallet", to: "/user/wallet" },
         { text: "Contests", to: "/user/contests" },
-        { text: "Profile", to: "/user/helloworld" },
+        { text: "Profile", to: "/user/profile" },
     ];
 
     // Conditionally select links based on user role

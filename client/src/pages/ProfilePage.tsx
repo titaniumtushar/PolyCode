@@ -1,79 +1,54 @@
-import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MainHeading from "../components/MainHeading";
-import { API_URL } from "../App";
 
-const ProfilePage = ({
-    token,
-    id,
-}: {
-    token: string | null;
-    id: string | null;
-}) => {
-    const [username, setUsername] = useState<string>("");
-    const [verified, setVerified] = useState<boolean>(false);
-    const [user, setUser] = useState<PublicUser>();
-    const [verifiedCertain, setVerifiedCertain] = useState<boolean>(false);
-    const { name } = useParams();
+const ProfilePage = () => {
+    const [username, setUsername] = useState<string>("JohnDoe");
+    const [verified, setVerified] = useState<boolean>(true);
+    const [user, setUser] = useState<any>({
+        username: "JohnDoe",
+        rank: "Beginner",
+        views: 1200,
+        solution_count: 25,
+        reputation_count: 350,
+        problems_solved_count: 50,
+        easy_problems_count: 100,
+        medium_problems_count: 50,
+        hard_problems_count: 30,
+        problems_solved_easy: 45,
+        problems_solved_medium: 30,
+        problems_solved_hard: 20,
+    });
+    const [verifiedCertain, setVerifiedCertain] = useState<boolean>(true);
 
-    const [eAll, setEAll] = useState<number>();
-    const [mAll, setMAll] = useState<number>();
-    const [hAll, setHALL] = useState<number>();
+    const [eAll, setEAll] = useState<number>(100);
+    const [mAll, setMAll] = useState<number>(50);
+    const [hAll, setHALL] = useState<number>(30);
 
-    const [eSolved, setESolved] = useState<number>();
-    const [mSolved, setMSolved] = useState<number>();
-    const [hSolved, setHSolved] = useState<number>();
+    const [eSolved, setESolved] = useState<number>(45);
+    const [mSolved, setMSolved] = useState<number>(30);
+    const [hSolved, setHSolved] = useState<number>(20);
 
     const [inviteCode, setInviteCode] = useState<string>("");
 
-    // New state for "Items Bought" section
-    const [itemsBought, setItemsBought] = useState<any[]>([]);
+    // Mock data for "Items Bought"
+    const [itemsBought, setItemsBought] = useState<any[]>([
+        {
+            name: "Premium Membership",
+            amount: "$50",
+            date: "2024-12-05",
+            image: "https://example.com/item1.pdf",
+        },
+        {
+            name: "Exclusive Contest Access",
+            amount: "$20",
+            date: "2024-11-20",
+            image: "https://example.com/item2.pdf",
+        },
+    ]);
     const [selectedItem, setSelectedItem] = useState<number | null>(null);
 
-    useEffect(() => {
-        axios
-            .get(`${API_URL}/api/accounts/id/${id}`, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-            .then(({ data }) => {
-                setUsername(data.username);
-                setVerified(true);
-                setVerifiedCertain(true);
-            })
-            .catch((e: AxiosError) => {
-                console.log(e);
-                setVerified(false);
-                setVerifiedCertain(true);
-            });
-        axios
-            .get<{}, { data: PublicUser }>(`${API_URL}/api/accounts/${name}`)
-            .then(({ data }) => {
-                setUsername(data.username);
-                setUser(data);
-                setEAll(data.easy_problems_count);
-                setMAll(data.medium_problems_count);
-                setHALL(data.hard_problems_count);
-                setESolved(data.problems_solved_easy);
-                setMSolved(data.problems_solved_medium);
-                setHSolved(data.problems_solved_hard);
-            })
-            .catch((e: AxiosError) => {
-                console.log(e);
-            });
-
-        // Fetch "Items Bought" (example endpoint)
-        axios
-            .get(`${API_URL}/api/accounts/${id}/items-bought`, {
-                headers: {
-                    Authorization: token,
-                },
-            })
-            .then(({ data }) => setItemsBought(data))
-            .catch((e: AxiosError) => console.log(e));
-    }, []);
+    const { name } = useParams();
 
     const handleInviteSubmit = () => {
         console.log("Invite Code Submitted: ", inviteCode);
@@ -91,20 +66,8 @@ const ProfilePage = ({
 
     return (
         <div>
-            {verifiedCertain && verified ? (
-                <MainHeading
-                    data={{
-                        username: username,
-                        status: "loggedin",
-                        items: [{ text: "Problem List", link_path: "/problemset" }],
-                    }}
-                />
-            ) : verifiedCertain === true && verified === false ? (
-                <MainHeading data={{ status: "not-loggedin" }} />
-            ) : (
-                <MainHeading data={{ status: "none" }} />
-            )}
-            {user != null ? (
+           
+             
                 <>
                     {/* Existing User Profile Section */}
                     <div className="w-[calc(100%-72px)] h-[260px] sm:h-[160px] bg-black mx-auto mt-[8px] rounded-lg border border-borders">
@@ -165,8 +128,7 @@ const ProfilePage = ({
                                     <div className="text-[72px] font-bold mt-[32px] text-white ml-[50px]">
                                         {user.problems_solved_count}{" "}
                                         <span className="text-text_2 text-[14px]">
-                                            {"/ "}
-                                            {user.easy_problems_count + user.medium_problems_count + user.hard_problems_count}
+                                            {"/ "}{user.easy_problems_count + user.medium_problems_count + user.hard_problems_count}
                                         </span>
                                     </div>
                                 </div>
@@ -175,9 +137,7 @@ const ProfilePage = ({
                                         <div className="flex flex-row justify-between">
                                             <div className="mb-[8px] text-green-500">Easy</div>
                                             <div className="mb-[8px] text-green-500">
-                                                {eSolved}
-                                                {" / "}
-                                                {eAll}
+                                                {eSolved} / {eAll}
                                             </div>
                                         </div>
                                         <div className="sm:w-[280px] w-[200px] h-[8px] bg-borders mb-[16px] relative after:absolute easy-line after:h-[8px] after:rounded rounded after:bg-green-500"></div>
@@ -186,9 +146,7 @@ const ProfilePage = ({
                                         <div className="flex flex-row justify-between">
                                             <div className="mb-[8px] text-orange-500">Medium</div>
                                             <div className="mb-[8px] text-orange-500">
-                                                {mSolved}
-                                                {" / "}
-                                                {mAll}
+                                                {mSolved} / {mAll}
                                             </div>
                                         </div>
                                         <div className="sm:w-[280px] w-[200px] h-[8px] bg-borders mb-[16px] relative after:absolute medium-line after:h-[8px] after:rounded rounded after:bg-orange-500"></div>
@@ -197,9 +155,7 @@ const ProfilePage = ({
                                         <div className="flex flex-row justify-between">
                                             <div className="mb-[8px] text-red-500">Hard</div>
                                             <div className="mb-[8px] text-red-500">
-                                                {hSolved}
-                                                {" / "}
-                                                {hAll}
+                                                {hSolved} / {hAll}
                                             </div>
                                         </div>
                                         <div className="sm:w-[280px] w-[200px] h-[8px] bg-borders mb-[16px] relative after:absolute hard-line after:h-[8px] after:rounded rounded after:bg-red-500"></div>
@@ -209,22 +165,7 @@ const ProfilePage = ({
                         </div>
                     </div>
 
-                    {/* Existing Invite Code Section */}
-                    <div className="flex flex-col items-center mt-10">
-                        <textarea
-                            className="w-1/2 p-3 border border-borders bg-black text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 mb-4"
-                            placeholder="Enter Invite Code"
-                            value={inviteCode}
-                            onChange={(e) => setInviteCode(e.target.value)}
-                        />
-                        <button
-                            className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-all"
-                            onClick={handleInviteSubmit}
-                        >
-                            Join Contest
-                        </button>
-                    </div>
-
+                  
                     {/* New Items Bought Section */}
                     <div className="container mx-auto mt-8">
                         <h2 className="text-2xl font-bold text-white mb-4">Items Bought</h2>
@@ -239,35 +180,30 @@ const ProfilePage = ({
                                             {item.name}
                                         </div>
                                         {selectedItem === index && (
-                                            <div className="bg-gray-900 p-4 rounded-lg mt-2 text-sm text-white">
-                                                <p><strong>Amount Paid:</strong> {item.amount}</p>
-                                                <p><strong>Date:</strong> {item.date}</p>
-                                                {item.image && (
-                                                    <p>
-                                                        <strong>Image/PDF:</strong>{" "}
-                                                        <a
-                                                            href={item.image}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="text-blue-500"
-                                                        >
-                                                            View
-                                                        </a>
-                                                    </p>
-                                                )}
+                                            <div className="bg-gray-900 p-4 rounded-lg mt-2">
+                                                <p>
+                                                    <strong>Amount:</strong> {item.amount}
+                                                </p>
+                                                <p>
+                                                    <strong>Date:</strong> {item.date}
+                                                </p>
+                                                <p>
+                                                    <strong>Invoice:</strong>{" "}
+                                                    <a href={item.image} target="_blank" rel="noopener noreferrer">
+                                                        View PDF
+                                                    </a>
+                                                </p>
                                             </div>
                                         )}
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-white">No items bought yet.</p>
+                                <p className="text-gray-400">No items bought yet.</p>
                             )}
                         </div>
                     </div>
                 </>
-            ) : (
-                <></>
-            )}
+            
         </div>
     );
 };

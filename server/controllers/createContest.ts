@@ -18,7 +18,7 @@ async function createContest(req:any,res:any){
         req.body;
 
 
-    if(!contest_name || !invitation_code || !question_set ||  !prize_distribution || !start_time || !end_time){
+    if(!contest_name  || !question_set ||  !prize_distribution || !start_time || !end_time){
       return res.status(400).json({message:"All param are required"});
 
     }

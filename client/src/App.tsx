@@ -14,6 +14,7 @@ import WalletPage from "./pages/Wallet.jsx";
 import { PaymentForm } from "./pages/Payment";
 import UserQuestionDashBoard from "./pages/UserQuestionDashBoard";
 import ContestPage from "./pages/ContestPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -112,6 +113,15 @@ function App() {
                                     />
                                 }
                             />
+
+                            <Route
+                                path="/user/profile"
+                                element={
+                                    <ProfilePage
+                                    />
+                                }
+                            />
+
                             <Route
                                 path="/user/pay/:receiverid"
                                 element={
