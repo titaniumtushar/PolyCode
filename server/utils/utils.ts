@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import UserModel from "../models/user";
+import {UserModel} from "../models/user";
 import { Document } from "mongoose";
 import { DProblem } from "../models/problem";
 
