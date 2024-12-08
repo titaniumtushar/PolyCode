@@ -7,6 +7,7 @@ import { signup } from "./signup";
 import { login } from "./login";
 import { authorizeCommunity, authorizeUser } from "../middlewares/authorize";
 import { createContest } from "../controllers/createContest";
+import { findContest } from "../controllers/findContest";
 
 const community = express.Router();
 
@@ -21,6 +22,8 @@ community.post("/login", async (req, res) => {
 });
 
 community.post("/create/contest", createContest);
+
+community.get("/contest", findContest);
 
 
 export { community };

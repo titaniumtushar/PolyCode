@@ -15,6 +15,7 @@ import { PaymentForm } from "./pages/Payment";
 import UserQuestionDashBoard from "./pages/UserQuestionDashBoard";
 import ContestPage from "./pages/ContestPage";
 import ProfilePage from "./pages/ProfilePage";
+import ContestPageCommunity from "./pages/CommunityContest";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -60,7 +61,7 @@ function App() {
 
                     <Route element={<Layout />}>
                         <Route element={<PrivateRoutes role={"C"} />}>
-                            <Route path="/community/admin" element={<AdminPage />} />
+                            <Route path="/community/create" element={<AdminPage />} />
                             <Route
                                 path="/community/problemset"
                                 element={<ProblemSet  />}
@@ -73,6 +74,12 @@ function App() {
                                 path="/community/wallet"
                                 element={
                                     <WalletPage/>
+                                }
+                            />
+                             <Route
+                                path="/community/contest"
+                                element={
+                                    <ContestPageCommunity />
                                 }
                             />
 
