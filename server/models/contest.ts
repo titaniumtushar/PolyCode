@@ -13,6 +13,7 @@ interface IMeta {
   end_time?: number;
   happened?: boolean;
   _id?:boolean;
+  description?:string;
 }
 
 interface IContest extends Document {
@@ -50,6 +51,11 @@ const metaSchema = new Schema<IMeta>({
   end_time: {
     type: Number,
     required:true
+  },
+  description:{
+    type:String,
+    default:""
+
   },
   _id:false
   

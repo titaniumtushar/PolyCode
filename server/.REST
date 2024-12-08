@@ -30,7 +30,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
     {
       "question_id": 1,
       "question_text": "What is the capital of France?",
-      "options": ["Paris", "Berlin", "Rome", "Madrid"],
+      "test_cases": [{"input":2,"output":"6"},{"input":2,"output":"6"}],
       "correct_option": "Paris"
     },
     {
@@ -42,7 +42,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
   ],
   "prize_distribution": [4,2,15],
   "start_time":1,
-  "end_time":2
+  "end_time":2,
+  "description":"fjnfkjvndfjkvnfjkvnfjfnfdkndfkjf"
 }
 
 
@@ -74,6 +75,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiL
 Content-Type: application/json
 
 {
-  "contest_id":"6754a0e9c07b9af26cbe1569"
+  "contest_id":"6754e31f48f16bee22992b30"
 
 }

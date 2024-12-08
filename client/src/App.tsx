@@ -13,6 +13,7 @@ import { Layout, LayoutTwo } from "./Layout";
 import WalletPage from "./pages/Wallet.jsx";
 import { PaymentForm } from "./pages/Payment";
 import UserQuestionDashBoard from "./pages/UserQuestionDashBoard";
+import ContestPage from "./pages/ContestPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -61,7 +62,7 @@ function App() {
                             <Route path="/community/admin" element={<AdminPage />} />
                             <Route
                                 path="/community/problemset"
-                                element={<ProblemSet token={token} id={id} />}
+                                element={<ProblemSet  />}
                             />
                             <Route
                                 path="/community/listproduct"
@@ -93,10 +94,12 @@ function App() {
                                 path="/user/marketplace"
                                 element={<MarketplacePage />}
                             />
+
                             <Route
-                                path="/user/problemset"
-                                element={<ProblemSet token={token} id={id} />}
+                                path="/user/contests"
+                                element={<ContestPage />}
                             />
+                            
                             
                             <Route
                                 path="/user/join/:contest_id"

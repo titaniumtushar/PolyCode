@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 async function registerContest(req: any, res: any) {
     // /contest/register/:contest_id
 
-    const { contest_id } = req.body;
+    const { contest_id ,invitation_code} = req.body;
 
-    if (!contest_id) {
+    if (!contest_id || !invitation_code) {
         return res.status(400).json({ message: "All params are required." });
     }
 
@@ -19,6 +19,12 @@ async function registerContest(req: any, res: any) {
             return res
                 .status(403)
                 .json({ message: "Contest already finished." });
+        }
+        else if(invitation_code!==contest.meta.invitation_code){
+            return res
+                .status(403)
+                .json({ message: "Incorrect invitation code." });
+
         }
 
         const payload = {question_set:contest.meta.question_set,start_time:contest.start_time,end_time:contest.end_time,community_id:contest.meta.community_id};

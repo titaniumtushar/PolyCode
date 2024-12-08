@@ -1,56 +1,112 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../App';
+import ProblemSet from './ProblemSet';
+import {  useNavigate, } from 'react-router-dom';
+import ProblemPage from './ProblemPage';
+import { decodeContest } from '../ts/utils/decodeToken';
+import { decode } from 'punycode';
 
-interface Question {
-  title: string;
-  description: string;
-  options: string[];
-}
 
 const UserQuestionDashBoard: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [token, setToken] = useState<string | null>(null);
+
+    const navigate = useNavigate();
+  const [contest, setContest] = useState({});
+  const [token, setToken] = useState<string | null>(null); // Store token after authentication
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // State to check if user is authenticated
   const contestId = window.location.pathname.split('/').pop(); // Extract contest_id from the URL
 
-  // Function to register for the contest
-  const registerForContest = async (contestId: string) => {
+  // Function to check user authentication
+
+  
+  const checkAuthentication = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/user/contest/register`, {
-        method: 'POST',
+      const response = await fetch(`${API_URL}/api/user/auth`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization:`BEARER ${localStorage.getItem("token")}`
+          authorization: `BEARER ${localStorage.getItem("token")}` // Send the user's token
         },
-        body: JSON.stringify({ contest_id: contestId }), 
       });
 
-      const data = await response.json();
-      console.log(data);
-      if (response.ok && data.token) {
-        setToken(data.token); // Store token from response
+      if (response.ok) {
+        setIsAuthenticated(true); // User is authenticated
+        const data = await response.json();
+        if (data.token) {
+          setToken(data.token); 
+        }
       } else {
-        console.error('Failed to register for the contest');
+        setIsAuthenticated(false); // User is not authenticated
+        console.error('User authentication failed');
       }
     } catch (error) {
-      console.error('Error during contest registration:', error);
+      console.error('Error during authentication:', error);
     }
   };
 
   useEffect(() => {
-    // Register for the contest when the component mounts
-    if (contestId) {
-      registerForContest(contestId);
+    // First, check if the user is authenticated
+
+    if(!localStorage.getItem(`contest_${contestId}`)){
+        navigate("/user")
     }
-  }, [contestId]);
+
+    
+    setToken(localStorage.getItem(`contest_${contestId}`))
+    checkAuthentication();
+    
+  }, []);
+
+
+  const mockProblemData = {
+  problemName: "Find the Largest Number",
+  description: `You are given an array of integers. Your task is to write a function that returns the largest number in the array.
+  
+  **Constraints:**
+  - The array will always have at least one element.
+  - All elements in the array are integers.
+  - Do not use built-in functions like \`Math.max()\`.
+  `,
+  testCases: [
+    "Test Case 1: Input: [1, 2, 3, 4, 5] → Expected Output: 5",
+    "Test Case 2: Input: [-10, -20, -3, -4] → Expected Output: -3",
+    "Test Case 3: Input: [99] → Expected Output: 99",
+    "Test Case 4: Input: [0, 0, 0, 0] → Expected Output: 0",
+  ],
+  initialCode: `function findLargestNumber(arr) {
+  // Write your code here
+}`,
+  onSubmit: async (code: string) => {
+    console.log("Submitted Code:", code);
+    // Simulate a mock success response
+    return new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        if (code.includes("return")) {
+          resolve();
+        } else {
+          reject(new Error("Your code must include a return statement."));
+        }
+      }, 1000);
+    });
+  },
+};
 
   useEffect(() => {
-    if (token) {
-        console.log(token);
+
+    
+    
+    if (isAuthenticated && token) {
+      
       const eventSource = new EventSource(`${API_URL}/api/user/join/${token}`);
 
       eventSource.onmessage = (event: MessageEvent) => {
-        const data: Question = JSON.parse(event.data);
-        setQuestions((prevQuestions) => [...prevQuestions, data]);
+        const data = JSON.parse(event.data);
+        console.log(data, "this is data");
+
+        // Assuming 'question_set' contains the questions
+        if (data.contest) {
+          setContest(data.contest);
+          console.log(data.contest);
+        }
       };
 
       eventSource.onerror = (err) => {
@@ -58,34 +114,28 @@ const UserQuestionDashBoard: React.FC = () => {
         eventSource.close();
       };
 
-      // Cleanup connection on unmount
+      // Cleanup the connection when the component unmounts
       return () => {
         eventSource.close();
       };
     }
-  }, [token, contestId]);
+  }, [isAuthenticated, token]);
 
   return (
     <div>
-      <h1>User Question Dashboard</h1>
-      <ul>
-        {questions.length > 0 ? (
-          questions.map((question, index) => (
-            <li key={index}>
-              <h3>{question.title}</h3>
-              <p>{question.description}</p>
-              <strong>Options:</strong>
-              <ul>
-                {question.options?.map((option, optIndex) => (
-                  <li key={optIndex}>{option}</li>
-                ))}
-              </ul>
-            </li>
-          ))
-        ) : (
-          <p>No questions available yet.</p>
-        )}
-      </ul>
+      
+      {contest && <ProblemSet questions={contest.question_set || [] }/>}
+      
+{/*       
+         <ProblemPage
+      problemName={mockProblemData.problemName}
+      description={mockProblemData.description}
+      testCases={mockProblemData.testCases}
+      initialCode={mockProblemData.initialCode}
+      onSubmit={mockProblemData.onSubmit}
+    /> */}
+
+      
     </div>
   );
 };

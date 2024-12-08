@@ -7,6 +7,7 @@ import { signup } from "./signup";
 import { login } from "./login";
 import { findContest } from "../controllers/findContest";
 import { registerContest } from "../controllers/registerContest";
+import { CONTEST_SECRET, JWT_SECRET } from "../server";
 require("dotenv");
 
 const user = express.Router();
@@ -20,7 +21,9 @@ user.post("/login", async (req, res) => {
 });
 
 
-
+user.get("/auth",(req,res)=>{
+  return res.status(200).json({message:"Authenticated."})
+})
 
 //contest id's
 
@@ -28,8 +31,14 @@ user.get("/contest",findContest);
 
 user.post("/contest/register",registerContest)
 user.get("/join/:token", (req, res) => {
+  const {token}= req.params;
+  
+  const verify = jwt.verify(token,String(CONTEST_SECRET));
+  console.log(verify,"this is coolll");
 
-  console.log(req.params.token);
+  if(!verify){
+    return res.status(500).json({message:"You can not join the room."});
+  }
 
   
   console.log(req.params.token);
@@ -37,15 +46,29 @@ user.get("/join/:token", (req, res) => {
   res.setHeader('Cache-Control', 'no-cache');
   res.setHeader('Connection', 'keep-alive');
 
+
+  const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() ,contest:verify});
+  res.write(`data: ${data}\n\n`);
+
+  
+
   const sendEvent = () => {
-    const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() });
+
+    let kapa = { message: 'Update from Stream 1', timestamp: new Date().toISOString()}
+
+    
+
+    
+    const data = JSON.stringify(kapa);
     res.write(`data: ${data}\n\n`);
   };
 
-  // Send initial data
+  
+
+  
   sendEvent();
 
-  // Send periodic updates
+  
   const interval = setInterval(sendEvent, 5000);
 
   // Cleanup on connection close
@@ -54,6 +77,9 @@ user.get("/join/:token", (req, res) => {
     res.end();
   });
 });
+
+
+user.post("/submit",(req,res)=>{})
 
 
 

@@ -9,11 +9,12 @@ interface contest{
   community_id: string;
   start_time?: number;
   end_time?: number;
+  description?:string
 }
 
 
 async function createContest(req:any,res:any){
-    const { contest_name, invitation_code, question_set, prize_distribution,start_time,end_time } =
+    const { contest_name, invitation_code, question_set, prize_distribution,start_time,end_time ,description} =
         req.body;
 
 
@@ -29,7 +30,8 @@ async function createContest(req:any,res:any){
         prize_distribution:prize_distribution,
         community_id:req.decoded.id,
         start_time:start_time,
-        end_time:end_time
+        end_time:end_time,
+        description:description
     }
 
 
@@ -57,7 +59,7 @@ async function createContest(req:any,res:any){
 
 
 
-function createInvitationCodes(length = 8, count = 5) :string{
+function createInvitationCodes(length = 4, count = 2) :string{
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   const codes = new Set();
 
