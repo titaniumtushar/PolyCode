@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../App";
+import { useNavigate } from "react-router-dom";
 
 // Modal Component for Invitation Code
 
@@ -10,6 +11,7 @@ const ContestPage: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Track modal visibility
   const [contestToRegister, setContestToRegister] = useState<any | null>(null); // Track contest to register for
 
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchContests = async () => {
       try {
@@ -35,6 +37,8 @@ const ContestPage: React.FC = () => {
 
   const handleJoinContest = (contest: any) => {
     console.log("Joining contest:", contest.meta.contest_name);
+
+    navigate(`/user/join/${contest._id}`);
   };
 
   const handleRegisterContest = (contest: any) => {
@@ -64,6 +68,7 @@ const ContestPage: React.FC = () => {
         const data = await response.json();
         console.log("Successfully registered:", data);
         // Close modal after registration
+        localStorage.setItem(`contest_${selectedContest._id}`,data.token);
         setIsModalOpen(false);
         setContestToRegister(null); // Reset the contest to register for
         alert("You have successfully registered for the contest.");
