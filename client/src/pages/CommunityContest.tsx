@@ -37,7 +37,7 @@ const ContestPageCommunity: React.FC = () => {
   const handleJoinContest = (contest: any) => {
     console.log("Joining contest:", contest.meta.contest_name);
 
-    navigate(`/user/join/${contest._id}`);
+    navigate(`/community/join/${contest._id}`);
   };
 
   

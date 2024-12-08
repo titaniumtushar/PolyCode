@@ -50,7 +50,7 @@ const SidePanel = ({
         { text: "Contests", to: "/community/contest" },
         { text: "Marketplace", to: "/community/marketplace" },
         { text: "Wallet", to: "/community/wallet" },
-        { text: "Settings", to: "/community/settings" },
+        
     ];
 
     const userLinks = [
