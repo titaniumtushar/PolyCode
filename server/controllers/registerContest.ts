@@ -27,7 +27,7 @@ async function registerContest(req: any, res: any) {
 
         }
 
-        const payload = {question_set:contest.meta.question_set,start_time:contest.start_time,end_time:contest.end_time,community_id:contest.meta.community_id,contest_id:contest._id,contest_name:contest.meta.contest_name};
+        const payload = {question_set:contest.meta.question_set,start_time:contest.start_time,end_time:contest.end_time,user_id:req.decoded.id,contest_id:contest._id,contest_name:contest.meta.contest_name};
 
         const regToken = jwt.sign(payload,String(CONTEST_SECRET));
         console.log(CONTEST_SECRET);
