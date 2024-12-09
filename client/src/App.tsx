@@ -16,6 +16,7 @@ import UserQuestionDashBoard from "./pages/UserQuestionDashBoard";
 import ContestPage from "./pages/ContestPage";
 import ProfilePage from "./pages/ProfilePage";
 import ContestPageCommunity from "./pages/CommunityContest";
+import JoinContestCommunity from "./pages/JoinCommunityContest";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -84,7 +85,7 @@ function App() {
                             />
                             <Route
                                 path="/community/join/:contest_id"
-                                element={<UserQuestionDashBoard />}
+                                element={<JoinContestCommunity />}
                             />
 
                             <Route

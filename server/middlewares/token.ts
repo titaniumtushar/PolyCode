@@ -26,9 +26,19 @@ export function authenticateToken(
         return false;
     }
     console.log(m())
+
+    const p = ()=>{
+        const path = req.path.split("/");
+        console.log(path);
+        if(path[1]==="community" && path[2]==="join" && path.length===4){
+            return true;
+        }
+        return false;
+    }
+    console.log(p())
     
-    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m()){
-        
+    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m() ){
+        console.log("djkfkdjfdfkjdf");
         return next();
     }
     const authHeader = req.headers["authorization"];

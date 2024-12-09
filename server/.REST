@@ -9,12 +9,12 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:8080/api/user/login
+POST http://localhost:8080/api/community/login
 Content-Type: application/json
 
 {
-    "email":"v",
-    "password":"v"
+    "email":"a",
+    "password":"a"
 }
 
 
@@ -24,7 +24,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6IlJ2d3hJSjhQWnpkNUFnc2YiLCJyb2xlIjoiQyIsImlkIjoiNjczYjliOWNhM2YxZGE0ZmNiMzFiMzMzIiwiaWF0IjoxNzMzNTk4OTkwfQ.aSohIFSR5Z_8jmtu2ems4h33yLKOHKPaWHSqvuVi6o4
 
 {
-  "contest_name": "Coding Challenge",
+  "contest_name": "dnnde",
   "invitation_code": "12345678",
   "question_set": [
     {
@@ -133,3 +133,21 @@ Content-Type: application/json
     ]
   }
 }
+
+
+###
+POST http://localhost:8080/api/community/join
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6IlJ2d3hJSjhQWnpkNUFnc2YiLCJyb2xlIjoiQyIsImlkIjoiNjczYjliOWNhM2YxZGE0ZmNiMzFiMzMzIiwiaWF0IjoxNzMzNTk4OTkwfQ.aSohIFSR5Z_8jmtu2ems4h33yLKOHKPaWHSqvuVi6o4
+Content-Type: application/json
+
+
+{
+  "contest_id":"675774890599355bccf6085f"
+}
+
+
+###
+GET http://localhost:8080/api/community/join/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzU3NzQ4OTA1OTkzNTViY2NmNjA4NWYiLCJtZXRhIjp7ImNvbnRlc3RfbmFtZSI6ImRubmRlIiwiaW52aXRhdGlvbl9jb2RlIjoiM1ZnWSx0ZXdiIiwicXVlc3Rpb25fc2V0IjpbeyJxdWVzdGlvbl9pZCI6MSwicXVlc3Rpb25fdGV4dCI6IldoYXQgaXMgdGhlIGNhcGl0YWwgb2YgRnJhbmNlPyIsInRlc3RfY2FzZXMiOnsicHVibGljIjpbeyJpbnB1dCI6Miwib3V0cHV0IjoiNiJ9LHsiaW5wdXQiOjIsIm91dHB1dCI6IjYifV0sImhpZGRlbiI6W3siaW5wdXQiOjIsIm91dHB1dCI6IjYifSx7ImlucHV0IjoyLCJvdXRwdXQiOiI2In1dfSwiY29ycmVjdF9vcHRpb24iOiJQYXJpcyIsIm1heF9tYXJrcyI6MjR9LHsicXVlc3Rpb25faWQiOjIsInF1ZXN0aW9uX3RleHQiOiJXaGF0IGlzIDIgKyAyPyIsIm9wdGlvbnMiOlsiMyIsIjQiLCI1IiwiNiJdLCJjb3JyZWN0X29wdGlvbiI6IjQiLCJtYXhfbWFya3MiOjI0fV0sInByaXplX2Rpc3RyaWJ1dGlvbiI6WzQsMiwxNV0sImNvbW11bml0eV9pZCI6IjY3M2I5YjljYTNmMWRhNGZjYjMxYjMzMyIsInN0YXJ0X3RpbWUiOjEsImVuZF90aW1lIjoyLCJkZXNjcmlwdGlvbiI6ImZqbmZranZuZGZqa3ZuZmprdm5mamZuZmRrbmRma2pmIn0sInN0YXJ0X3RpbWUiOjEsImVuZF90aW1lIjoyLCJyYW5raW5ncyI6e30sInN1Ym1pc3Npb25zIjp7fSwiX192IjowLCJpYXQiOjE3MzM3ODc0NzQsImV4cCI6MTczMzc5MTA3NH0.29AWeCKwW2jBVxS5lN01Ktr6_bh78jXlBzaNwwvBMAc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6IlJ2d3hJSjhQWnpkNUFnc2YiLCJyb2xlIjoiQyIsImlkIjoiNjczYjliOWNhM2YxZGE0ZmNiMzFiMzMzIiwiaWF0IjoxNzMzNTk4OTkwfQ.aSohIFSR5Z_8jmtu2ems4h33yLKOHKPaWHSqvuVi6o4
+Content-Type: application/json
+
