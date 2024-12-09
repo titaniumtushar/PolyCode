@@ -18,8 +18,8 @@ interface IMeta {
 
 interface IContest extends Document {
   meta: IMeta;
-  rankings: mongoose.Schema.Types.Mixed[];
-  submissions: mongoose.Schema.Types.Mixed[];
+  rankings: mongoose.Schema.Types.Mixed;
+  submissions: mongoose.Schema.Types.Mixed;
   start_time:Number;
   end_time:Number;
 }
@@ -69,23 +69,24 @@ const contestSchema = new Schema<IContest>({
     type: metaSchema,
   },
   rankings: {
-    type: [Schema.Types.Mixed],
-    default: [],
+    type: Schema.Types.Mixed,
+    default: {}, // Ensures a blank object is created
   },
   submissions: {
-    type: [Schema.Types.Mixed],
-    default: [],
+    type: Schema.Types.Mixed,
+    default: {},
+    
   },
   start_time: {
     type: Number,
-    required:true
+    required: true,
   },
   end_time: {
     type: Number,
-    required:true
+    required: true,
   },
+},{ minimize: false });
 
-});
 
 // Create and export the Contest Model
 const contestModel: Model<IContest> = mongoose.model<IContest>("contests", contestSchema);

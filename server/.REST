@@ -1,20 +1,20 @@
-POST http://localhost:8080/api/community/signup
+POST http://localhost:8080/api/user/signup
 Content-Type: application/json
 
 {
-    "name":"par",
-    "email":"parth",
-    "password":"kdpak"
+    "name":"v",
+    "email":"v",
+    "password":"v"
 }
 
 
 ###
-POST http://localhost:8080/api/community/login
+POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-    "email":"parth",
-    "password":"kdpak"
+    "email":"v",
+    "password":"v"
 }
 
 
@@ -30,14 +30,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
     {
       "question_id": 1,
       "question_text": "What is the capital of France?",
-      "test_cases": [{"input":2,"output":"6"},{"input":2,"output":"6"}],
-      "correct_option": "Paris"
+      "test_cases": {"public":[{"input":2,"output":"6"},{"input":2,"output":"6"}],"hidden":[{"input":2,"output":"6"},{"input":2,"output":"6"}]},
+      "correct_option": "Paris",
+      "max_marks":24
     },
     {
       "question_id": 2,
       "question_text": "What is 2 + 2?",
       "options": ["3", "4", "5", "6"],
-      "correct_option": "4"
+      "correct_option": "4",
+      "max_marks":24
     }
   ],
   "prize_distribution": [4,2,15],
@@ -71,10 +73,63 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiL
 
 ###
 POST http://localhost:8080/api/user/contest/register
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFydGgiLCJlbWFpbCI6InBhcnRoQHBhcnRoIiwid2FsbGV0X2lkIjoiS2xwenZBRDlFODA2Yk9VOCIsInJvbGUiOiJVIiwiaWQiOiI2NzNjM2RhODNmZDgyMDE4OWFjMWQyMjYiLCJpYXQiOjE3MzM1ODk2NTB9.-9qpGt4lXiNfW4CXPK29XaPQsklu48iGBOghGBcuTuM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidiIsImVtYWlsIjoidiIsIndhbGxldF9pZCI6Im9venVmUmdISHdJeTQzTFciLCJyb2xlIjoiVSIsImlkIjoiNjc1NzRmNGQ1YzBlYjQxNDY4MWQ5YmNhIiwiaWF0IjoxNzMzNzc1MTgyfQ.aekEYVKjhUQECxq4oscm53djL1Khd0Dq83W6Qy8IbG8
 Content-Type: application/json
 
 {
-  "contest_id":"6754e31f48f16bee22992b30"
+  "contest_id":"67574757270ed89258885d96",
+   "invitation_code":"sZXf,y1jr"
 
+
+}
+
+
+###
+POST http://localhost:8080/api/user/submit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidiIsImVtYWlsIjoidiIsIndhbGxldF9pZCI6Im9venVmUmdISHdJeTQzTFciLCJyb2xlIjoiVSIsImlkIjoiNjc1NzRmNGQ1YzBlYjQxNDY4MWQ5YmNhIiwiaWF0IjoxNzMzNzc1MTgyfQ.aekEYVKjhUQECxq4oscm53djL1Khd0Dq83W6Qy8IbG8
+Content-Type: application/json
+
+{
+  "contest_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJxdWVzdGlvbl9zZXQiOlt7InF1ZXN0aW9uX2lkIjoxLCJxdWVzdGlvbl90ZXh0IjoiV2hhdCBpcyB0aGUgY2FwaXRhbCBvZiBGcmFuY2U_IiwidGVzdF9jYXNlcyI6eyJwdWJsaWMiOlt7ImlucHV0IjoyLCJvdXRwdXQiOiI2In0seyJpbnB1dCI6Miwib3V0cHV0IjoiNiJ9XSwiaGlkZGVuIjpbeyJpbnB1dCI6Miwib3V0cHV0IjoiNiJ9LHsiaW5wdXQiOjIsIm91dHB1dCI6IjYifV19LCJjb3JyZWN0X29wdGlvbiI6IlBhcmlzIiwibWF4X21hcmtzIjoyNH0seyJxdWVzdGlvbl9pZCI6MiwicXVlc3Rpb25fdGV4dCI6IldoYXQgaXMgMiArIDI_Iiwib3B0aW9ucyI6WyIzIiwiNCIsIjUiLCI2Il0sImNvcnJlY3Rfb3B0aW9uIjoiNCIsIm1heF9tYXJrcyI6MjR9XSwic3RhcnRfdGltZSI6MSwiZW5kX3RpbWUiOjE3MzM4NTQ2NzEsImNvbW11bml0eV9pZCI6IjY3M2I5YjljYTNmMWRhNGZjYjMxYjMzMyIsImNvbnRlc3RfaWQiOiI2NzU3NDc1NzI3MGVkODkyNTg4ODVkOTYiLCJjb250ZXN0X25hbWUiOiJDb2RpbmcgQ2hhbGxlbmdlIiwiaWF0IjoxNzMzNzc1MjQ4fQ.Qsgl0oAtsxP0A4w_jIiJTatTDdkCeV34Qi70ilXmE4c",
+  "question_id":1
+}
+
+
+###
+POST https://w8pax9lc8b.execute-api.us-east-1.amazonaws.com/prod/polycode
+Content-Type: application/json
+
+{
+  "code": "def greet(name):\n    if name == '':\n        return 'Hello, World!'\n    return f'Hello, {name}!'",
+  "language": "python",
+  "test_cases": {
+    "public": [
+      {
+        "input": "\"Alce\"",
+        "expected_output": "Hello, Alice!\n"
+      },
+      {
+        "input": "\"\"",
+        "expected_output": "Hello, ld!\n"
+      },
+      {
+        "input": "\"Bob\"",
+        "expected_output": "Hello, Bob!\n"
+      }
+    ],
+    "hidden": [
+      {
+        "input": "\"Charlie\"",
+        "expected_output": "Hello, Charlie!\n"
+      },
+      {
+        "input": "\"\"",
+        "expected_output": "Hello, World!\n"
+      },
+      {
+        "input": "\"David\"",
+        "expected_output": "Hello, David!\n"
+      }
+    ]
+  }
 }

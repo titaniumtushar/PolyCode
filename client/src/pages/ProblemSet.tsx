@@ -25,7 +25,7 @@ const ProblemSet = ({
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      await onSubmit(code);
+    
       alert("Code submitted successfully!");
     } catch (error) {
       console.error("Submission Error:", error);
@@ -51,7 +51,10 @@ const ProblemSet = ({
                   }`}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  onClick={() => setSelectedQuestion(index)} // Set selected question
+                  onClick={() => {setSelectedQuestion(index)
+
+                    console.log(index);
+                  }} // Set selected question
                 >
                   {question.question_text}
                 </li>

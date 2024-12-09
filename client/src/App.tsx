@@ -82,6 +82,10 @@ function App() {
                                     <ContestPageCommunity />
                                 }
                             />
+                            <Route
+                                path="/community/join/:contest_id"
+                                element={<UserQuestionDashBoard />}
+                            />
 
                             <Route
                                 path="/community/pay/:receiverid"

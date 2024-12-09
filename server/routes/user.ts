@@ -8,6 +8,7 @@ import { login } from "./login";
 import { findContest } from "../controllers/findContest";
 import { registerContest } from "../controllers/registerContest";
 import { CONTEST_SECRET, JWT_SECRET } from "../server";
+import { submitProblems } from "../controllers/submitProblems";
 require("dotenv");
 
 const user = express.Router();
@@ -79,7 +80,7 @@ user.get("/join/:token", (req, res) => {
 });
 
 
-user.post("/submit",(req,res)=>{})
+user.post("/submit",submitProblems);
 
 
 
