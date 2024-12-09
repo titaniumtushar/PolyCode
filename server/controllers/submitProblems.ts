@@ -7,16 +7,11 @@ function getRandomMarks(min: number, max: number): number {
 }
 
 async function submitProblems(req: any, res: any) {
-  const { contest_token, question_id,code } = req.body;
+  const { contest_token, question_id, code } = req.body;
 
-  console.log(req.body);
-
-  if (!contest_token || !question_id ) {
-    console.log("fjdkjdfdi");
+  if (!contest_token || !question_id) {
     return res.status(400).json({ message: "All fields are required." });
   }
-
-  console.log("ssjx");
 
   let verify;
   try {
@@ -36,11 +31,7 @@ async function submitProblems(req: any, res: any) {
     return res.status(404).json({ message: "Question not found." });
   }
 
-
   const marks = getRandomMarks(1, question.max_marks);
-  console.log(marks);
-
-  
 
   try {
     let contest: any = await contestModel.findOne({ _id: verify.contest_id });
@@ -50,19 +41,26 @@ async function submitProblems(req: any, res: any) {
     }
 
     const user = req.decoded;
-    const updatedRankings = doFunctionsOnRanking(contest.rankings, user.id, question_id, marks, user.wallet_id);
+
+    const updatedRankings = doFunctionsOnRanking(
+      contest.rankings,
+      user.id,
+      question_id,
+      marks,
+      user.wallet_id,
+      user.name
+    );
 
     const sortedRankings = sortRankingsByTotalMarks(updatedRankings);
 
-    contest.markModified('rankings');
-
     contest.rankings = sortedRankings;
+    contest.markModified("rankings");
+
     await contest.save();
 
-    return res.status(200).json({ message: "Question submitted succesfully!" });
-
+    return res.status(200).json({ message: "Question submitted successfully!" });
   } catch (error) {
-    console.error('Error during submission:', error);
+    console.error("Error during submission:", error);
     return res.status(500).json({ message: "Something went wrong." });
   }
 }
@@ -72,13 +70,15 @@ function doFunctionsOnRanking(
   userId: string,
   questionId: number,
   givenMarks: any,
-  walletId: string
+  walletId: string,
+  userName: string
 ): { [key: string]: any } {
   let user = arr[userId];
 
   if (!user) {
     arr[userId] = {
       user_id: userId,
+      name: userName,
       marks: { [questionId]: givenMarks },
       total_marks: givenMarks,
       wallet_id: walletId,
@@ -92,16 +92,14 @@ function doFunctionsOnRanking(
   if (!existing_mark) {
     marks[questionId] = givenMarks;
     user.total_marks += givenMarks;
-  }
-  else if(existing_mark<givenMarks){
+  } else if (existing_mark < givenMarks) {
     user.total_marks -= marks[questionId];
     marks[questionId] = givenMarks;
     user.total_marks += givenMarks;
   }
 
   user.wallet_id = walletId;
-
-
+  user.name = userName;
 
   return arr;
 }
