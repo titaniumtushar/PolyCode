@@ -2,11 +2,14 @@ import { useState } from "react";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
 import { tokyoNight } from "@uiw/codemirror-theme-tokyo-night";
+import { API_URL } from "../App";
+
 
 const ProblemSet = ({ 
   questions,
   initialCode = "",
-  onSubmit 
+  token
+  
 }: { 
   questions: {
     question_id: number;
@@ -15,25 +18,57 @@ const ProblemSet = ({
     correct_option?: string;
   }[];
   initialCode?: string;
-  onSubmit: (code: string) => void;
+  token:string;
+  
 }) => {
-  const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null); // Track selected question index
+  const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null); 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [code, setCode] = useState<string>(initialCode); // Track code in the editor
+  const [code, setCode] = useState<string>(initialCode); 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    try {
+ const handleSubmit = async () => {
+  if(selectedQuestion===null){
+    return ;
+  }
+  setIsSubmitting(true);
+  try {
+    const contest_token = token; // Assuming 'token' is already set
+    const question_id = Number(selectedQuestion)+1; // Assuming 'selectedQuestion' is set
+
+    console.log(contest_token, question_id);
+
+    const response = await fetch(`${API_URL}/api/user/submit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`, // Corrected spelling
+      },
+      body: JSON.stringify({
+        contest_token:contest_token,
+        question_id:question_id,
+        code:code
+      }),
+    });
+
+    console.log(await response.json());
+
     
+
+    if (response.ok) {
       alert("Code submitted successfully!");
-    } catch (error) {
-      console.error("Submission Error:", error);
-      alert("There was an error submitting your code.");
-    } finally {
-      setIsSubmitting(false);
+    } else {
+      const errorData = await response.json();
+      alert(`Error: ${errorData.message || "Something went wrong"}`);
     }
-  };
+  } catch (error) {
+    console.error("Submission Error:", error);
+    alert("There was an error submitting your code.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
 
   return (
     <div className="h-screen overflow-hidden bg-black text-white flex">
@@ -72,10 +107,13 @@ const ProblemSet = ({
             <h2 className="text-xl font-bold mb-4">
               {questions[selectedQuestion].question_text}
             </h2>
+             <p className="text-m mb-4">
+              {questions[selectedQuestion].question_text}
+            </p>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Test Cases</h3>
               <ul className="text-sm list-disc pl-5">
-                {questions[selectedQuestion].test_cases.map((testCase, i) => (
+                {questions[selectedQuestion].test_cases.public.map((testCase, i) => (
                   <li key={i} className="mb-2">
                     <strong>Input:</strong> {JSON.stringify(testCase.input)} <br />
                     <strong>Output:</strong> {JSON.stringify(testCase.output)}

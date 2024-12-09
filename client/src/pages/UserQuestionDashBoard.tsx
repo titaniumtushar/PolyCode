@@ -14,6 +14,7 @@ const UserQuestionDashBoard: React.FC = () => {
   const [token, setToken] = useState<string | null>(null); // Store token after authentication
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // State to check if user is authenticated
   const contestId = window.location.pathname.split('/').pop(); // Extract contest_id from the URL
+  
 
   // Function to check user authentication
 
@@ -124,16 +125,9 @@ const UserQuestionDashBoard: React.FC = () => {
   return (
     <div>
       
-      {contest && <ProblemSet questions={contest.question_set || [] }/>}
+      {contest && <ProblemSet questions={contest.question_set || [] } token = {token}/>}
       
-{/*       
-         <ProblemPage
-      problemName={mockProblemData.problemName}
-      description={mockProblemData.description}
-      testCases={mockProblemData.testCases}
-      initialCode={mockProblemData.initialCode}
-      onSubmit={mockProblemData.onSubmit}
-    /> */}
+
 
       
     </div>

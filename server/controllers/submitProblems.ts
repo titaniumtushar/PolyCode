@@ -7,11 +7,16 @@ function getRandomMarks(min: number, max: number): number {
 }
 
 async function submitProblems(req: any, res: any) {
-  const { contest_token, question_id } = req.body;
+  const { contest_token, question_id,code } = req.body;
 
-  if (!contest_token || !question_id) {
+  console.log(req.body);
+
+  if (!contest_token || !question_id ) {
+    console.log("fjdkjdfdi");
     return res.status(400).json({ message: "All fields are required." });
   }
+
+  console.log("ssjx");
 
   let verify;
   try {
