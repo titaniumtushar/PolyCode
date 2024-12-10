@@ -47,7 +47,10 @@ const WalletPage = () => {
             alert("Wallet ID cannot be empty!");
             return;
         }
-        navigate(`/user/pay/${receiverWalletId}`);
+
+        const first = window.location.pathname.split("/")[1];
+        console.log(first);
+        navigate(`/${first}/pay/${receiverWalletId}`);
     };
 
     return (
@@ -82,6 +85,8 @@ const WalletPage = () => {
                     >
                         Pay
                     </button>
+
+                    
 
                     {/* Bottom Section: Transactions */}
                     <div style={styles.transactionsSection}>

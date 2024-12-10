@@ -63,6 +63,33 @@ const JoinContestCommunity: React.FC = () => {
     const [participants, setParticipants] = useState<Ranking[]>([]);
     const [error, setError] = useState<string | null>(null);
 
+    const payReward = async () => {
+        try {
+            const url = `${API_URL}/api/community/contest/pay-reward`;
+
+            const data = {
+                contest_id: contest_id,
+            };
+
+            console.log("pahggg")
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(data),
+            });
+            const k = await response.json();
+            console.log(k);
+
+            alert(k.message);
+        } catch (error) {
+            console.error("Network Error:", error);
+        }
+    };
+
     useEffect(() => {
         const joinContest = async () => {
             if (!contest_id) {
@@ -75,7 +102,9 @@ const JoinContestCommunity: React.FC = () => {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
                     },
                     body: JSON.stringify({ contest_id }),
                 });
@@ -110,7 +139,9 @@ const JoinContestCommunity: React.FC = () => {
                 };
 
                 eventSource.onerror = () => {
-                    setError("Failed to connect to live updates. Please try again later.");
+                    setError(
+                        "Failed to connect to live updates. Please try again later."
+                    );
                     eventSource.close();
                 };
 
@@ -137,14 +168,18 @@ const JoinContestCommunity: React.FC = () => {
             ></div>
 
             <div className="relative z-10 p-6">
-                <h6 className="text-3xl font-bold text-center mb-6 text-white">{error}</h6>
+                <h6 className="text-3xl font-bold text-center mb-6 text-white">
+                    {error}
+                </h6>
                 <h1 className="text-3xl font-bold text-center mb-6 text-white">
                     Contest: {contest_id}
                 </h1>
 
                 <div className="flex space-x-8">
-                    <div className="w-1/3 bg-black text-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-4">Leaderboard</h2>
+                    <div className="w-1/3 bg-transparent text-white p-4 rounded-lg shadow-md">
+                        <h2 className="text-2xl font-semibold mb-4">
+                            Leaderboard
+                        </h2>
                         <ul className="space-y-4">
                             {rankings.map((ranking, index) => (
                                 <li
@@ -154,14 +189,18 @@ const JoinContestCommunity: React.FC = () => {
                                     <span>
                                         {index + 1}. {ranking.name}
                                     </span>
-                                    <span>Total Marks: {ranking.total_marks}</span>
+                                    <span>
+                                        Total Marks: {ranking.total_marks}
+                                    </span>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    <div className="w-2/3 bg-black text-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-4">Participants</h2>
+                    <div className="w-2/3 bg-transparent text-white p-4 rounded-lg shadow-md">
+                        <h2 className="text-2xl font-semibold mb-4">
+                            Participants
+                        </h2>
                         <ul className="space-y-4">
                             {participants.map((participant) => (
                                 <li
@@ -175,7 +214,23 @@ const JoinContestCommunity: React.FC = () => {
                     </div>
                 </div>
 
-                <Leaderboard data={leaderboardData} />
+                {/* <Leaderboard data={leaderboardData} /> */}
+                <button
+                    onClick={() => {payReward()}}
+                    style={{
+                        padding: "40px",
+                        backgroundColor: "transparent",
+                        color: "white",
+                        border: "dashed",
+                        borderRadius: "6px",
+                        borderWidth: "0.5px",
+                        fontSize: "32px",
+                        cursor: "pointer",
+                        marginTop: "20px",
+                    }}
+                >
+                    Pay
+                </button>
             </div>
         </div>
     );

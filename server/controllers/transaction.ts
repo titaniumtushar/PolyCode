@@ -103,6 +103,8 @@ async function specialTransactions(
                 return res.status(404).json({ message: "Not found." });
             }
 
+            
+
             const newTransaction: any = {
                 head: "U",
                 tail: transmitter.wallet_id,
@@ -110,6 +112,9 @@ async function specialTransactions(
             };
 
             transmitter.current_balance -= amount;
+            if(transmitter.current_balance<0){
+              return false;
+            }
             transmitter.transactions.push(newTransaction);
             await transmitter.save();
 

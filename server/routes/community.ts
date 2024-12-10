@@ -46,6 +46,10 @@ community.post("/contest/pay-reward",checkContest,async(req:any,res:any)=>{
 
   let contest:any = req.contest;
   let rewards:any = contest.meta.prize_distribution;
+
+  if(new Date().valueOf()/1000<contest.end_time){
+    return res.status(400).json({message:"Contest is not finished yet."});
+  }
   
   let rankings:any = contest.rankings;
   const valuesArray:any = Object.values(rankings);
@@ -71,13 +75,14 @@ community.post("/contest/pay-reward",checkContest,async(req:any,res:any)=>{
 
   }
 
-    res.send("ae halloooo");
+   return res.status(200).json({message:"Payment done."})
 
 
 
  } catch (error) {
   
-  res.send("ae halloooo");
+     return res.status(200).json({message:"Something gone wrong."})
+
   
  }
 
