@@ -46,8 +46,16 @@ const ContestPageCommunity: React.FC = () => {
     setSelectedContest(null); // Reset to contest list view
   };
 
-  
-  
+  const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(selectedContest.meta.invitation_code);
+        setCopied(true);
+
+        // Reset the copied state after a short delay
+        setTimeout(() => setCopied(false), 2000);
+    };
+
 
   return (
     <div className="p-6 bg-black text-white min-h-screen">
@@ -108,6 +116,22 @@ const ContestPageCommunity: React.FC = () => {
           <p className="mt-4 text-gray-300">
             Description: {selectedContest.meta.description || "No description available."}
           </p>
+          <p
+                        className="text-sm text-gray-300   py-2 rounded cursor-pointer  transition-all"
+                        onClick={handleCopy}
+                        title="Click to copy"
+                    >
+                        Invitation Code:{" "}
+                        <span className="font-mono text-white bg-gray-700 px-8 py-2 rounded">
+                            {selectedContest.meta.invitation_code}
+                        </span>
+                    </p>
+
+                    {copied && (
+                        <span className="absolute left-0 top-full mt-1 text-xs text-green-500 bg-black px-2 py-1 rounded">
+                            Copied!
+                        </span>
+                    )}
           <div className="mt-4 flex justify-start gap-4">
             <button
               className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"

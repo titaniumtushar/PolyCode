@@ -50,6 +50,9 @@ user.get("/join/:token", (req, res) => {
     res.setHeader("Cache-Control", "no-cache");
     res.setHeader("Connection", "keep-alive");
 
+    const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() ,contest:verify});
+  res.write(`data: ${data}\n\n`);
+
     const sendEvent = async () => {
       const contestRankings = await pollContest(verify.contest_id);
       const kapa = {
