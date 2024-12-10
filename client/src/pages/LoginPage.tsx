@@ -49,7 +49,7 @@ const LoginPage = () => {
                 setMessage("Login successful! Redirecting...");
                 localStorage.setItem("token", data.token);
                 if(role==="C"){
-                    navigate("/community/admin");
+                    navigate("/community/dashboard");
 
                 }
                 else{

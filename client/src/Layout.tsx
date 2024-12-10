@@ -7,15 +7,21 @@ const Layout = () => {
     return (
         <div>
             {/* Render MainHeading first */}
-            <MainHeading data={{role:"C"}} />
+            <MainHeading data={{role:"C", items: [
+                    { text: "Recruitment", link_path: "community/recruitment" },
+                    { text: "Marketplace", link_path: "/community/listproduct" },
+                    { text: "Store", link_path: "/community/store" },
+
+                  ],}} />
 
             {/* Render the child components here using Outlet */}
-            <main>
+            <main> 
                 <Outlet />
             </main>
         </div>
     );
 };
+
 
 
 const LayoutTwo = () => {

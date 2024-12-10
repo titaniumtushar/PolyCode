@@ -17,6 +17,7 @@ import ContestPage from "./pages/ContestPage";
 import ProfilePage from "./pages/ProfilePage";
 import ContestPageCommunity from "./pages/CommunityContest";
 import JoinContestCommunity from "./pages/JoinCommunityContest";
+import AdminDashboard from "./pages/adminDashboardPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -70,6 +71,10 @@ function App() {
                             <Route
                                 path="/community/listproduct"
                                 element={<ListProductPage />}
+                            />
+                            <Route
+                                path="/community/dashboard"
+                                element={<AdminDashboard/>}
                             />
                             <Route
                                 path="/community/wallet"
