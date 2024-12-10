@@ -8,7 +8,7 @@ const UserQuestionDashBoard: React.FC = () => {
   const [contest, setContest] = useState({});
   const [token, setToken] = useState<string | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [output, setOutput] = useState<string | null>(null);
+  const [output, setOutput] = useState<string | any[]>(null); // Can be string or array
   const contestId = window.location.pathname.split('/').pop();
 
   const checkAuthentication = async () => {
@@ -74,11 +74,23 @@ const UserQuestionDashBoard: React.FC = () => {
       {/* Part 1: Sidebar */}
       <div style={styles.sidebar}>
         <h4 style={styles.sectionHeader}>Submission Results</h4>
+        
         {output ? (
-          <div style={styles.outputBlock}>
-            <span style={styles.outputLabel}>Output:</span>
-            <pre style={styles.outputText}>{JSON.stringify(output)}</pre>
-          </div>
+          Array.isArray(output) ? (
+            // Handle output as an array
+            output.map((out, index) => (
+              <div key={index} style={styles.outputBlock}>
+                <span style={styles.outputLabel}>Output {index + 1}:</span>
+                <pre style={styles.outputText}>{JSON.stringify(out, null, 2)}</pre>
+              </div>
+            ))
+          ) : (
+            // Handle output as a single string
+            <div style={styles.outputBlock}>
+              <span style={styles.outputLabel}>Output:</span>
+              <pre style={styles.outputText}>{output}</pre>
+            </div>
+          )
         ) : (
           <p style={styles.noResults}>No results to display yet.</p>
         )}
@@ -104,7 +116,7 @@ const UserQuestionDashBoard: React.FC = () => {
 const styles = {
   container: {
     display: 'flex',
-    height: '100vh',
+    height: '100%',
     backgroundColor: '#1f1f1f',
     color: '#f9f9f9',
   },
