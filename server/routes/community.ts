@@ -39,7 +39,7 @@ community.post("/join", populateContest);
 
 community.get("/join/:token", (req:any, res:any) => {
   const {token}= req.params;
-  
+  console.log("dndjfbdfj hellllllllllllllllllllllo");
   const verify:any = jwt.verify(token,String(CONTEST_SECRET));
   
   console.log(verify);

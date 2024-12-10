@@ -25,27 +25,27 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZ
 
 {
   "contest_name": "dnnde",
-  "invitation_code": "12345678",
   "question_set": [
     {
       "question_id": 1,
       "question_text": "What is the capital of France?",
       "test_cases": {"public":[{"input":2,"output":"6"},{"input":2,"output":"6"}],"hidden":[{"input":2,"output":"6"},{"input":2,"output":"6"}]},
-      "correct_option": "Paris",
       "max_marks":24
     },
     {
-      "question_id": 2,
-      "question_text": "What is 2 + 2?",
-      "options": ["3", "4", "5", "6"],
-      "correct_option": "4",
+      "question_id": 1,
+      "question_text": "What is the capital of France?",
+      "description":"fsmkfmsfks",
+      "test_cases": {"public":[{"input":2,"output":"6"},{"input":2,"output":"6"}],"hidden":[{"input":2,"output":"6"},{"input":2,"output":"6"}]},
       "max_marks":24
-    }
+    },
+    
   ],
   "prize_distribution": [4,2,15],
   "start_time":1,
   "end_time":2,
-  "description":"fjnfkjvndfjkvnfjkvnfjfnfdkndfkjf"
+  "description":"fjnfkjvndfjkvnfjkvnfjfnfdkndfkjf",
+  "private":false
 }
 
 

@@ -14,7 +14,7 @@ async function populateContest(req: any, res: any) {
 
         if (!contest) {
             return res.status(404).json({ message: "Contest not found!" });
-        } else if (contest.meta.community_id !== "673b9b9ca3f1da4fcb31b333") {
+        } else if (contest.meta.community_id !== req.decoded.id) {
             return res.status(403).json({ message: "Forbidden to access." });
         }
         const payload = {user_id:req.decoded.user_id,contest_id:contest._id,community_id:contest.meta.community_id};

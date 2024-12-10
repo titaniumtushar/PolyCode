@@ -9,7 +9,12 @@ interface TestCase {
 interface Question {
   question_id: number;
   question_text: string;
-  test_cases: TestCase[];
+  question_description: string;
+  max_marks: number;
+  test_cases: {
+    public: TestCase[];
+    hidden: TestCase[];
+  };
 }
 
 interface ContestData {
@@ -20,6 +25,7 @@ interface ContestData {
   start_time: string;
   end_time: string;
   description: string;
+  private: boolean;
 }
 
 const AdminPage: React.FC = () => {
@@ -30,37 +36,52 @@ const AdminPage: React.FC = () => {
       {
         question_id: 1,
         question_text: "",
-        test_cases: [
-          {
-            input: "",
-            expected_output: "",
-          },
-        ],
+        question_description: "",
+        max_marks: 0,
+        test_cases: {
+          public: [
+            {
+              input: "",
+              expected_output: "",
+            },
+          ],
+          hidden: [
+            {
+              input: "",
+              expected_output: "",
+            },
+          ],
+        },
       },
     ],
     prize_distribution: [0, 0, 0],
     start_time: "",
     end_time: "",
     description: "",
+    private: false,
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
     section: "contest" | "questions" | "prize",
     key: string,
     index?: number,
+    type?: "public" | "hidden",
     testCaseIndex?: number
   ) => {
-    const value = e.target.value;
+    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
     setContestData((prevState) => {
       const newState = { ...prevState };
       if (section === "contest") {
         newState[key as keyof ContestData] = value;
       } else if (section === "questions") {
-        if (testCaseIndex !== undefined) {
-          newState.question_set[index!].test_cases[testCaseIndex!][key as keyof TestCase] = value;
+        if (type && testCaseIndex !== undefined) {
+          newState.question_set[index!].test_cases[type][testCaseIndex!][
+            key as keyof TestCase
+          ] = value;
         } else {
-          newState.question_set[index!][key as keyof Question] = value;
+          newState.question_set[index!][key as keyof Question] = 
+            key === "max_marks" ? Number(value) : value;
         }
       } else if (section === "prize") {
         newState.prize_distribution[index!] = Number(value);
@@ -69,10 +90,13 @@ const AdminPage: React.FC = () => {
     });
   };
 
-  const handleTestCaseAdd = (questionIndex: number) => {
+  const handleTestCaseAdd = (questionIndex: number, type: "public" | "hidden") => {
     setContestData((prevState) => {
       const newState = { ...prevState };
-      newState.question_set[questionIndex].test_cases.push({ input: "", expected_output: "" });
+      newState.question_set[questionIndex].test_cases[type].push({
+        input: "",
+        expected_output: "",
+      });
       return newState;
     });
   };
@@ -85,12 +109,22 @@ const AdminPage: React.FC = () => {
         {
           question_id: prevState.question_set.length + 1,
           question_text: "",
-          test_cases: [
-            {
-              input: "",
-              expected_output: "",
-            },
-          ],
+          question_description: "",
+          max_marks: 0,
+          test_cases: {
+            public: [
+              {
+                input: "",
+                expected_output: "",
+              },
+            ],
+            hidden: [
+              {
+                input: "",
+                expected_output: "",
+              },
+            ],
+          },
         },
       ],
     }));
@@ -106,7 +140,6 @@ const AdminPage: React.FC = () => {
     const startTimestamp = convertToUnixTimestamp(contestData.start_time);
     const endTimestamp = convertToUnixTimestamp(contestData.end_time);
 
-    // Construct the payload to send to your API
     const payload = {
       ...contestData,
       start_time: startTimestamp,
@@ -115,7 +148,6 @@ const AdminPage: React.FC = () => {
 
     console.log("Form data as JSON:", JSON.stringify(payload, null, 2));
 
-    // Example API call
     try {
       const response = await fetch(`${API_URL}/api/community/create/contest`, {
         method: "POST",
@@ -126,15 +158,11 @@ const AdminPage: React.FC = () => {
         body: JSON.stringify(payload),
       });
 
-
-
-      console.log(await response.json(),"this is the responsennnnnnnnnnnnn");
+      console.log(await response.json(), "this is the response");
 
       if (response.ok) {
-        // Handle success response
         alert("Contest created successfully!");
       } else {
-        // Handle error response
         alert("Error creating contest.");
       }
     } catch (error) {
@@ -179,6 +207,17 @@ const AdminPage: React.FC = () => {
           />
         </div>
 
+        <div className="mb-6">
+          <label className="block text-lg mb-2">Private Contest</label>
+          <input
+            type="checkbox"
+            checked={contestData.private}
+            onChange={(e) => handleChange(e, "contest", "private")}
+            className="mr-2"
+          />
+          <span>{contestData.private ? "Yes" : "No"}</span>
+        </div>
+
         {/* Questions */}
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-4">Questions</h2>
@@ -196,38 +235,78 @@ const AdminPage: React.FC = () => {
                 placeholder="Enter Question Text"
               />
 
-              {/* Test Cases */}
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold">Test Cases</h3>
-                {question.test_cases.map((testCase, testCaseIndex) => (
-                  <div key={testCaseIndex} className="mb-4">
-                    <label className="block text-lg mb-2">Input</label>
-                    <input
-                      type="text"
-                      value={testCase.input}
-                      onChange={(e) => handleChange(e, "questions", "input", questionIndex, testCaseIndex)}
-                      className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="Enter Input"
-                    />
+              <label htmlFor={`question-description-${questionIndex}`} className="block text-lg mt-4 mb-2">
+                Question Description
+              </label>
+              <textarea
+                id={`question-description-${questionIndex}`}
+                value={question.question_description}
+                onChange={(e) =>
+                  handleChange(e, "questions", "question_description", questionIndex)
+                }
+                className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Enter Question Description"
+              />
 
-                    <label className="block text-lg mt-2 mb-2">Expected Output</label>
-                    <input
-                      type="text"
-                      value={testCase.expected_output}
-                      onChange={(e) => handleChange(e, "questions", "expected_output", questionIndex, testCaseIndex)}
-                      className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-                      placeholder="Enter Expected Output"
-                    />
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={() => handleTestCaseAdd(questionIndex)}
-                  className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-all mt-4"
-                >
-                  Add Another Test Case
-                </button>
-              </div>
+              <label htmlFor={`max-marks-${questionIndex}`} className="block text-lg mt-4 mb-2">
+                Max Marks
+              </label>
+              <input
+                type="number"
+                id={`max-marks-${questionIndex}`}
+                value={question.max_marks}
+                onChange={(e) => handleChange(e, "questions", "max_marks", questionIndex)}
+                className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Enter Maximum Marks"
+              />
+
+              {/* Test Cases */}
+              {["public", "hidden"].map((type) => (
+                <div key={type} className="mt-4">
+                  <h3 className="text-lg font-semibold capitalize">
+                    {type} Test Cases
+                  </h3>
+                  {question.test_cases[type as "public" | "hidden"].map((testCase, testCaseIndex) => (
+                    <div key={testCaseIndex} className="mb-4">
+                      <label className="block text-lg mb-2">Input</label>
+                      <input
+                        type="text"
+                        value={testCase.input}
+                        onChange={(e) =>
+                          handleChange(e, "questions", "input", questionIndex, type as "public" | "hidden", testCaseIndex)
+                        }
+                        className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        placeholder="Enter Input"
+                      />
+
+                      <label className="block text-lg mt-2 mb-2">Expected Output</label>
+                      <input
+                        type="text"
+                        value={testCase.expected_output}
+                        onChange={(e) =>
+                          handleChange(
+                            e,
+                            "questions",
+                            "expected_output",
+                            questionIndex,
+                            type as "public" | "hidden",
+                            testCaseIndex
+                          )
+                        }
+                        className="w-full p-3 bg-black border border-gray-600 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        placeholder="Enter Expected Output"
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => handleTestCaseAdd(questionIndex, type as "public" | "hidden")}
+                    className="bg-purple-600 text-white py-2 px-6 rounded-lg hover:bg-purple-700 transition-all mt-4"
+                  >
+                    Add Another {type.charAt(0).toUpperCase() + type.slice(1)} Test Case
+                  </button>
+                </div>
+              ))}
             </div>
           ))}
           <button

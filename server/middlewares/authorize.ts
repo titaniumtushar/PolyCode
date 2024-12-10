@@ -26,10 +26,17 @@ function authorizeCommunity(req:any,res:any,next:any):any{
 
     console.log(req.path);
 
+    
+
 
     if(req.path ==="/login" || req.path ==="/signup" ){
+        
         return next();
     }
+    else if(req.allownext===true){
+        return next();
+    }
+    
 
     
 

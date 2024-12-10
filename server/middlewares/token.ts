@@ -9,9 +9,9 @@ interface UserRequest extends express.Request {
 }
 
 export function authenticateToken(
-    req: UserRequest,
-    res: express.Response,
-    next: NextFunction
+    req: any,
+    res: any,
+    next: any
 ) {
 
 
@@ -37,8 +37,8 @@ export function authenticateToken(
     }
     console.log(p())
     
-    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m() ){
-        console.log("djkfkdjfdfkjdf");
+    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m() || p()){
+        req.allownext = true;
         return next();
     }
     const authHeader = req.headers["authorization"];
