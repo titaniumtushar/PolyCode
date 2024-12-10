@@ -1,42 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { API_URL } from '../App';
 import ProblemSet from './ProblemSet';
-import {  useNavigate, } from 'react-router-dom';
-import ProblemPage from './ProblemPage';
-import { decodeContest } from '../ts/utils/decodeToken';
-import { decode } from 'punycode';
-
+import { useNavigate } from 'react-router-dom';
 
 const UserQuestionDashBoard: React.FC = () => {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [contest, setContest] = useState({});
-  const [token, setToken] = useState<string | null>(null); // Store token after authentication
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false); // State to check if user is authenticated
-  const contestId = window.location.pathname.split('/').pop(); // Extract contest_id from the URL
-  
+  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [output, setOutput] = useState<string | null>(null);
+  const contestId = window.location.pathname.split('/').pop();
 
-  // Function to check user authentication
-
-  
   const checkAuthentication = async () => {
     try {
       const response = await fetch(`${API_URL}/api/user/auth`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          authorization: `BEARER ${localStorage.getItem("token")}` // Send the user's token
+          authorization: `BEARER ${localStorage.getItem('token')}`,
         },
       });
 
       if (response.ok) {
-        setIsAuthenticated(true); // User is authenticated
+        setIsAuthenticated(true);
         const data = await response.json();
         if (data.token) {
-          setToken(data.token); 
+          setToken(data.token);
         }
       } else {
-        setIsAuthenticated(false); // User is not authenticated
+        setIsAuthenticated(false);
         console.error('User authentication failed');
       }
     } catch (error) {
@@ -45,68 +37,24 @@ const UserQuestionDashBoard: React.FC = () => {
   };
 
   useEffect(() => {
-    // First, check if the user is authenticated
-
-    if(!localStorage.getItem(`contest_${contestId}`)){
-        navigate("/user")
+    if (!localStorage.getItem(`contest_${contestId}`)) {
+      navigate('/user');
     }
 
-    
-    setToken(localStorage.getItem(`contest_${contestId}`))
+    setToken(localStorage.getItem(`contest_${contestId}`));
     checkAuthentication();
-    
   }, []);
 
-
-  const mockProblemData = {
-  problemName: "Find the Largest Number",
-  description: `You are given an array of integers. Your task is to write a function that returns the largest number in the array.
-  
-  **Constraints:**
-  - The array will always have at least one element.
-  - All elements in the array are integers.
-  - Do not use built-in functions like \`Math.max()\`.
-  `,
-  testCases: [
-    "Test Case 1: Input: [1, 2, 3, 4, 5] → Expected Output: 5",
-    "Test Case 2: Input: [-10, -20, -3, -4] → Expected Output: -3",
-    "Test Case 3: Input: [99] → Expected Output: 99",
-    "Test Case 4: Input: [0, 0, 0, 0] → Expected Output: 0",
-  ],
-  initialCode: `function findLargestNumber(arr) {
-  // Write your code here
-}`,
-  onSubmit: async (code: string) => {
-    console.log("Submitted Code:", code);
-    // Simulate a mock success response
-    return new Promise<void>((resolve, reject) => {
-      setTimeout(() => {
-        if (code.includes("return")) {
-          resolve();
-        } else {
-          reject(new Error("Your code must include a return statement."));
-        }
-      }, 1000);
-    });
-  },
-};
-
   useEffect(() => {
-
-    
-    
     if (isAuthenticated && token) {
-      
       const eventSource = new EventSource(`${API_URL}/api/user/join/${token}`);
 
       eventSource.onmessage = (event: MessageEvent) => {
         const data = JSON.parse(event.data);
-        console.log(data, "this is data");
+        console.log(data, 'this is data');
 
-        // Assuming 'question_set' contains the questions
         if (data.contest) {
           setContest(data.contest);
-          console.log(data.contest);
         }
       };
 
@@ -115,7 +63,6 @@ const UserQuestionDashBoard: React.FC = () => {
         eventSource.close();
       };
 
-      // Cleanup the connection when the component unmounts
       return () => {
         eventSource.close();
       };
@@ -123,15 +70,91 @@ const UserQuestionDashBoard: React.FC = () => {
   }, [isAuthenticated, token]);
 
   return (
-    <div>
-      
-      {contest && <ProblemSet questions={contest.question_set || [] } token = {token}/>}
-      
+    <div style={styles.container}>
+      {/* Part 1: Sidebar */}
+      <div style={styles.sidebar}>
+        <h4 style={styles.sectionHeader}>Submission Results</h4>
+        {output ? (
+          <div style={styles.outputBlock}>
+            <span style={styles.outputLabel}>Output:</span>
+            <pre style={styles.outputText}>{JSON.stringify(output)}</pre>
+          </div>
+        ) : (
+          <p style={styles.noResults}>No results to display yet.</p>
+        )}
+      </div>
 
-
-      
+      {/* Part 2 and 3: Main Content */}
+      <div style={styles.mainContent}>
+        {/* Part 2: ProblemSet */}
+        <div style={styles.problemSet}>
+          {contest && (
+            <ProblemSet
+              questions={contest.question_set || []}
+              token={token}
+              setOutput={setOutput}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    height: '100vh',
+    backgroundColor: '#1f1f1f',
+    color: '#f9f9f9',
+  },
+  sidebar: {
+    flex: '1',
+    padding: '20px',
+    borderRight: '1px solid #333',
+    backgroundColor: '#252525',
+    overflowY: 'auto',
+  },
+  mainContent: {
+    flex: '3',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '20px',
+  },
+  problemSet: {
+    flex: '2',
+    padding: '20px',
+    borderBottom: '1px solid #333',
+    backgroundColor: '#1f1f1f',
+  },
+  sectionHeader: {
+    fontSize: '22px',
+    fontWeight: 'bold',
+    marginBottom: '15px',
+    color: '#22c55e',
+  },
+  outputBlock: {
+    padding: '10px',
+    backgroundColor: '#333',
+    borderRadius: '4px',
+    marginTop: '15px',
+  },
+  outputLabel: {
+    fontWeight: 'bold',
+    fontSize: '16px',
+    color: '#808080',
+  },
+  outputText: {
+    marginTop: '10px',
+    fontSize: '14px',
+    color: '#f9f9f9',
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+  },
+  noResults: {
+    fontSize: '14px',
+    color: '#808080',
+  },
 };
 
 export default UserQuestionDashBoard;

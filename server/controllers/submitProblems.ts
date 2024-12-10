@@ -9,7 +9,7 @@ function getRandomMarks(min: number, max: number): number {
 async function submitProblems(req: any, res: any) {
   const { contest_token, question_id, code } = req.body;
 
-  if (!contest_token || !question_id) {
+  if (!contest_token || !question_id || !code) {
     return res.status(400).json({ message: "All fields are required." });
   }
 
@@ -31,7 +31,21 @@ async function submitProblems(req: any, res: any) {
     return res.status(404).json({ message: "Question not found." });
   }
 
-  const marks = getRandomMarks(1, question.max_marks);
+
+  const payload = {test_cases:question.test_cases,code:code,language:"python"};
+  console.log(payload);
+
+  const mes = await getMarksEngine(payload);
+
+  console.log(mes);
+  if(!mes.iscorrect){
+    return res.status(202).json(mes);
+  }
+
+
+
+
+  const marks = mes.marks;
 
   try {
     let contest: any = await contestModel.findOne({ _id: verify.contest_id });
@@ -58,7 +72,7 @@ async function submitProblems(req: any, res: any) {
 
     await contest.save();
 
-    return res.status(200).json({ message: "Question submitted successfully!" });
+    return res.status(200).json(mes);
   } catch (error) {
     console.error("Error during submission:", error);
     return res.status(500).json({ message: "Something went wrong." });
@@ -115,6 +129,55 @@ function sortRankingsByTotalMarks(rankings: { [key: string]: any }): { [key: str
   });
 
   return sortedRankings;
+}
+
+
+
+async function getMarksEngine(payload:any) {
+  try {
+    const response = await fetch(" https://w8pax9lc8b.execute-api.us-east-1.amazonaws.com/prod/polycode", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+
+
+    if (!response.ok) {
+      return {message:"Something went wrong.",output:"swr",iscorrect:false}
+    }
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if(data.public_results ){
+      if(data.public_results[0].error){
+              return {message:"Some error.",output:data.public_results[0].error,iscorrect:false}
+
+        
+      }
+
+       return {message:"Submitted",output:data.public_results,iscorrect:true,marks:data.final_score};
+
+      
+
+      
+
+    }
+    else{
+              throw new Error("Something went wrong.")
+
+
+    }
+    console.log("Response:", data);
+  } catch (error) {
+    console.error("Error:", error);
+     return {message:"Something went wrong.",output:"",iscorrect:false}
+
+  }
 }
 
 export { submitProblems };
