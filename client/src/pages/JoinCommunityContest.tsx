@@ -15,6 +15,7 @@ interface ContestUpdate {
   rankings?: any;
   timestamp?: string;
   participants?:any
+  show_message?:any
 }
 
 const JoinContestCommunity: React.FC = () => {
@@ -71,14 +72,20 @@ const JoinContestCommunity: React.FC = () => {
             setParticipants(update.participants);
 
           }
+
+          else if(update.show_message){
+            setError(update.show_message);
+          }
           
            // Update list of all participants
         };
 
         eventSource.onerror = () => {
-          setError(
-            "Failed to connect to the live updates. Please try again later."
-          );
+          
+          // setError(
+          //   "Failed to connect to the live updates. Please try again later."
+          // );
+
           eventSource.close();
         };
 
@@ -94,13 +101,13 @@ const JoinContestCommunity: React.FC = () => {
     joinContest();
   }, [contest_id]);
 
-  if (error) {
-    return <div className="error-message text-white">{error}</div>;
-  }
+  
 
   return (
     <div className="contest-community bg-black text-white min-h-screen p-6">
-      <h1 className="text-3xl font-bold text-center mb-6">Contest Community: {contest_id}</h1>
+            <h6 className="text-3xl font-bold text-center mb-6">{error}</h6>
+
+      <h1 className="text-3xl font-bold text-center mb-6">Contest: {contest_id}</h1>
       <div className="flex space-x-8">
         {/* Leaderboard on Left */}
         <div className="w-1/3 bg-black text-white p-4 rounded-lg shadow-md">
