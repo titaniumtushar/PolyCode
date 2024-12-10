@@ -35,6 +35,19 @@ community.get("/auth",(req,res)=>{
 
 community.post("/join", populateContest);
 
+// NEW: Fetch All Users Route
+community.get("/users", async (req, res) => {
+  try {
+    // Fetch all users with selected fields (e.g., name and _id)
+    const users = await UserModel.find({}, { name: 1, _id: 1 });
+
+    // Respond with the list of users
+    res.status(200).json({ users });
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "An error occurred while fetching users." });
+  }
+});
 
 
 community.get("/join/:token", (req:any, res:any) => {

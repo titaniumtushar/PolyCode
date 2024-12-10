@@ -30,22 +30,22 @@ const Leaderboard = ({ data }: { data: LeaderboardEntry[] }) => {
                         <p className="text-lg font-bold">
                             {entry.whitehatScore}
                         </p>
-                        <p className="text-sm text-gray-400">Whitehat Score</p>
+                        <p className="text-sm text-gray-400">Credit Score</p>
                     </div>
 
                     {/* Total Earnings */}
-                    <div className="w-3/12 text-right">
+                    {/* <div className="w-3/12 text-right">
                         <p className="text-lg font-bold">
                             {entry.totalEarnings}
                         </p>
                         <p className="text-sm text-gray-400">Total Earnings</p>
-                    </div>
+                    </div> */}
 
                     {/* Paid Reports */}
-                    <div className="w-2/12 text-right">
+                    {/* <div className="w-2/12 text-right">
                         <p className="text-lg font-bold">{entry.paidReports}</p>
                         <p className="text-sm text-gray-400">Paid Reports</p>
-                    </div>
+                    </div> */}
                 </div>
             ))}
         </div>

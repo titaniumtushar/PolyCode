@@ -13,10 +13,10 @@ interface Ranking {
 
 interface ContestUpdate {
     message?: string;
-    rankings?: any;
+    rankings?: Record<string, Ranking>;
     timestamp?: string;
-    participants?: any;
-    show_message?: any;
+    participants?: Ranking[];
+    show_message?: string;
 }
 
 const leaderboardData = [
@@ -71,21 +71,18 @@ const JoinContestCommunity: React.FC = () => {
             }
 
             try {
-                // Make the POST request to join the contest
-                const response = await fetch(${API_URL}/api/community/join, {
+                const response = await fetch(`${API_URL}/api/community/join`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
                     body: JSON.stringify({ contest_id }),
                 });
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    setError(Failed to join contest: ${errorData.message});
+                    setError(`Failed to join contest: ${errorData.message}`);
                     return;
                 }
 
@@ -97,14 +94,12 @@ const JoinContestCommunity: React.FC = () => {
                     return;
                 }
 
-                // Establish the SSE connection using the token
                 const eventSource = new EventSource(
-                    ${API_URL}/api/community/join/${token}
+                    `${API_URL}/api/community/join/${token}`
                 );
 
                 eventSource.onmessage = (event) => {
                     const update: ContestUpdate = JSON.parse(event.data);
-                    console.log("Received update:", update);
                     if (update.rankings) {
                         setRankings(Object.values(update.rankings));
                     } else if (update.participants) {
@@ -112,15 +107,10 @@ const JoinContestCommunity: React.FC = () => {
                     } else if (update.show_message) {
                         setError(update.show_message);
                     }
-
-                    // Update list of all participants
                 };
 
                 eventSource.onerror = () => {
-                    // setError(
-                    //   "Failed to connect to the live updates. Please try again later."
-                    // );
-
+                    setError("Failed to connect to live updates. Please try again later.");
                     eventSource.close();
                 };
 
@@ -136,38 +126,25 @@ const JoinContestCommunity: React.FC = () => {
         joinContest();
     }, [contest_id]);
 
-    // absolute top-0 left-0 h-full w-full bg-gradient-to-r from-pink-500 via-red-500 to-black text-white min-h-screen
-
     return (
         <div className="relative min-h-screen">
-            {/* Background Gradient */}
             <div
                 className="absolute inset-0 bg-gradient-to-r from-pink-500 via-red-500 to-black"
                 style={{
                     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0% 80%)",
-                    zIndex: -1, // Ensures background stays behind the content
+                    zIndex: -1,
                 }}
             ></div>
 
-            {/* Main Content */}
             <div className="relative z-10 p-6">
-                {/* Error message */}
-                <h6 className="text-3xl font-bold text-center mb-6 text-white">
-                    {error}
-                </h6>
-
-                {/* Contest Title */}
+                <h6 className="text-3xl font-bold text-center mb-6 text-white">{error}</h6>
                 <h1 className="text-3xl font-bold text-center mb-6 text-white">
                     Contest: {contest_id}
                 </h1>
 
-                {/* Flex container for Leaderboard and Participants */}
                 <div className="flex space-x-8">
-                    {/* Leaderboard on Left */}
                     <div className="w-1/3 bg-black text-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-4">
-                            Leaderboard
-                        </h2>
+                        <h2 className="text-2xl font-semibold mb-4">Leaderboard</h2>
                         <ul className="space-y-4">
                             {rankings.map((ranking, index) => (
                                 <li
@@ -177,19 +154,14 @@ const JoinContestCommunity: React.FC = () => {
                                     <span>
                                         {index + 1}. {ranking.name}
                                     </span>
-                                    <span>
-                                        Total Marks: {ranking.total_marks}
-                                    </span>
+                                    <span>Total Marks: {ranking.total_marks}</span>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Participants List on Right */}
                     <div className="w-2/3 bg-black text-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-2xl font-semibold mb-4">
-                            Participants
-                        </h2>
+                        <h2 className="text-2xl font-semibold mb-4">Participants</h2>
                         <ul className="space-y-4">
                             {participants.map((participant) => (
                                 <li
@@ -203,7 +175,6 @@ const JoinContestCommunity: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Leaderboard Data Component */}
                 <Leaderboard data={leaderboardData} />
             </div>
         </div>
