@@ -152,3 +152,12 @@ GET http://localhost:8080/api/community/join/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoicGFyIiwiZW1haWwiOiJwYXJ0aCIsIndhbGxldF9pZCI6IlJ2d3hJSjhQWnpkNUFnc2YiLCJyb2xlIjoiQyIsImlkIjoiNjczYjliOWNhM2YxZGE0ZmNiMzFiMzMzIiwiaWF0IjoxNzMzNTk4OTkwfQ.aSohIFSR5Z_8jmtu2ems4h33yLKOHKPaWHSqvuVi6o4
 Content-Type: application/json
 
+
+###
+POST http://localhost:8080/api/community/contest/pay-reward
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYSIsImVtYWlsIjoiYSIsIndhbGxldF9pZCI6IlhRWFdQdzBHaHN2WnJiUWMiLCJyb2xlIjoiQyIsImlkIjoiNjc1MDU4MzhiYWVmZTBhN2ZmZWYxMWIwIiwiaWF0IjoxNzMzODQ0OTQ5fQ.i9xDN3p41j7fI9uacgYY67GYjQHu06rz8VA_ZAYRKHI
+Content-Type: application/json
+
+{
+ "contest_id":"675860e2b3d6d502c81389d9"
+}

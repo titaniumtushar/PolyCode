@@ -12,6 +12,8 @@ import { populateContest } from "../middlewares/populateContest";
 import { joinContestCommunity } from "../controllers/joinContestCommunity";
 import { pollContest } from "../utils/mongoPolling";
 import { CONTEST_SECRET } from "../server";
+import { checkContest } from "../utils/checkContest";
+import { specialTransactions } from "../controllers/transaction";
 
 const community = express.Router();
 
@@ -34,6 +36,60 @@ community.get("/auth",(req,res)=>{
 })
 
 community.post("/join", populateContest);
+
+
+
+// community pay wala karna hain contest se le ke 
+community.post("/contest/pay-reward",checkContest,async(req:any,res:any)=>{
+
+
+
+  let contest:any = req.contest;
+  let rewards:any = contest.meta.prize_distribution;
+  
+  let rankings:any = contest.rankings;
+  const valuesArray:any = Object.values(rankings);
+
+
+ try {
+
+  let ress= false;
+
+  if(valuesArray[0]){
+    ress = await specialTransactions(valuesArray[0].wallet_id,"U",Number(rewards[0]),req,res);
+    console.log(ress);
+
+  }
+   if(valuesArray[1]){
+    ress = await specialTransactions(valuesArray[1].wallet_id,"U",Number(rewards[1]),req,res);
+    console.log(ress);
+
+  }
+  if(valuesArray[2]){
+    ress= await specialTransactions(valuesArray[2].wallet_id,"U",Number(rewards[2]),req,res);
+    console.log(ress);
+
+  }
+
+    res.send("ae halloooo");
+
+
+
+ } catch (error) {
+  
+  res.send("ae halloooo");
+  
+ }
+
+})
+
+
+
+
+
+
+
+
 
 // NEW: Fetch All Users Route
 community.get("/users", async (req, res) => {
