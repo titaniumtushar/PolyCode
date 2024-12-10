@@ -136,40 +136,58 @@ const AdminPage: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const startTimestamp = convertToUnixTimestamp(contestData.start_time);
-    const endTimestamp = convertToUnixTimestamp(contestData.end_time);
+  e.preventDefault();
 
-    const payload = {
-      ...contestData,
-      start_time: startTimestamp,
-      end_time: endTimestamp,
-    };
+  // Calculate total prize distribution sum
+  const totalPrize = contestData.prize_distribution.reduce((acc, prize) => acc + prize, 0);
+  const deductionAmount = totalPrize + 20; // Deduct 20 from the account
 
-    console.log("Form data as JSON:", JSON.stringify(payload, null, 2));
+  // Show alert with deduction amount
+  const userConfirmed = window.confirm(`The total prize distribution is ${totalPrize}. An additional 20 will be deducted from your account. Total deduction: ${deductionAmount}. Do you wish to proceed?`);
 
-    try {
-      const response = await fetch(`${API_URL}/api/community/create/contest`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `BEARER ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify(payload),
-      });
+  if (!userConfirmed) {
+    // If the user clicks "Cancel", stop the function execution
+    return;
+  }
 
-      console.log(await response.json(), "this is the response");
+  // Convert start and end times to Unix timestamps
+  const startTimestamp = convertToUnixTimestamp(contestData.start_time);
+  const endTimestamp = convertToUnixTimestamp(contestData.end_time);
 
-      if (response.ok) {
-        alert("Contest created successfully!");
-      } else {
-        alert("Error creating contest.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
+  // Prepare the payload
+  const payload = {
+    ...contestData,
+    start_time: startTimestamp,
+    end_time: endTimestamp,
+  };
+
+  console.log("Form data as JSON:", JSON.stringify(payload, null, 2));
+
+  try {
+    // Send the request to the backend
+    const response = await fetch(`${API_URL}/api/community/create/contest`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `BEARER ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const responseData = await response.json();
+
+    console.log(responseData, "this is the response");
+
+    if (response.ok) {
+      alert("Contest created successfully!");
+    } else {
       alert("Error creating contest.");
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    alert("Error creating contest.");
+  }
+};
 
   return (
     <div className="bg-black text-white p-6 rounded-lg shadow-lg w-3/4 mx-auto mt-10">
