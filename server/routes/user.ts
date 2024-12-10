@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { CommunityModel, UserModel } from "../models/user";
 import { signup } from "./signup";
 import { login } from "./login";
+import { UnverifiedUserModel } from "../models/unverifiedUser"; // Import your UnverifiedUser model
 import { findContest } from "../controllers/findContest";
 import { registerContest } from "../controllers/registerContest";
 import { CONTEST_SECRET, JWT_SECRET } from "../server";
@@ -16,6 +17,65 @@ const user = express.Router();
 // Signup Route
 user.post("/signup", async (req, res) => {
   signup(req, res, "U");
+});
+
+
+// Unverified Signup Route
+user.post("/unverified-signup", async (req, res) => {
+  try {
+    const {
+      name,
+      email,
+      password,
+      collegeYear,
+      cgpa,
+      tag,
+      resume,
+      description,
+      profile_pic,
+      certificates,
+    } = req.body;
+
+    
+    if (!name || !email || !password || !collegeYear || !cgpa) {
+      return res.status(400).json({ message: "Missing required fields." });
+    }
+
+    
+    const existingUser = await UnverifiedUserModel.findOne({ email });
+    if (existingUser) {
+      return res.status(403).json({ message: "Unverified user already exists." });
+    }
+
+   
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+   
+    const walletId = generateRandomString(16);
+
+   
+    const unverifiedUser = new UnverifiedUserModel({
+      name,
+      email,
+      password: hashedPassword,
+      collegeYear,
+      cgpa,
+      tag,
+      resume: resume ? Buffer.from(resume) : undefined,
+      description,
+      wallet_id: walletId,
+      profile_pic: profile_pic ? Buffer.from(profile_pic) : undefined,
+      certificates: certificates ? Buffer.from(certificates) : undefined,
+    });
+
+   
+    await unverifiedUser.save();
+
+    return res.status(201).json({ message: "Signup successful. Please Wait for Verification" });
+  } catch (error) {
+    console.error("Error in unverified signup:", error);
+    return res.status(500).json({ message: "An error occurred during unverified signup." });
+  }
 });
 
 // Login Route
@@ -51,7 +111,7 @@ user.get("/join/:token", (req, res) => {
     res.setHeader("Connection", "keep-alive");
 
     const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() ,contest:verify});
-  res.write(`data: ${data}\n\n`);
+    res.write(`data: ${data}\n\n`);
 
     const sendEvent = async () => {
       const contestRankings = await pollContest(verify.contest_id);
@@ -81,5 +141,15 @@ user.get("/join/:token", (req, res) => {
 // Problem Submission Route
 user.post("/submit", submitProblems);
 
+// Utility to generate random string for wallet ID
+function generateRandomString(length: number): string {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters[randomIndex];
+  }
+  return result;
+}
 
 export { user };

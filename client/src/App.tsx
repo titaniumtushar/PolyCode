@@ -73,6 +73,10 @@ function App() {
                                 element={<ListProductPage />}
                             />
                             <Route
+                                path="/dashboard"
+                                element={<AdminDashboard/>}
+                            />
+                            <Route
                                 path="/community/dashboard"
                                 element={<AdminDashboard/>}
                             />
@@ -116,6 +120,10 @@ function App() {
                             <Route
                                 path="/user/contests"
                                 element={<ContestPage />}
+                            />
+                            <Route
+                                path="/dashboard"
+                                element={<ProfilePage />}
                             />
                             
                             

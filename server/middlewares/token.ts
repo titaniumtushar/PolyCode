@@ -37,7 +37,7 @@ export function authenticateToken(
     }
     console.log(p())
     
-    if(req.path ==="/community/login" || req.path ==="/community/signup" ||req.path ==="/user/login"||req.path ==="/user/signup" || m() || p()){
+    if(req.path ==="/community/login" || req.path ==="/community/signup" || req.path ==="/community/unverified-users" ||req.path ==="/user/login"||req.path ==="/user/signup" ||req.path ==="/user/unverified-signup" || m() || p()){
         req.allownext = true;
         return next();
     }

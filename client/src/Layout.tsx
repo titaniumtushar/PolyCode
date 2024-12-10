@@ -28,7 +28,12 @@ const LayoutTwo = () => {
     return (
         <div>
             {/* Render MainHeading first */}
-            <MainHeading data={{role:"U"}} />
+            <MainHeading data={{role:"U", items: [
+                    { text: "Recruitment", link_path: "user/recruitment" },
+                    { text: "Marketplace", link_path: "/user/marketplace" },
+                    { text: "Contests", link_path: "/user/contests" },
+
+                  ]}} />
 
             {/* Render the child components here using Outlet */}
             <main>

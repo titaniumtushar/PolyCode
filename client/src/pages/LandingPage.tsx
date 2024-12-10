@@ -30,9 +30,9 @@ const LandingPage = () => {
             <h1 className="absolute text-[38px] md:text-[48px] mx-auto text-center font-bold mt-[100px] z-50 inset-0 top-[100px]">
                         <TypeAnimation
                             sequence={[
-                                `Welcome back ${username}!`,
+                                `Welcome back ${name}!`,
                                 2000,
-                                `Ready for more challenges, ${username}?`,
+                                `Ready for more challenges, ${name}?`,
                                 2000,
                                 "Let's dive in!",
                             ]}
@@ -45,16 +45,15 @@ const LandingPage = () => {
                         />
                     </h1>
                     <p className="absolute md:w-1/2 w-3/4 text-center mx-auto mt-[50px] z-50 inset-0 md:top-[300px] top-[400px]">
-                        Ready to conquer complex challenges? Explore our Problem
-                        List now!
+                        Ready to conquer the Placement Season!
                     </p>
                     <div className="absolute md:top-[450px] top-[550px] left-1/2 -translate-x-1/2 z-50">
                         <Link
-                            to="/problemset"
+                            to="/dashboard"
                             className="relative ml-[8px] font-bold inline-block bg-gradient-to-r from-orange-500 to-purple-600 rounded-md text-black text-[18px] hover:bg-purple-800"
                         >
                             <div className="w-full h-full bg-black text-white py-[6px] px-[16px] rounded-[6px] border border-black hover:bg-[#00000000] hover:border-[#00000000] hover:text-black transition active:bg-red-700">
-                                Problem List
+                                Dashboard
                             </div>
                         </Link>
                     </div>

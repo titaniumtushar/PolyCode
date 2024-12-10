@@ -53,7 +53,7 @@ const LoginPage = () => {
 
                 }
                 else{
-                    navigate("/user/marketplace");
+                    navigate("/user/profile");
 
                 }
                 
@@ -75,10 +75,10 @@ const LoginPage = () => {
                     id="logo-cont"
                     className="inline-block relative text-[24px] left-1/2 -translate-x-1/2 font-bold italic mx-auto mt-[12px]"
                 >
-                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 px-[1px]">
-                        Fire
+                    <span className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-orange-600 px-[1px]">
+                        Polycode
                     </span>
-                    <span>Code</span>
+                    <span>Arena</span>
                 </div>
             </Link>
             <div className="min-h-fit w-[300px] mx-auto text-[14px]">

@@ -12,6 +12,7 @@ import { populateContest } from "../middlewares/populateContest";
 import { joinContestCommunity } from "../controllers/joinContestCommunity";
 import { pollContest } from "../utils/mongoPolling";
 import { CONTEST_SECRET } from "../server";
+import { UnverifiedUserModel } from "../models/unverifiedUser";
 
 const community = express.Router();
 
@@ -48,6 +49,21 @@ community.get("/users", async (req, res) => {
     res.status(500).json({ message: "An error occurred while fetching users." });
   }
 });
+
+// Fetch all unverified users
+community.get("/unverified-users", async (req, res) => {
+  try {
+    // Fetch all unverified users
+    const unverifiedUsers = await UnverifiedUserModel.find();
+
+    // Respond with the list of unverified users
+    res.status(200).json({ unverifiedUsers });
+  } catch (error) {
+    console.error("Error fetching unverified users:", error);
+    res.status(500).json({ message: "An error occurred while fetching unverified users." });
+  }
+});
+
 
 
 community.get("/join/:token", (req:any, res:any) => {
