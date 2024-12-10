@@ -139,9 +139,7 @@ const JoinContestCommunity: React.FC = () => {
                 };
 
                 eventSource.onerror = () => {
-                    setError(
-                        "Failed to connect to live updates. Please try again later."
-                    );
+                    
                     eventSource.close();
                 };
 
