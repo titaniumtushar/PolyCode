@@ -10,6 +10,7 @@ const UserQuestionDashBoard: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [output, setOutput] = useState<string | any[]>(null); // Can be string or array
   const contestId = window.location.pathname.split('/').pop();
+  const [error,setError] = useState<any>(null);
 
   const checkAuthentication = async () => {
     try {
@@ -38,7 +39,7 @@ const UserQuestionDashBoard: React.FC = () => {
 
   useEffect(() => {
     if (!localStorage.getItem(`contest_${contestId}`)) {
-      navigate('/user');
+      navigate('/user/contests');
     }
 
     setToken(localStorage.getItem(`contest_${contestId}`));
@@ -54,8 +55,20 @@ const UserQuestionDashBoard: React.FC = () => {
         console.log(data, 'this is data');
 
         if (data.contest) {
-          setContest(data.contest);
+
+          if(new Date().valueOf()/1000>data.contest.end_time){
+          setError("Contest has been ended");
+          eventSource.close();
         }
+        if(new Date().valueOf()/1000<data.contest.start_time){
+          setError("Contest has not been ended");
+          eventSource.close();
+        }
+          setContest(data.contest);
+
+        }
+        
+        
       };
 
       eventSource.onerror = (err) => {
@@ -69,7 +82,13 @@ const UserQuestionDashBoard: React.FC = () => {
     }
   }, [isAuthenticated, token]);
 
+  
+
   return (
+    <>
+    {error?<h1>{error}</h1>:<>
+    
+
     <div style={styles.container}>
       {/* Part 1: Sidebar */}
       <div style={styles.sidebar}>
@@ -110,6 +129,14 @@ const UserQuestionDashBoard: React.FC = () => {
         </div>
       </div>
     </div>
+    
+    
+    </>
+    }
+    
+    
+    </>
+    
   );
 };
 
