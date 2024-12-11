@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../App";
 import { useNavigate } from "react-router-dom";
-import CodeBlock from "../components/CodeBlock";
 
 // Modal Component for Invitation Code
 
@@ -65,8 +64,6 @@ const ContestPage: React.FC = () => {
         }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
         const data = await response.json();
         console.log("Successfully registered:", data);
@@ -74,12 +71,11 @@ const ContestPage: React.FC = () => {
         localStorage.setItem(`contest_${selectedContest._id}`,data.token);
         setIsModalOpen(false);
         setContestToRegister(null); // Reset the contest to register for
-        
+        alert("You have successfully registered for the contest.");
       } else {
         console.error("Registration failed");
+        alert("Registration failed. Please check the invitation code.");
       }
-
-      alert(data.message);
     } catch (error) {
       console.error("Error registering contest:", error);
       alert("An error occurred. Please try again.");
@@ -184,10 +180,7 @@ const ContestPage: React.FC = () => {
           <p className="mt-4 text-gray-300">
             Description: {selectedContest.meta.description || "No description available."}
           </p>
-
-          {(selectedContest.start_time<new Date().valueOf()/1000 && selectedContest.end_time>new Date().valueOf()/1000  )?
-        <>
-        <div className="mt-4 flex justify-start gap-4">
+          <div className="mt-4 flex justify-start gap-4">
             <button
               className="py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700"
               onClick={() => handleJoinContest(selectedContest)}
@@ -201,13 +194,6 @@ const ContestPage: React.FC = () => {
               Register
             </button>
           </div>
-          
-        
-        </>  
-        :<CodeBlock input="This contest is not live" status="lij" />
-        
-        }
-          
         </div>
       )}
 

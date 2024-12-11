@@ -11,6 +11,7 @@ const Layout = () => {
                     { text: "Recruitment", link_path: "community/recruitment" },
                     { text: "Marketplace", link_path: "/community/listproduct" },
                     { text: "Store", link_path: "/community/store" },
+                    { text: "Verification", link_path: "/community/verification" },
 
                   ],}} />
 
