@@ -8,19 +8,10 @@ import { API_URL } from "../App";
 const ProblemSet = ({ 
   questions,
   initialCode = "",
-  token
+  token,
+  setOutput
   
-}: { 
-  questions: {
-    question_id: number;
-    question_text: string;
-    test_cases: { input: any; output: any }[];
-    correct_option?: string;
-  }[];
-  initialCode?: string;
-  token:string;
-  
-}) => {
+}: any) => {
   const [selectedQuestion, setSelectedQuestion] = useState<number | null>(null); 
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [code, setCode] = useState<string>(initialCode); 
@@ -49,17 +40,13 @@ const ProblemSet = ({
         code:code
       }),
     });
-
-    console.log(await response.json());
+    const data = await response.json();
+    console.log(data,"this is data");
 
     
 
-    if (response.ok) {
-      alert("Code submitted successfully!");
-    } else {
-      const errorData = await response.json();
-      alert(`Error: ${errorData.message || "Something went wrong"}`);
-    }
+   alert(data.message);
+        setOutput(data.output || 'No output provided');
   } catch (error) {
     console.error("Submission Error:", error);
     alert("There was an error submitting your code.");
