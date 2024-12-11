@@ -18,6 +18,7 @@ import ProfilePage from "./pages/ProfilePage";
 import ContestPageCommunity from "./pages/CommunityContest";
 import JoinContestCommunity from "./pages/JoinCommunityContest";
 import AdminDashboard from "./pages/adminDashboardPage";
+import UnverifiedUsersDashboard from "./pages/EditorPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -95,6 +96,10 @@ function App() {
                             <Route
                                 path="/community/join/:contest_id"
                                 element={<JoinContestCommunity />}
+                            />
+                            <Route
+                                path="/community/verification"
+                                element={<UnverifiedUsersDashboard />}
                             />
 
                             <Route
