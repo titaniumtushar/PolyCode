@@ -158,7 +158,7 @@ const ProfilePage = () => {
                 <div className="lg:w-[calc(40%-4px)] sm:w-full h-[240px] bg-black mt-[8px] rounded-lg border border-borders">
                     <div className="text-[22px] font-bold mt-[40px] text-white ml-[50px]">Community Stats</div>
                     <div className="mt-[18px] text-[14px] ml-[50px]">
-                        <span className="text-text_2">Views:</span> {user.views}
+                        <span className="text-text_2">Credits</span> {user.views}
                     </div>
                     <div className="mt-[18px] text-[14px] ml-[50px]">
                         <span className="text-text_2">Solutions:</span> {user.solution_count}
@@ -171,7 +171,7 @@ const ProfilePage = () => {
                     <div className="flex sm:flex-row flex-col justify-between">
                         <div>
                             <div className="text-[22px] font-bold mt-[40px] text-white ml-[50px]">
-                                Solved Problems
+                                Solved Contests
                             </div>
                             <div className="text-[72px] font-bold mt-[32px] text-white ml-[50px]">
                                 {user.problems_solved_count}{" "}
@@ -180,7 +180,7 @@ const ProfilePage = () => {
                                 </span>
                             </div>
                         </div>
-                        <div className="flex flex-col relative mr-[50px] mt-[40px] w-[200px] sm:w-[280px] ml-[50px] sm:ml-0">
+                        {/* <div className="flex flex-col relative mr-[50px] mt-[40px] w-[200px] sm:w-[280px] ml-[50px] sm:ml-0">
                             <div className="text-[14px] relative">
                                 <div className="flex flex-row justify-between">
                                     <div className="mb-[8px] text-green-500">Easy</div>
@@ -202,7 +202,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="sm:w-[280px] w-[200px] h-[8px] bg-borders mb-[16px] relative after:absolute hard-line after:h-[8px] after:rounded rounded after:bg-red-500"></div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

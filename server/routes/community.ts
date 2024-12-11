@@ -12,6 +12,10 @@ import { populateContest } from "../middlewares/populateContest";
 import { joinContestCommunity } from "../controllers/joinContestCommunity";
 import { pollContest } from "../utils/mongoPolling";
 import { CONTEST_SECRET } from "../server";
+import { UnverifiedUserModel } from "../models/unverifiedUser"
+import { checkContest } from "../utils/checkContest";
+import { specialTransactions } from "../controllers/transaction";
+
 
 const community = express.Router();
 
