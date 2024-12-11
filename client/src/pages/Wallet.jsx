@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import { decodeToken } from "../ts/utils/decodeToken";
-import { useNavigate, useNavigation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { API_URL } from "../App";
 
-
-// Mock Transaction Type
 const WalletPage = () => {
+    const navigate = useNavigate();
+    const [walletId, setWalletId] = useState("");
+    const [data, setData] = useState();
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [receiverWalletId, setReceiverWalletId] = useState("");
 
-    const navigation = useNavigate();
-    const [walletId,setWalletId] = useState("");
-    const [data,setData] = useState();
-
-    useEffect(()=>{
+    useEffect(() => {
         const decoded = decodeToken();
-        const k = decoded
-        console.log(k.wallet_id);
-        if(!decoded.wallet_id){
-            navigation("Login");
+        const k = decoded;
+        if (!decoded.wallet_id) {
+            navigate("Login");
         }
 
         setWalletId(k.wallet_id);
 
-        const fetchWallet = async()=>{
-
-            
+        const fetchWallet = async () => {
             const res = await fetch(
-                `${process.env.REACT_APP_BACKEND_URI}/wallet/${k.wallet_id}`,
+                `${API_URL}/api/wallet/${k.wallet_id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem(
@@ -36,21 +33,25 @@ const WalletPage = () => {
             );
             const data = await res.json();
             const mainJson = data.data;
-            console.log(mainJson);
-            if(!mainJson){
-                console.log("something went wrong!");
+            if (!mainJson) {
+                console.log("Something went wrong!");
             }
-
             setData(mainJson);
-
-
-
-
-        }
+        };
 
         fetchWallet();
-        
-    },[])
+    }, [navigate]);
+
+    const handlePay = () => {
+        if (!receiverWalletId.trim()) {
+            alert("Wallet ID cannot be empty!");
+            return;
+        }
+
+        const first = window.location.pathname.split("/")[1];
+        console.log(first);
+        navigate(`/${first}/pay/${receiverWalletId}`);
+    };
 
     return (
         <>
@@ -76,6 +77,16 @@ const WalletPage = () => {
                             />
                         </div>
                     </div>
+
+                    {/* Pay Button */}
+                    <button
+                        onClick={() => setModalOpen(true)}
+                        style={styles.payButton}
+                    >
+                        Pay
+                    </button>
+
+                    
 
                     {/* Bottom Section: Transactions */}
                     <div style={styles.transactionsSection}>
@@ -103,6 +114,44 @@ const WalletPage = () => {
                     </div>
                 </div>
             )}
+
+            {/* Modal */}
+            {isModalOpen && (
+                <div style={styles.overlay}>
+                    <div style={styles.modal}>
+                        <h3 style={styles.modalHeading}>Enter Wallet ID</h3>
+                        <input
+                            type="text"
+                            value={receiverWalletId}
+                            onChange={(e) =>
+                                setReceiverWalletId(e.target.value)
+                            }
+                            placeholder="Enter Wallet ID"
+                            style={styles.modalInput}
+                        />
+                        <div style={styles.modalButtons}>
+                            <button
+                                onClick={handlePay}
+                                style={{
+                                    ...styles.button,
+                                    ...styles.confirmButton,
+                                }}
+                            >
+                                Pay
+                            </button>
+                            <button
+                                onClick={() => setModalOpen(false)}
+                                style={{
+                                    ...styles.button,
+                                    ...styles.cancelButton,
+                                }}
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     );
 };
@@ -111,8 +160,8 @@ const WalletPage = () => {
 const styles = {
     container: {
         fontFamily: "Arial, sans-serif",
-        backgroundColor: "#000", // Black theme
-        color: "#FFF", // White text
+        backgroundColor: "#000",
+        color: "#FFF",
         minHeight: "100vh",
         padding: "5rem",
         boxSizing: "border-box",
@@ -130,7 +179,7 @@ const styles = {
     balance: {
         fontSize: "36px",
         fontWeight: "bold",
-        color: "#4CAF50", // Highlight balance in green
+        color: "#4CAF50",
         marginBottom: "10px",
     },
     walletId: {
@@ -141,6 +190,17 @@ const styles = {
         flexShrink: 0,
         width: "200px",
         height: "200px",
+    },
+    payButton: {
+        padding: "10px 20px",
+        backgroundColor: "black",
+        color: "white",
+        border: "dashed",
+        borderRadius: "6px",
+        borderWidth:"0.5px",
+        fontSize: "32px",
+        cursor: "pointer",
+        marginTop: "20px",
     },
     transactionsSection: {
         marginTop: "20px",
@@ -155,10 +215,63 @@ const styles = {
         gap: "10px",
     },
     transactionBlock: {
-        backgroundColor: "#222", // Dark gray for transaction blocks
+        backgroundColor: "#222",
         padding: "10px",
         borderRadius: "5px",
         boxShadow: "0 2px 4px rgba(0, 0, 0, 0.5)",
+    },
+    overlay: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+    },
+    modal: {
+        backgroundColor: "#1a1a1a",
+        color: "#ffffff",
+        padding: "20px 30px",
+        borderRadius: "8px",
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.6)",
+        width: "400px",
+        textAlign: "center",
+    },
+    modalHeading: {
+        marginBottom: "20px",
+    },
+    modalInput: {
+        width: "100%",
+        padding: "10px",
+        fontSize: "16px",
+        border: "1px solid #444",
+        borderRadius: "4px",
+        backgroundColor: "#333",
+        color: "#fff",
+        marginBottom: "20px",
+    },
+    modalButtons: {
+        display: "flex",
+        justifyContent: "space-between",
+    },
+    button: {
+        padding: "10px 20px",
+        border: "none",
+        borderRadius: "4px",
+        fontSize: "16px",
+        cursor: "pointer",
+    },
+    confirmButton: {
+        backgroundColor: "blue",
+        color: "white",
+    },
+    cancelButton: {
+        backgroundColor: "blue",
+        color: "white",
     },
 };
 
