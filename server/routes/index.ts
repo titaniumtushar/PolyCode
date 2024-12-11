@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.use(authenticateToken);
 router.use("/community", community);
-router.use("/user",user)
-router.use("/wallet",wallet)
+router.use("/user", user);
+router.use("/wallet", wallet);
 
 export default router;
