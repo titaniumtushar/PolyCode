@@ -28,16 +28,16 @@ const PaymentForm= () => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to process payment");
-      }
+      
+      const data = await response.json();
 
-      alert("Payment Successful!");
-      navigate("/success"); 
+      alert(data.message);
+      
 
     }
     catch(err){
       console.log(err);
+
       alert("Payment Unsuccesful!");
 
     }
