@@ -8,10 +8,9 @@ interface DUser extends Document {
     resume_url?: string;
     description?: string;
     tag?: string;
-    badges?: Buffer[]; 
-    profile_pic?:Buffer[];
-    certificates?:Buffer[];
-    
+    badges?: Buffer[];
+    profile_pic?: Buffer[];
+    certificates?: Buffer[];
 }
 
 const userSchema = new mongoose.Schema<DUser>({
@@ -55,7 +54,6 @@ const userSchema = new mongoose.Schema<DUser>({
         type: [Buffer], // Array of binary data for storing images
         required: false,
     },
-
 });
 
 const UserModel = mongoose.model<DUser>("User", userSchema);
