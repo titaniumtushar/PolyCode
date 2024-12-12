@@ -23,6 +23,7 @@ import QuizCreation from "./pages/quizcreatePage";
 import QuizPageCommunity from "./pages/communityQuizPage";
 import QuizPage from "./pages/quizpage";
 import QuizSolving from "./pages/userquizDashboard";
+import QuizAdminDashboard from "./pages/joinquizCommunityPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -114,8 +115,8 @@ function App() {
                                 element={<JoinContestCommunity />}
                             />
                             <Route
-                                path="/community/join/:quiz_id"
-                                element={<JoinContestCommunity />}
+                                path="/community/quiz/:quiz_id"
+                                element={<QuizAdminDashboard />}
                             />
                             <Route
                                 path="/community/verification"

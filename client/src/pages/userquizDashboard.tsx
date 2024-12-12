@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { API_URL } from "../App";
 import { useParams } from "react-router-dom";
-import { request } from "http";
 
 interface Question {
   question: string;
@@ -63,8 +62,16 @@ const QuizSolving: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Retrieve the token from localStorage
+    const quiz_token = localStorage.getItem(`quiz_${quiz_id}`);
+
+    if (!quiz_token) {
+      alert("Quiz token not found. Please register for the quiz first.");
+      return;
+    }
+
     const payload = {
-      
+      quiz_token,
       answers,
     };
 
@@ -77,7 +84,6 @@ const QuizSolving: React.FC = () => {
         },
         body: JSON.stringify(payload),
       });
-      console.log(response)
 
       const data = await response.json();
 
