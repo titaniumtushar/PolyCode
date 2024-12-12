@@ -64,7 +64,7 @@ const QuizSolving: React.FC = () => {
     e.preventDefault();
 
     const payload = {
-      quiz_token,
+      
       answers,
     };
 
