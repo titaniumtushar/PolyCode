@@ -19,6 +19,9 @@ import ContestPageCommunity from "./pages/CommunityContest";
 import JoinContestCommunity from "./pages/JoinCommunityContest";
 import AdminDashboard from "./pages/adminDashboardPage";
 import UnverifiedUsersDashboard from "./pages/EditorPage";
+import QuizCreation from "./pages/quizcreatePage";
+import QuizPageCommunity from "./pages/communityQuizPage";
+import QuizPage from "./pages/quizpage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -94,6 +97,18 @@ function App() {
                                 }
                             />
                             <Route
+                                path="/community/create/quiz"
+                                element={
+                                    <QuizCreation />
+                                }
+                            />
+                            <Route
+                                path="/community/quizzes"
+                                element={
+                                    <QuizPageCommunity />
+                                }
+                            />
+                            <Route
                                 path="/community/join/:contest_id"
                                 element={<JoinContestCommunity />}
                             />
@@ -125,6 +140,10 @@ function App() {
                             <Route
                                 path="/user/contests"
                                 element={<ContestPage />}
+                            />
+                            <Route
+                                path="/user/quiz"
+                                element={<QuizPage />}
                             />
                             <Route
                                 path="/dashboard"
