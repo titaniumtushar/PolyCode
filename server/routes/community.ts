@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { CommunityModel, UserModel } from "../models/user";
@@ -78,12 +78,16 @@ community.get("/quiz/:id", async (req: Request, res: Response) => {
         if (!quiz) {
             return res.status(404).json({ message: "Quiz not found." });
         }
-        res.status(200).json({ quiz });
+        res.status(200).json({
+            rankings: quiz.rankings ? Object.values(quiz.rankings) : [],
+            participants: quiz.rankings ? Object.values(quiz.rankings) : [],
+        });
     } catch (error) {
         console.error("Error fetching quiz:", error);
         res.status(500).json({ message: "Failed to fetch quiz." });
     }
 });
+
 
 community.put("/quiz/:id", async (req: Request, res: Response) => {
     const { id } = req.params;

@@ -70,6 +70,7 @@ const QuizPage: React.FC = () => {
   
       if (response.ok) {
         console.log("Successfully registered:", data);
+        localStorage.setItem(`quiz_${selectedQuiz._id}`,data.token);
         setIsModalOpen(false); // Close the modal after registration
         setQuizToRegister(null); // Reset the quiz to register for
       } else {
