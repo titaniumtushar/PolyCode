@@ -1,5 +1,7 @@
 import { contestModel } from "../models/contest";
 import { CONTEST_SECRET } from "../server";
+import { quizModel } from "../models/quiz";
+import { QUIZ_SECRET } from "../server";
 import jwt from "jsonwebtoken";
 
 function getRandomMarks(min: number, max: number): number {

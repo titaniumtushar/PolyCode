@@ -15,6 +15,7 @@ import { populateQuiz } from "../middlewares/populateQuiz"; // Import the middle
 import { authenticateToken } from "../middlewares/authenticateToken"; // Import the authentication middleware
 import { quizModel } from "../models/quiz"; // Import the quiz model
 import { registerQuiz } from "../controllers/registerQuiz";
+import { submitQuiz } from "../controllers/submitQuiz";
 
 require("dotenv");
 
@@ -161,6 +162,28 @@ user.get("/quiz/join/:token", (req, res) => {
     }
   });
 
+  user.get("/quiz/:id/questions", authenticateToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+        const quiz = await quizModel.findById(id);
+        if (!quiz) {
+            return res.status(404).json({ message: "Quiz not found." });
+        }
+
+        // Access the question_set inside the meta object
+        const questions = quiz.meta.question_set;
+        if (!questions || questions.length === 0) {
+            return res.status(404).json({ message: "No questions found for this quiz." });
+        }
+
+        res.status(200).json({ questions });
+    } catch (error) {
+        console.error("Error fetching quiz questions:", error);
+        res.status(500).json({ message: "Failed to fetch quiz questions." });
+    }
+});
+
+
 
 user.get("/join/:token", (req, res) => {
   const { token } = req.params;
@@ -207,7 +230,7 @@ user.get("/join/:token", (req, res) => {
   }
 });
   
-
+user.post("/submit/quiz", submitQuiz);
 // Problem Submission Route
 user.post("/submit", submitProblems);
 

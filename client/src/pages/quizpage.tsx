@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import CodeBlock from "../components/CodeBlock";
 
 const QuizPage: React.FC = () => {
+  
   const [quizzes, setQuizzes] = useState<any[]>([]);
   const [selectedQuiz, setSelectedQuiz] = useState<any | null>(null); // Track selected quiz for details view
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Track modal visibility

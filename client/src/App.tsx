@@ -22,6 +22,7 @@ import UnverifiedUsersDashboard from "./pages/EditorPage";
 import QuizCreation from "./pages/quizcreatePage";
 import QuizPageCommunity from "./pages/communityQuizPage";
 import QuizPage from "./pages/quizpage";
+import QuizSolving from "./pages/userquizDashboard";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -113,6 +114,10 @@ function App() {
                                 element={<JoinContestCommunity />}
                             />
                             <Route
+                                path="/community/join/:quiz_id"
+                                element={<JoinContestCommunity />}
+                            />
+                            <Route
                                 path="/community/verification"
                                 element={<UnverifiedUsersDashboard />}
                             />
@@ -156,6 +161,10 @@ function App() {
                                 element={<UserQuestionDashBoard />}
                             />
                             <Route
+                                path="/user/quiz/join/:quiz_id"
+                                element={<QuizSolving/>}
+                            />
+                            <Route
                                 path="/user/wallet"
                                 element={
                                     <WalletPage
@@ -192,8 +201,8 @@ function App() {
                                     links: [
                                         { text: "Main Page", link_path: "/" },
                                         {
-                                            text: "Problem List",
-                                            link_path: "/problemset",
+                                            text: "Dashboard",
+                                            link_path: "/dashboard",
                                         },
                                     ],
                                 }}

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../App";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const QuizPageCommunity: React.FC = () => {
+  
   const [quizzes, setQuizzes] = useState<any[]>([]);
   const [selectedQuiz, setSelectedQuiz] = useState<any | null>(null);
   const [copied, setCopied] = useState(false);

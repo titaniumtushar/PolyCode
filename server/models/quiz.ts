@@ -18,6 +18,7 @@ interface IMeta {
 }
 
 interface IQuiz extends Document {
+  rankings: mongoose.Schema.Types.Mixed;
   meta: IMeta;
   participants: mongoose.Schema.Types.Mixed;
   start_time: number;
@@ -82,12 +83,17 @@ const quizSchema = new Schema<IQuiz>(
       type: Number,
       required: true,
     },
+    rankings: {
+      type: Schema.Types.Mixed,
+      default: {}, // Ensures a blank object is created
+    },
     end_time: {
       type: Number,
       required: true,
     },
   },
-  { minimize: false }
+  { minimize: false },
+  
 );
 
 // Create and export the Quiz Model
