@@ -20,9 +20,9 @@ const ErrorPage = ({ data }: { data: ErrorPage }) => {
                 className="inline-block relative text-[24px] font-bold italic left-1/2 -translate-x-1/2 mt-[12px]"
             >
                 <span className="font-extrabold text-text_2 px-[1px]">
-                    Fire
+                    Polycode
                 </span>
-                <span>Code</span>
+                <span>Arena</span>
             </div>
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50 text-center ">
                 <div className="">
@@ -37,7 +37,7 @@ const ErrorPage = ({ data }: { data: ErrorPage }) => {
                         data.links.map((elem) => (
                             <Link
                                 to={elem.link_path}
-                                className="text-orange-500 hover:text-red-600 text-[14px] block w-fit mx-auto"
+                                className="text-purple-500 hover:text-orange-600 text-[14px] block w-fit mx-auto"
                             >
                                 {elem.text}
                             </Link>
