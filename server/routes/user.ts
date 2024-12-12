@@ -16,6 +16,7 @@ import { authenticateToken } from "../middlewares/authenticateToken"; // Import 
 import { quizModel } from "../models/quiz"; // Import the quiz model
 import { registerQuiz } from "../controllers/registerQuiz";
 import { submitQuiz } from "../controllers/submitQuiz";
+import { joinPrivateContest } from "../controllers/joinPrivateContest";
 
 require("dotenv");
 
@@ -182,6 +183,9 @@ user.get("/quiz/join/:token", (req, res) => {
         res.status(500).json({ message: "Failed to fetch quiz questions." });
     }
 });
+
+
+user.post("/join/private/contest",joinPrivateContest);
 
 
 
