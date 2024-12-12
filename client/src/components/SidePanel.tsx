@@ -48,6 +48,7 @@ const SidePanel = ({
     // Mock links for admin and user
     const adminLinks = [
         { text: "Contests", to: "/community/contest" },
+        { text: "Quizzes", to: "/community/quizzes" },
         { text: "Marketplace", to: "/community/marketplace" },
         { text: "Wallet", to: "/community/wallet" },
         
@@ -56,6 +57,7 @@ const SidePanel = ({
     const userLinks = [
         { text: "Wallet", to: "/user/wallet" },
         { text: "Contests", to: "/user/contests" },
+        { text: "Quizzes", to: "/user/quiz" },
         { text: "Profile", to: "/user/profile" },
     ];
 

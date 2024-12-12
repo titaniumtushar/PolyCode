@@ -107,3 +107,7 @@ function generateRandomString(length: number): string {
     }
     return result;
 }
+
+
+
+export {generateWallet};

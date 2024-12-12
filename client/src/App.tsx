@@ -19,6 +19,10 @@ import ContestPageCommunity from "./pages/CommunityContest";
 import JoinContestCommunity from "./pages/JoinCommunityContest";
 import AdminDashboard from "./pages/adminDashboardPage";
 import UnverifiedUsersDashboard from "./pages/EditorPage";
+import QuizCreation from "./pages/quizcreatePage";
+import QuizPageCommunity from "./pages/communityQuizPage";
+import QuizPage from "./pages/quizpage";
+import QuizSolving from "./pages/userquizDashboard";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -94,7 +98,23 @@ function App() {
                                 }
                             />
                             <Route
+                                path="/community/create/quiz"
+                                element={
+                                    <QuizCreation />
+                                }
+                            />
+                            <Route
+                                path="/community/quizzes"
+                                element={
+                                    <QuizPageCommunity />
+                                }
+                            />
+                            <Route
                                 path="/community/join/:contest_id"
+                                element={<JoinContestCommunity />}
+                            />
+                            <Route
+                                path="/community/join/:quiz_id"
                                 element={<JoinContestCommunity />}
                             />
                             <Route
@@ -127,6 +147,10 @@ function App() {
                                 element={<ContestPage />}
                             />
                             <Route
+                                path="/user/quiz"
+                                element={<QuizPage />}
+                            />
+                            <Route
                                 path="/dashboard"
                                 element={<ProfilePage />}
                             />
@@ -135,6 +159,10 @@ function App() {
                             <Route
                                 path="/user/join/:contest_id"
                                 element={<UserQuestionDashBoard />}
+                            />
+                            <Route
+                                path="/user/quiz/join/:quiz_id"
+                                element={<QuizSolving/>}
                             />
                             <Route
                                 path="/user/wallet"
@@ -173,8 +201,8 @@ function App() {
                                     links: [
                                         { text: "Main Page", link_path: "/" },
                                         {
-                                            text: "Problem List",
-                                            link_path: "/problemset",
+                                            text: "Dashboard",
+                                            link_path: "/dashboard",
                                         },
                                     ],
                                 }}
