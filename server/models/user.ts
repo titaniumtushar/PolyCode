@@ -9,8 +9,8 @@ interface DUser extends Document {
     description?: string;
     tag?: string;
     badges?: Buffer[];
-    profile_pic?: Buffer[];
-    certificates?: Buffer[];
+    profile_pic?: string;
+    certificates?: string;
 }
 
 const userSchema = new mongoose.Schema<DUser>({
@@ -43,15 +43,15 @@ const userSchema = new mongoose.Schema<DUser>({
         required: false,
     },
     badges: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
     profile_pic: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
     certificates: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
 });
