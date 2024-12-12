@@ -95,7 +95,7 @@ const ProblemSet = ({
               {questions[selectedQuestion].question_text}
             </h2>
              <p className="text-m mb-4">
-              {questions[selectedQuestion].question_text}
+              {questions[selectedQuestion].question_description}
             </p>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Test Cases</h3>
