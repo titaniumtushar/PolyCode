@@ -25,33 +25,36 @@ const UnverifiedUserSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    resume: {
-        type: [Buffer],
+    resume_url: {
+        type: String,
         required: false,
     },
-    
+
     wallet_id: {
         type: String,
         required: true,
     },
-    
+
     description: {
         type: String,
         required: false,
     },
-    
+
     badges: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
     profile_pic: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
     certificates: {
-        type: [Buffer], // Array of binary data for storing images
+        type: String, // Array of binary data for storing images
         required: false,
     },
 });
 
-export const UnverifiedUserModel = mongoose.model("UnverifiedUser", UnverifiedUserSchema);
+export const UnverifiedUserModel = mongoose.model(
+    "UnverifiedUser",
+    UnverifiedUserSchema
+);
