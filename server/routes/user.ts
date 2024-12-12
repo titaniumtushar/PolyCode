@@ -2,7 +2,7 @@ import express from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { CommunityModel, UserModel } from "../models/user";
-import { signup } from "./signup";
+import { generateWallet, signup } from "./signup";
 import { login } from "./login";
 import { UnverifiedUserModel } from "../models/unverifiedUser"; // Import your UnverifiedUser model
 import { findContest } from "../controllers/findContest";
@@ -75,7 +75,7 @@ user.post("/unverified-signup", async (req, res) => {
         });
 
         await unverifiedUser.save();
-
+        await generateWallet(walletId,"U",500);
         return res.status(201).json({
             message: "Signup successful. Please Wait for Verification",
         });
