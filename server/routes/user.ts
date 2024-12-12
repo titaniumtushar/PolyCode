@@ -160,6 +160,52 @@ user.get("/quiz/join/:token", (req, res) => {
       return res.status(500).json({ message: "Invalid token." });
     }
   });
+
+
+user.get("/join/:token", (req, res) => {
+  const { token } = req.params;
+
+  try {
+    const verify = jwt.verify(token, String(CONTEST_SECRET));
+    console.log(verify, "this is coolll");
+
+    if (!verify) {
+      return res.status(500).json({ message: "You cannot join the room." });
+    } else if (!verify.contest_id) {
+      throw new Error("Token does not contain contest ID.");
+    }
+
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() ,contest:verify});
+  res.write(`data: ${data}\n\n`);
+
+    const sendEvent = async () => {
+      const contestRankings = await pollContest(verify.contest_id);
+      const kapa = {
+        message: "Update from Stream 1",
+        rankings: contestRankings.rankings,
+        timestamp: new Date().toISOString(),
+      };
+      const data = JSON.stringify(kapa);
+      res.write(`data: ${data}\n\n`);
+    };
+
+    sendEvent();
+
+    const interval = setInterval(sendEvent, 4000);
+
+    req.on("close", () => {
+      clearInterval(interval);
+      res.end();
+    });
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    return res.status(500).json({ message: "Invalid token." });
+  }
+});
   
 
 // Problem Submission Route

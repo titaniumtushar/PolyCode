@@ -68,7 +68,7 @@ const ContestPage: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        const data = await response.json();
+        
         console.log("Successfully registered:", data);
         // Close modal after registration
         localStorage.setItem(`contest_${selectedContest._id}`,data.token);

@@ -2,19 +2,19 @@ POST http://localhost:8080/api/user/signup
 Content-Type: application/json
 
 {
-    "name":"fd",
-    "email":"fd",
-    "password":"fd"
+    "name":"ol",
+    "email":"ol",
+    "password":"ol"
 }
 
 
 ###
-POST http://localhost:8080/api/community/login
+POST http://localhost:8080/api/user/login
 Content-Type: application/json
 
 {
-    "email":"a",
-    "password":"a"
+    "email":"ol",
+    "password":"ol"
 }
 
 
