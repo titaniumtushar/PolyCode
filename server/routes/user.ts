@@ -11,6 +11,7 @@ import { CONTEST_SECRET, JWT_SECRET } from "../server";
 import { submitProblems } from "../controllers/submitProblems";
 import { pollContest } from "../utils/mongoPolling";
 import { getProducts } from "./product";
+import { generateMultipleUrls } from "./s3upload";
 
 require("dotenv");
 
@@ -25,6 +26,8 @@ user.get("/product/list", getProducts);
 
 // Unverified Signup Route
 user.post("/unverified-signup", async (req, res) => {
+    const DataUrl = "https://polycodearena.s3.eu-north-1.amazonaws.com/";
+
     try {
         const {
             name,
@@ -33,11 +36,26 @@ user.post("/unverified-signup", async (req, res) => {
             collegeYear,
             cgpa,
             tag,
-            resume,
             description,
-            profile_pic,
-            certificates,
+            contentType,
         } = req.body;
+
+        const mimeToExtension: Record<string, string> = {
+            "image/jpeg": "jpeg",
+            "image/png": "png",
+        };
+
+        function getFileExtension(contentType: string): string {
+            return mimeToExtension[contentType] || "unknown";
+        }
+
+        const fileExtension = getFileExtension(contentType);
+
+        const profile_pic = `${DataUrl}${name}/profile_pic.${fileExtension}`;
+        const resume_url = `${DataUrl}${name}/resume.pdf`;
+        const certificates = `${DataUrl}${name}/certificate.pdf`;
+
+        console.log(profile_pic);
 
         if (!name || !email || !password || !collegeYear || !cgpa) {
             return res
@@ -60,20 +78,23 @@ user.post("/unverified-signup", async (req, res) => {
             name,
             email,
             password: hashedPassword,
-            collegeYear,
-            cgpa,
-            tag,
-            resume: resume ? Buffer.from(resume) : undefined,
-            description,
+            collegeYear: collegeYear,
+            cgpa: cgpa,
+            tag: tag,
+            resume_url: resume_url,
+            description: description,
             wallet_id: walletId,
-            profile_pic: profile_pic ? Buffer.from(profile_pic) : undefined,
-            certificates: certificates ? Buffer.from(certificates) : undefined,
+            profile_pic: profile_pic,
+            certificates: certificates,
         });
 
         await unverifiedUser.save();
+        const urls = await generateMultipleUrls(name, contentType);
+        console.log("Generated URLs:", urls);
 
         return res.status(201).json({
             message: "Signup successful. Please Wait for Verification",
+            urls: urls,
         });
     } catch (error) {
         console.error("Error in unverified signup:", error);

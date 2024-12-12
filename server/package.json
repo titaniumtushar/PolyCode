@@ -18,11 +18,14 @@
         "@types/cors": "^2.8.13",
         "@types/express": "^4.17.17",
         "@types/jsonwebtoken": "^9.0.2",
+        "@types/multer": "^1.4.12",
         "@types/node": "^20.4.4",
         "@types/react": "^18.3.12",
         "nodemon": "^3.1.7"
     },
     "dependencies": {
+        "@aws-sdk/client-s3": "^3.709.0",
+        "@aws-sdk/s3-request-presigner": "^3.709.0",
         "@types/mongoose": "^5.11.97",
         "@types/nanoid": "^3.0.0",
         "acorn": "^8.10.0",
@@ -35,6 +38,7 @@
         "jsonwebtoken": "^9.0.1",
         "mongodb": "^5.7.0",
         "mongoose": "^7.4.2",
+        "multer": "^1.4.5-lts.1",
         "nanoid": "^5.0.8",
         "ts-node-dev": "^2.0.0",
         "typescript": "^5.1.6"
