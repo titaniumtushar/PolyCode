@@ -15,15 +15,10 @@ import { UnverifiedUserModel } from "../models/unverifiedUser";
 import { quizModel } from "../models/quiz";
 import { checkContest } from "../utils/checkContest";
 import { specialTransactions } from "../controllers/transaction";
-<<<<<<< HEAD
-import { addProducts, getProducts } from "./product";
-import { Document, Types } from "mongoose";
-=======
 import { createQuiz } from "../controllers/createQuiz";
 import { addProducts, getProducts } from "./product";
 import { Document, Types } from "mongoose";
 import { populateQuiz } from "../middlewares/populateQuiz";
->>>>>>> tushar
 
 const community = express.Router();
 
@@ -35,12 +30,10 @@ community.post("/product/list", addProducts);
 community.use(authorizeCommunity);
 
 // Community Signup Route
-<<<<<<< HEAD
+
 community.post("/signup", (req: Request, res: Response) =>
     signup(req, res, "C")
 );
-=======
-
 
 // Community Login Route
 community.post("/login", (req: Request, res: Response) => login(req, res, "C"));
@@ -71,7 +64,6 @@ community.post("/create/quiz", async (req: Request, res: Response) => {
     }
 });
 
-
 community.get("/quizzes", async (_req: Request, res: Response) => {
     try {
         const quizzes = await quizModel.find();
@@ -100,7 +92,9 @@ community.put("/quiz/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
     const updateData = req.body;
     try {
-        const quiz = await quizModel.findByIdAndUpdate(id, updateData, { new: true });
+        const quiz = await quizModel.findByIdAndUpdate(id, updateData, {
+            new: true,
+        });
         if (!quiz) {
             return res.status(404).json({ message: "Quiz not found." });
         }
@@ -125,7 +119,6 @@ community.delete("/quiz/:id", async (req: Request, res: Response) => {
     }
 });
 
-
 // Join Contest Route
 community.post("/join", populateContest);
 
@@ -140,13 +133,13 @@ community.post("/verify-user", async (req: Request, res: Response) => {
     try {
         const unverifiedUser = await UnverifiedUserModel.findById(userId);
         if (!unverifiedUser) {
-
             return res
                 .status(404)
                 .json({ message: "Unverified user not found." });
 
-            return res.status(404).json({ message: "Unverified user not found." });
-
+            return res
+                .status(404)
+                .json({ message: "Unverified user not found." });
         }
 
         const verifiedUser = new UserModel({ ...unverifiedUser.toObject() });
@@ -154,7 +147,6 @@ community.post("/verify-user", async (req: Request, res: Response) => {
         await UnverifiedUserModel.findByIdAndDelete(userId);
 
         res.status(200).json({ message: "User verified successfully." });
-
     } catch (error) {
         console.error("Error verifying user:", error);
         res.status(500).json({
@@ -206,45 +198,51 @@ community.get("/users", async (_req: Request, res: Response) => {
     try {
         const users = await UserModel.find({}, { name: 1, _id: 1 });
         res.status(200).json({ users });
-
     } catch (error) {
         console.error("Error verifying user:", error);
-        res.status(500).json({ message: "An error occurred during verification." });
+        res.status(500).json({
+            message: "An error occurred during verification.",
+        });
     }
 });
-
 
 // Contest Reward Payment Route
-community.post("/contest/pay-reward", checkContest, async (req: any, res: Response) => {
-    const { contest } = req;
-    const rewards = contest.meta.prize_distribution;
+community.post(
+    "/contest/pay-reward",
+    checkContest,
+    async (req: any, res: Response) => {
+        const { contest } = req;
+        const rewards = contest.meta.prize_distribution;
 
-    if (new Date().valueOf() / 1000 < contest.end_time) {
-        return res.status(400).json({ message: "Contest is not finished yet." });
-    }
-
-    const rankings = contest.rankings;
-    const valuesArray = Object.values(rankings);
-
-    try {
-        for (let i = 0; i < 3; i++) {
-            if (valuesArray[i]) {
-                await specialTransactions(
-                    valuesArray[i].wallet_id,
-                    "U",
-                    Number(rewards[i]),
-                    req,
-                    res
-                );
-            }
+        if (new Date().valueOf() / 1000 < contest.end_time) {
+            return res
+                .status(400)
+                .json({ message: "Contest is not finished yet." });
         }
 
-        res.status(200).json({ message: "Payment done." });
-    } catch (error) {
-        console.error("Error processing payment:", error);
-        res.status(500).json({ message: "Something went wrong." });
+        const rankings = contest.rankings;
+        const valuesArray = Object.values(rankings);
+
+        try {
+            for (let i = 0; i < 3; i++) {
+                if (valuesArray[i]) {
+                    await specialTransactions(
+                        valuesArray[i].wallet_id,
+                        "U",
+                        Number(rewards[i]),
+                        req,
+                        res
+                    );
+                }
+            }
+
+            res.status(200).json({ message: "Payment done." });
+        } catch (error) {
+            console.error("Error processing payment:", error);
+            res.status(500).json({ message: "Something went wrong." });
+        }
     }
-});
+);
 
 // Fetch All Users Route
 community.get("/users", async (_req: Request, res: Response) => {
@@ -253,10 +251,11 @@ community.get("/users", async (_req: Request, res: Response) => {
         res.status(200).json({ users });
     } catch (error) {
         console.error("Error fetching users:", error);
-        res.status(500).json({ message: "An error occurred while fetching users." });
+        res.status(500).json({
+            message: "An error occurred while fetching users.",
+        });
     }
 });
-
 
 // Fetch All Unverified Users Route
 community.get("/unverified-users", async (_req: Request, res: Response) => {
