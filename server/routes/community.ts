@@ -15,10 +15,15 @@ import { UnverifiedUserModel } from "../models/unverifiedUser";
 import { quizModel } from "../models/quiz";
 import { checkContest } from "../utils/checkContest";
 import { specialTransactions } from "../controllers/transaction";
+<<<<<<< HEAD
+import { addProducts, getProducts } from "./product";
+import { Document, Types } from "mongoose";
+=======
 import { createQuiz } from "../controllers/createQuiz";
 import { addProducts, getProducts } from "./product";
 import { Document, Types } from "mongoose";
 import { populateQuiz } from "../middlewares/populateQuiz";
+>>>>>>> tushar
 
 const community = express.Router();
 
@@ -30,7 +35,12 @@ community.post("/product/list", addProducts);
 community.use(authorizeCommunity);
 
 // Community Signup Route
-community.post("/signup", (req: Request, res: Response) => signup(req, res, "C"));
+<<<<<<< HEAD
+community.post("/signup", (req: Request, res: Response) =>
+    signup(req, res, "C")
+);
+=======
+
 
 // Community Login Route
 community.post("/login", (req: Request, res: Response) => login(req, res, "C"));
@@ -41,7 +51,8 @@ community.post("/create/contest", createContest);
 // Find Contest Route
 community.get("/contest", findContest);
 
-// Quiz Routes
+// Quiz Rout
+
 community.post("/create/quiz", async (req: Request, res: Response) => {
     try {
         // Default to a placeholder or null if `req.decoded` is not set
@@ -114,6 +125,7 @@ community.delete("/quiz/:id", async (req: Request, res: Response) => {
     }
 });
 
+
 // Join Contest Route
 community.post("/join", populateContest);
 
@@ -128,7 +140,13 @@ community.post("/verify-user", async (req: Request, res: Response) => {
     try {
         const unverifiedUser = await UnverifiedUserModel.findById(userId);
         if (!unverifiedUser) {
+
+            return res
+                .status(404)
+                .json({ message: "Unverified user not found." });
+
             return res.status(404).json({ message: "Unverified user not found." });
+
         }
 
         const verifiedUser = new UserModel({ ...unverifiedUser.toObject() });
@@ -136,11 +154,65 @@ community.post("/verify-user", async (req: Request, res: Response) => {
         await UnverifiedUserModel.findByIdAndDelete(userId);
 
         res.status(200).json({ message: "User verified successfully." });
+
+    } catch (error) {
+        console.error("Error verifying user:", error);
+        res.status(500).json({
+            message: "An error occurred during verification.",
+        });
+    }
+});
+
+// Contest Reward Payment Route
+community.post(
+    "/contest/pay-reward",
+    checkContest,
+    async (req: any, res: Response) => {
+        const { contest } = req;
+        const rewards = contest.meta.prize_distribution;
+
+        if (new Date().valueOf() / 1000 < contest.end_time) {
+            return res
+                .status(400)
+                .json({ message: "Contest is not finished yet." });
+        }
+
+        const rankings = contest.rankings;
+        const valuesArray = Object.values(rankings);
+
+        try {
+            for (let i = 0; i < 3; i++) {
+                if (valuesArray[i]) {
+                    await specialTransactions(
+                        valuesArray[i].wallet_id,
+                        "U",
+                        Number(rewards[i]),
+                        req,
+                        res
+                    );
+                }
+            }
+
+            res.status(200).json({ message: "Payment done." });
+        } catch (error) {
+            console.error("Error processing payment:", error);
+            res.status(500).json({ message: "Something went wrong." });
+        }
+    }
+);
+
+// Fetch All Users Route
+community.get("/users", async (_req: Request, res: Response) => {
+    try {
+        const users = await UserModel.find({}, { name: 1, _id: 1 });
+        res.status(200).json({ users });
+
     } catch (error) {
         console.error("Error verifying user:", error);
         res.status(500).json({ message: "An error occurred during verification." });
     }
 });
+
 
 // Contest Reward Payment Route
 community.post("/contest/pay-reward", checkContest, async (req: any, res: Response) => {
@@ -185,6 +257,7 @@ community.get("/users", async (_req: Request, res: Response) => {
     }
 });
 
+
 // Fetch All Unverified Users Route
 community.get("/unverified-users", async (_req: Request, res: Response) => {
     try {
@@ -192,7 +265,10 @@ community.get("/unverified-users", async (_req: Request, res: Response) => {
         res.status(200).json({ unverifiedUsers });
     } catch (error) {
         console.error("Error fetching unverified users:", error);
-        res.status(500).json({ message: "An error occurred while fetching unverified users." });
+
+        res.status(500).json({
+            message: "An error occurred while fetching unverified users.",
+        });
     }
 });
 
@@ -202,7 +278,9 @@ community.get("/join/:token", async (req: Request, res: Response) => {
     try {
         const verify = jwt.verify(token, String(CONTEST_SECRET));
         if (!verify) {
-            return res.status(400).json({ message: "You cannot join the room." });
+            return res
+                .status(400)
+                .json({ message: "You cannot join the room." });
         }
         req.contest = verify;
         await joinContestCommunity(req, res);
