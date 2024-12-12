@@ -2,9 +2,9 @@ POST http://localhost:8080/api/user/signup
 Content-Type: application/json
 
 {
-    "name":"v",
-    "email":"v",
-    "password":"v"
+    "name":"fd",
+    "email":"fd",
+    "password":"fd"
 }
 
 
