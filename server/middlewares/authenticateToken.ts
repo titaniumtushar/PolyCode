@@ -32,11 +32,14 @@ export function authenticateToken(req: UserRequest, res: Response, next: NextFun
     // Allow paths that do not require authentication
     if (
         req.path === "/community/login" ||
+        req.path === "/community/create/drive"||
         req.path === "/community/signup" ||
         req.path === "/community/create/quiz" ||
         req.path === "/community/unverified-users" ||
+        req.path === "/community/recruitment/all"||
         req.path === "/user/login" ||
         req.path === "/user/signup" ||
+        
         req.path === "/user/unverified-signup" ||
         isUserJoinPath() ||
         isCommunityJoinPath()

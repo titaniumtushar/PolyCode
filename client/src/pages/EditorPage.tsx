@@ -111,9 +111,7 @@ const UnverifiedUsersDashboard: React.FC = () => {
                   <span className="text-lg font-bold">
                     {user.name} (Wallet ID: {user.wallet_id})
                   </span>
-                  <span>
-                    {expandedUserId === user._id ? "▲" : "▼"}
-                  </span>
+                  <span>{expandedUserId === user._id ? "▲" : "▼"}</span>
                 </div>
 
                 {expandedUserId === user._id && (
@@ -124,6 +122,42 @@ const UnverifiedUsersDashboard: React.FC = () => {
                     {user.tag && <p><strong>Tag:</strong> {user.tag}</p>}
                     {user.description && (
                       <p><strong>Description:</strong> {user.description}</p>
+                    )}
+                    {user.profile_pic && (
+                      <div>
+                        <strong>Profile Picture:</strong>
+                        <img
+                          src={user.profile_pic}
+                          alt="Profile"
+                          className="w-24 h-24 mt-2 border rounded"
+                        />
+                      </div>
+                    )}
+                    {user.resume && (
+                      <p>
+                        <strong>Resume:</strong>{" "}
+                        <a
+                          href={user.resume}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 underline"
+                        >
+                          View/Download Resume
+                        </a>
+                      </p>
+                    )}
+                    {user.certificates && (
+                      <p>
+                        <strong>Certificates:</strong>{" "}
+                        <a
+                          href={user.certificates}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 underline"
+                        >
+                          View/Download Certificates
+                        </a>
+                      </p>
                     )}
                     <button
                       onClick={() => handleVerify(user._id)}

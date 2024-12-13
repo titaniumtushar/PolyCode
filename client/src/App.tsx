@@ -24,6 +24,11 @@ import QuizPageCommunity from "./pages/communityQuizPage";
 import QuizPage from "./pages/quizpage";
 import QuizSolving from "./pages/userquizDashboard";
 import QuizAdminDashboard from "./pages/joinquizCommunityPage";
+import CreateRecruitmentDrive from "./pages/recruitmentCreate";
+import RecruitmentPage from "./pages/recruitmentPage";
+import RecruitmentDashboard from "./pages/recruitmentDashboard";
+import RecruitmentInvite from "./pages/recruitmentInvitePage";
+import userRecruitmentPage from "./pages/userRecruitmentPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -79,6 +84,14 @@ function App() {
                                 element={<ListProductPage />}
                             />
                             <Route
+                                path="/community/recruitment/create"
+                                element={<CreateRecruitmentDrive/>}
+                            />
+                            <Route
+                                path="/community/recruitment/"
+                                element={<RecruitmentPage/>}
+                            />
+                            <Route
                                 path="/dashboard"
                                 element={<AdminDashboard/>}
                             />
@@ -115,6 +128,15 @@ function App() {
                                 element={<JoinContestCommunity />}
                             />
                             <Route
+                                path="/community/recruitment/:recruitment_id"
+                                element={<RecruitmentDashboard />}
+                            />
+                            <Route
+                                path="community/recruitment/:recruitment_id/inviteusers"
+                                element={<RecruitmentInvite/>}
+                            />
+                            
+                            <Route
                                 path="/community/quiz/:quiz_id"
                                 element={<QuizAdminDashboard />}
                             />
@@ -146,6 +168,10 @@ function App() {
                             <Route
                                 path="/user/contests"
                                 element={<ContestPage />}
+                            />
+                            <Route
+                                path="/user/recruitment/"
+                                element={<userRecruitmentPage/>}
                             />
                             <Route
                                 path="/user/quiz"

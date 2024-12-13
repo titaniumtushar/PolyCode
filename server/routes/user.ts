@@ -20,6 +20,7 @@ import { quizModel } from "../models/quiz"; // Import the quiz model
 import { registerQuiz } from "../controllers/registerQuiz";
 import { submitQuiz } from "../controllers/submitQuiz";
 import { joinPrivateContest } from "../controllers/joinPrivateContest";
+import { RecruitmentDriveModel } from "../models/recruitmentDrive";
 
 
 require("dotenv");
@@ -32,7 +33,54 @@ user.post("/signup", async (req, res) => {
 });
 
 user.get("/product/list", getProducts);
+user.get("/recruitment/all", async (req: Request, res: Response) => {
+  try {
+      const recruitmentDrives = await RecruitmentDriveModel.find();
+      const formattedDrives = recruitmentDrives.map(drive => ({
+          _id: drive._id,
+          drive_name: drive.meta.drive_name,
+          description: drive.meta.description,
+          company_id: drive.meta.company_id,
+          start_date: drive.meta.start_date,
+          end_date: drive.meta.end_date,
+      }));
+      res.status(200).json(formattedDrives);
+  } catch (error) {
+      console.error("Error fetching recruitment drives:", error);
+      res.status(500).json({ message: "Failed to fetch recruitment drives." });
+  }
+});
+user.get("/recruitment/:recruitment_id", async (req: Request, res: Response) => {
+  const { recruitment_id } = req.params;
 
+  try {
+      const recruitmentDrive = await RecruitmentDriveModel.findById(recruitment_id);
+
+      if (!recruitmentDrive) {
+          return res.status(404).json({ message: "Recruitment drive not found." });
+      }
+
+      res.status(200).json({
+          recruitmentDrive: {
+              meta: {
+                  drive_name: recruitmentDrive.meta.drive_name,
+                  invitation_code: recruitmentDrive.meta.invitation_code,
+                  stages: recruitmentDrive.meta.stages,
+                  company_id: recruitmentDrive.meta.company_id,
+                  start_date: recruitmentDrive.meta.start_date,
+                  end_date: recruitmentDrive.meta.end_date,
+                  description: recruitmentDrive.meta.description,
+              },
+              _id: recruitmentDrive._id,
+              start_date: recruitmentDrive.start_date,
+              end_date: recruitmentDrive.end_date,
+          },
+      });
+  } catch (error) {
+      console.error("Error fetching recruitment drive:", error);
+      res.status(500).json({ message: "Failed to fetch recruitment drive." });
+  }
+});
 // Unverified Signup Route
 user.post("/unverified-signup", async (req, res) => {
     const DataUrl = "https://polycodearena.s3.eu-north-1.amazonaws.com/";
