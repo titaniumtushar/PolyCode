@@ -28,7 +28,7 @@ import CreateRecruitmentDrive from "./pages/recruitmentCreate";
 import RecruitmentPage from "./pages/recruitmentPage";
 import RecruitmentDashboard from "./pages/recruitmentDashboard";
 import RecruitmentInvite from "./pages/recruitmentInvitePage";
-import userRecruitmentPage from "./pages/userRecruitmentPage";
+import UserRecruitmentPage from "./pages/userRecruitmentPage";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -58,8 +58,6 @@ function App() {
         }
     }, [token, id]);
 
-   
-
     return (
         <div className="App">
             <BrowserRouter>
@@ -69,15 +67,30 @@ function App() {
                     <Route path="/signup" element={<SignupPage />} />
                     <Route path="/login" element={<LoginPage />} />
 
-
                     {/* this is route of community */}
 
                     <Route element={<Layout />}>
                         <Route element={<PrivateRoutes role={"C"} />}>
-                            <Route path="/community/create" element={<AdminPage />} />
+                            <Route
+                                path="/community/create"
+                                element={<AdminPage />}
+                            />
                             <Route
                                 path="/community/problemset"
-                                element={<ProblemSet  />}
+                                element={
+                                    <ProblemSet
+                                        token=""
+                                        initialCode=""
+                                        questions={[]}
+                                        setOutput={function (
+                                            output: string
+                                        ): void {
+                                            throw new Error(
+                                                "Function not implemented."
+                                            );
+                                        }}
+                                    />
+                                }
                             />
                             <Route
                                 path="/community/listproduct"
@@ -85,43 +98,35 @@ function App() {
                             />
                             <Route
                                 path="/community/recruitment/create"
-                                element={<CreateRecruitmentDrive/>}
+                                element={<CreateRecruitmentDrive />}
                             />
                             <Route
                                 path="/community/recruitment/"
-                                element={<RecruitmentPage/>}
+                                element={<RecruitmentPage />}
                             />
                             <Route
                                 path="/dashboard"
-                                element={<AdminDashboard/>}
+                                element={<AdminDashboard />}
                             />
                             <Route
                                 path="/community/dashboard"
-                                element={<AdminDashboard/>}
+                                element={<AdminDashboard />}
                             />
                             <Route
                                 path="/community/wallet"
-                                element={
-                                    <WalletPage/>
-                                }
+                                element={<WalletPage />}
                             />
-                             <Route
+                            <Route
                                 path="/community/contest"
-                                element={
-                                    <ContestPageCommunity />
-                                }
+                                element={<ContestPageCommunity />}
                             />
                             <Route
                                 path="/community/create/quiz"
-                                element={
-                                    <QuizCreation />
-                                }
+                                element={<QuizCreation />}
                             />
                             <Route
                                 path="/community/quizzes"
-                                element={
-                                    <QuizPageCommunity />
-                                }
+                                element={<QuizPageCommunity />}
                             />
                             <Route
                                 path="/community/join/:contest_id"
@@ -133,9 +138,9 @@ function App() {
                             />
                             <Route
                                 path="community/recruitment/:recruitment_id/inviteusers"
-                                element={<RecruitmentInvite/>}
+                                element={<RecruitmentInvite />}
                             />
-                            
+
                             <Route
                                 path="/community/quiz/:quiz_id"
                                 element={<QuizAdminDashboard />}
@@ -147,14 +152,10 @@ function App() {
 
                             <Route
                                 path="/community/pay/:receiverid"
-                                element={
-                                    <PaymentForm/>
-                                }
+                                element={<PaymentForm />}
                             />
                         </Route>
                     </Route>
-
-
 
                     {/* this is route of user */}
 
@@ -171,50 +172,36 @@ function App() {
                             />
                             <Route
                                 path="/user/recruitment/"
-                                element={<userRecruitmentPage/>}
+                                element={<UserRecruitmentPage />}
                             />
-                            <Route
-                                path="/user/quiz"
-                                element={<QuizPage />}
-                            />
+                            <Route path="/user/quiz" element={<QuizPage />} />
                             <Route
                                 path="/dashboard"
                                 element={<ProfilePage />}
                             />
-                            
-                            
+
                             <Route
                                 path="/user/join/:contest_id"
                                 element={<UserQuestionDashBoard />}
                             />
                             <Route
                                 path="/user/quiz/join/:quiz_id"
-                                element={<QuizSolving/>}
+                                element={<QuizSolving />}
                             />
                             <Route
                                 path="/user/wallet"
-                                element={
-                                    <WalletPage
-                                    />
-                                }
+                                element={<WalletPage />}
                             />
 
                             <Route
                                 path="/user/profile"
-                                element={
-                                    <ProfilePage
-                                    />
-                                }
+                                element={<ProfilePage />}
                             />
 
                             <Route
                                 path="/user/pay/:receiverid"
-                                element={
-                                    <PaymentForm/>
-                                }
+                                element={<PaymentForm />}
                             />
-
-                            
                         </Route>
                     </Route>
 

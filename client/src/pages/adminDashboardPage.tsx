@@ -5,7 +5,7 @@ import { API_URL } from "../App";
 interface User {
     _id: string; // MongoDB ObjectId
     name: string;
-    wallet_id:string;
+    wallet_id: string;
 }
 
 const Dashboard: React.FC = () => {
@@ -15,10 +15,12 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`${ API_URL }/api/community/users`, {
+                const response = await fetch(`${API_URL}/api/community/users`, {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
                     },
                 });
 
@@ -80,12 +82,13 @@ const Dashboard: React.FC = () => {
                 </div> */}
 
                 {/* Leaderboard (Optional) */}
-                <Leaderboard data={users.map((user, idx) => ({
-                    rank: idx + 1,
-                    name: user.name,
-                    whitehatScore:user.wallet_id , // Placeholder score
-                   
-                }))} />
+                <Leaderboard
+                    data={users.map((user, idx) => ({
+                        rank: idx + 1,
+                        name: user.name,
+                        whitehatScore: parseInt(user.wallet_id, 10) || 0, // Placeholder score
+                    }))}
+                />
             </div>
         </div>
     );
