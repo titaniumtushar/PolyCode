@@ -40,6 +40,7 @@ async function createRecruitmentDrive(req: any, res: any) {
         description: stage.description,
         participants: stage.participants || [], // Default to an empty array if not provided
     }));
+    console.log(stages);
 
     const recruitmentDrive: RecruitmentDrive = {
         drive_name: drive_name,

@@ -128,6 +128,7 @@ community.get("/recruitment/:recruitment_id", async (req: Request, res: Response
             return res.status(404).json({ message: "Recruitment drive not found." });
         }
 
+        console.log(recruitmentDrive.meta.stages);
         res.status(200).json({
             recruitmentDrive: {
                 meta: {

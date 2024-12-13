@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { API_URL } from "../App";
 import Leaderboard from "../components/LeaderBoard";
 
@@ -58,10 +58,19 @@ const leaderboardData = [
 ];
 
 const JoinContestCommunity: React.FC = () => {
+    const { state } = useLocation();
     const { contest_id } = useParams<{ contest_id: string }>();
     const [rankings, setRankings] = useState<Ranking[]>([]);
     const [participants, setParticipants] = useState<Ranking[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [showReg, setReg] = useState(false);
+
+    // Use useEffect to log state only when it changes
+    useEffect(() => {
+        if (state) {
+            console.log("This is the state:", state);
+        }
+    }, [state]);
 
     const payReward = async () => {
         try {
@@ -71,7 +80,7 @@ const JoinContestCommunity: React.FC = () => {
                 contest_id: contest_id,
             };
 
-            console.log("pahggg")
+            console.log("Attempting to pay reward");
 
             const response = await fetch(url, {
                 method: "POST",
@@ -139,7 +148,6 @@ const JoinContestCommunity: React.FC = () => {
                 };
 
                 eventSource.onerror = () => {
-                    
                     eventSource.close();
                 };
 
@@ -154,6 +162,25 @@ const JoinContestCommunity: React.FC = () => {
 
         joinContest();
     }, [contest_id]);
+
+    const handleRegisterUser = async (state: any, ranking: any) => {
+        console.log("Registering user:", state, ranking);
+
+        const res = await await fetch(
+            `${API_URL}/api/community/register/privately?user_id=${ranking.user_id}&contest_id=${state.contest_id}&contest_name=${state.contest_name}`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+
+        const data = await res.json();
+        console.log(data);
+        alert(data.message);
+        // Add your registration logic here (API call or state update)
+    };
 
     return (
         <div className="relative min-h-screen">
@@ -190,6 +217,19 @@ const JoinContestCommunity: React.FC = () => {
                                     <span>
                                         Total Marks: {ranking.total_marks}
                                     </span>
+                                    {state && (
+                                        <button
+                                            onClick={() =>
+                                                handleRegisterUser(
+                                                    state,
+                                                    ranking
+                                                )
+                                            }
+                                            className="px-6 py-2 bg-black-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                        >
+                                            Register
+                                        </button>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -212,20 +252,9 @@ const JoinContestCommunity: React.FC = () => {
                     </div>
                 </div>
 
-                {/* <Leaderboard data={leaderboardData} /> */}
                 <button
-                    onClick={() => {payReward()}}
-                    style={{
-                        padding: "40px",
-                        backgroundColor: "transparent",
-                        color: "white",
-                        border: "dashed",
-                        borderRadius: "6px",
-                        borderWidth: "0.5px",
-                        fontSize: "32px",
-                        cursor: "pointer",
-                        marginTop: "20px",
-                    }}
+                    onClick={payReward}
+                    className="px-6 py-2 bg-transparent text-white border-dashed border-2 border-white rounded-lg font-semibold text-xl cursor-pointer mt-6"
                 >
                     Pay
                 </button>

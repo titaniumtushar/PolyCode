@@ -52,7 +52,6 @@ const RecruitmentDashboard: React.FC = () => {
                     invitation_code: data.recruitmentDrive.meta.invitation_code,
                     stages: data.recruitmentDrive.meta.stages.map((stage: any) => ({
                         ...stage,
-                        stage_id: stage._id,
                     })),
                     company_id: data.recruitmentDrive.meta.company_id,
                     start_date: data.recruitmentDrive.meta.start_date,
@@ -60,6 +59,8 @@ const RecruitmentDashboard: React.FC = () => {
                     description: data.recruitmentDrive.meta.description,
                 };
 
+
+                console.log(formattedDrive);
                 setRecruitmentDrive(formattedDrive);
             } catch (err) {
                 console.error("Error fetching recruitment drive:", err);
@@ -71,6 +72,9 @@ const RecruitmentDashboard: React.FC = () => {
 
         fetchRecruitmentDrive();
     }, [recruitment_id]);
+
+
+    
 
     const redirectToAddParticipants = () => {
         if (recruitment_id) {
@@ -104,6 +108,7 @@ const RecruitmentDashboard: React.FC = () => {
                                         <div className="p-4 bg-purple-600 font-semibold">
                                             {stage.stage_name} - {stage.stage_type}
                                         </div>
+                                        <button onClick={()=>{navigate(`/community/join/${stage.stage_id}`,{state:{contest_name:stage.stage_name,contest_id:stage.stage_id}})}}>Connect</button>
                                         <div className="p-4 bg-black bg-opacity-50">
                                             <p className="text-sm text-gray-300">
                                                 {stage.description || "No description provided."}
