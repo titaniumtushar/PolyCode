@@ -4,8 +4,8 @@ type LeaderboardEntry = {
     rank: number;
     name: string;
     whitehatScore: number;
-    totalEarnings: string;
-    paidReports: number;
+    totalEarnings?: string;
+    paidReports?: number;
 };
 
 const Leaderboard = ({ data }: { data: LeaderboardEntry[] }) => {
