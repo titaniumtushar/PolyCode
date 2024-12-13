@@ -47,6 +47,7 @@ const SidePanel = ({
 
     // Mock links for admin and user
     const adminLinks = [
+        { text: "Leaderboard", to: "/community/dashboard" },
         { text: "Contests", to: "/community/contest" },
         { text: "Quizzes", to: "/community/quizzes" },
         { text: "Marketplace", to: "/community/marketplace" },
@@ -55,10 +56,12 @@ const SidePanel = ({
     ];
 
     const userLinks = [
+        { text: "Leaderboard", to: "/leaderboard" },
         { text: "Wallet", to: "/user/wallet" },
         { text: "Contests", to: "/user/contests" },
         { text: "Quizzes", to: "/user/quiz" },
         { text: "Profile", to: "/user/profile" },
+        
     ];
 
     // Conditionally select links based on user role

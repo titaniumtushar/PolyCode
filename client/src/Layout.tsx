@@ -33,6 +33,7 @@ const LayoutTwo = () => {
                     { text: "Recruitment", link_path: "user/recruitment" },
                     { text: "Marketplace", link_path: "/user/marketplace" },
                     { text: "Contests", link_path: "/user/contests" },
+                    { text: "quizzes", link_path: "/user/quiz" },
 
                   ]}} />
 

@@ -57,14 +57,14 @@ const MarketplacePage = () => {
             </h1>
 
             {/* Link to List a new product */}
-            <div className="text-center mt-4">
+            {/* <div className="text-center mt-4">
                 <Link
                     to="/list-product"
                     className="bg-purple-600 text-white py-2 px-4 rounded-md"
                 >
                     List a New Product
                 </Link>
-            </div>
+            </div> */}
 
             {/* Loading State */}
             {isLoading && (

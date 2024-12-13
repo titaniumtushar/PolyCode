@@ -10,7 +10,11 @@ const userRecruitmentPage: React.FC = () => {
         const fetchRecruitments = async () => {
             try {
                 const response = await fetch("http://localhost:8080/api/user/recruitment/all", {
-                    headers: { "Content-Type": "application/json" },
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                      },
+                    
                 });
 
                 if (!response.ok) {
@@ -37,12 +41,12 @@ const userRecruitmentPage: React.FC = () => {
             {/* Page Header */}
             <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-white mb-4">Recruitment Drives</h1>
-                <Link
+                {/* <Link
                     to="/community/recruitment/create"
                     className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg shadow-lg transition duration-300"
                 >
                     + Create Recruitment
-                </Link>
+                </Link> */}
             </header>
 
             {/* Error Display */}

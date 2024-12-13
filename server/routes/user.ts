@@ -47,6 +47,18 @@ user.get("/recruitment/all", async (req: Request, res: Response) => {
       res.status(500).json({ message: "Failed to fetch recruitment drives." });
   }
 });
+
+user.get("/users", async (_req: Request, res: Response) => {
+    try {
+        // Fetch all users with all their fields
+        const users = await UserModel.find(); // No projection, fetches all fields
+        res.status(200).json({ users });
+    } catch (error) {
+        console.error("Error fetching users:", error);
+        res.status(500).json({ message: "Failed to fetch users." });
+    }
+});
+
 user.get("/recruitment/:recruitment_id", async (req: Request, res: Response) => {
   const { recruitment_id } = req.params;
 
