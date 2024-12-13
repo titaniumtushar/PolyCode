@@ -9,12 +9,12 @@ Content-Type: application/json
 
 
 ###
-POST http://localhost:8080/api/user/login
+POST http://localhost:8080/api/community/login
 Content-Type: application/json
 
 {
-    "email":"ol",
-    "password":"ol"
+    "email":"a",
+    "password":"a"
 }
 
 
@@ -161,3 +161,9 @@ Content-Type: application/json
 {
  "contest_id":"675860e2b3d6d502c81389d9"
 }
+
+
+###
+GET http://localhost:8080/api/community/register/privately?contest_id=675c827aebf9b4e07923978d&user_id=675bb1460beb7009a23f3f26&contest_name=wabhaiwa
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYSIsImVtYWlsIjoiYSIsIndhbGxldF9pZCI6IlhRWFdQdzBHaHN2WnJiUWMiLCJyb2xlIjoiQyIsImlkIjoiNjc1MDU4MzhiYWVmZTBhN2ZmZWYxMWIwIiwiaWF0IjoxNzM0MTE2MjM5fQ.VnZr_3gd8G3OppsaHfXdRwnJg-DYmAKi9SqqzsFrVwo
+Content-Type: application/json

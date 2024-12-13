@@ -21,6 +21,7 @@ import { Document, Types } from "mongoose";
 import { populateQuiz } from "../middlewares/populateQuiz";
 import { addUserToStageParticipants, createRecruitmentDrive } from "../controllers/recruitmentDrive";
 import { RecruitmentDriveModel } from "../models/recruitmentDrive";
+import { registerPrivateContest } from "../controllers/RegisterContestPrivately";
 
 const community = express.Router();
 
@@ -46,6 +47,16 @@ community.post("/create/contest", createContest);
 
 // Find Contest Route
 community.get("/contest", findContest);
+
+
+
+/// register privately
+
+community.get("/register/privately",registerPrivateContest);
+
+
+///////this is cool one
+
 
 community.post("/create/drive", createRecruitmentDrive);
 community.get("/recruitment/all", async (req: Request, res: Response) => {

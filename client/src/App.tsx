@@ -29,6 +29,7 @@ import RecruitmentPage from "./pages/recruitmentPage";
 import RecruitmentDashboard from "./pages/recruitmentDashboard";
 import RecruitmentInvite from "./pages/recruitmentInvitePage";
 import UserRecruitmentPage from "./pages/userRecruitmentPage";
+import PrivateContest from "./pages/PrivateContest";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -183,6 +184,13 @@ function App() {
                             <Route
                                 path="/user/join/:contest_id"
                                 element={<UserQuestionDashBoard />}
+                            />
+
+                            {/* dnfdnfdf */}
+
+                            <Route
+                                path="/user/join/private/contest/:contestId"
+                                element={<PrivateContest />}
                             />
                             <Route
                                 path="/user/quiz/join/:quiz_id"

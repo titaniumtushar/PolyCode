@@ -5,6 +5,8 @@ import { registerContest } from "./registerContest";
 import { contestModel } from "../models/contest";
 import jwt from "jsonwebtoken";
 import { CONTEST_SECRET } from "../server";
+import mongoose from "mongoose";
+
 
 
 
@@ -12,7 +14,12 @@ export async function joinPrivateContest(req:any,res:any,next:any){
 
     const {contest_id} = req.body;
 
-    const contest = await contestModel.findOne({_id:contest_id,private:true});
+            if (!mongoose.Types.ObjectId.isValid(contest_id)) {
+            return res.status(400).json({ error: "Invalid contest ID" });
+        }
+
+
+    const contest = await contestModel.findOne({_id:contest_id});
     if(!contest){
         return res.status(404).json({message:"Not found."});
     }
