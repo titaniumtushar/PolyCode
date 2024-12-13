@@ -31,6 +31,7 @@ import RecruitmentInvite from "./pages/recruitmentInvitePage";
 import UserRecruitmentPage from "./pages/userRecruitmentPage";
 import Dashboard from "./pages/adminDashboardPage";
 import UserRecruitmentDashboard from "./pages/userRecruitmentDashboardPage";
+import CompanyDashboard from "./pages/companyDashboard";
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -115,7 +116,7 @@ function App() {
                                 element={<AdminDashboard />}
                             />
                             <Route
-                                path="/community/dashboard"
+                                path="/community/leaderboard"
                                 element={<AdminDashboard />}
                             />
                             <Route
@@ -125,6 +126,10 @@ function App() {
                             <Route
                                 path="/community/contest"
                                 element={<ContestPageCommunity />}
+                            />
+                            <Route
+                                path="/community/dashboard"
+                                element={<CompanyDashboard />}
                             />
                             <Route
                                 path="/community/create/quiz"
