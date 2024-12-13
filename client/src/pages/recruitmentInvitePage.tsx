@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../App";
+
+
 
 interface User {
   _id: string;
@@ -20,7 +22,13 @@ const RecruitmentInvite: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const navigate = useNavigate();
+ const { state } = useLocation();
+  
   const { recruitment_id } = useParams<{ recruitment_id: string }>();
+
+
+  
+
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -46,40 +54,40 @@ const RecruitmentInvite: React.FC = () => {
       }
     };
 
+
+    if(state){
+    console.log(state);
+
+  }
+
     fetchUsers();
   }, []);
 
   const handleInvite = async (userId: string) => {
     if (!recruitment_id) {
+      
       setError("Recruitment ID is missing.");
       return;
     }
 
-    try {
-      const response = await fetch(
-        `${API_URL}/api/community/recruitment/${recruitment_id}/inviteusers`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({ user_ids: [userId] }),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(`Failed to invite user: ${errorData.message}`);
-        return;
-      }
-
-      const data = await response.json();
-      setSuccess(data.message || "User successfully invited to recruitment!");
-    } catch (err) {
-      console.error("Error inviting user:", err);
-      setError("An error occurred while inviting the user.");
-    }
+   try {
+    const res = await fetch(
+                `${API_URL}/api/community/register/privately?user_id=${userId}&contest_id=${state.contest_id}&contest_name=${state.contest_name}`,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                }
+            );
+    
+            const data = await res.json();
+            console.log(data);
+            alert(data.message);
+    
+   } catch (error) {
+    
+   }
   };
 
   const toggleUserDetails = (userId: string) => {

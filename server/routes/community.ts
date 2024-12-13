@@ -402,4 +402,7 @@ community.get("/join/:token", async (req: Request, res: Response) => {
     }
 });
 
+
+
+
 export { community };

@@ -78,7 +78,7 @@ const RecruitmentDashboard: React.FC = () => {
 
     const redirectToAddParticipants = () => {
         if (recruitment_id) {
-            navigate(`/community/recruitment/${recruitment_id}/inviteusers`);
+            navigate(`/community/recruitment/${recruitment_id}/inviteusers`,{state:{contest_id:recruitmentDrive?.stages[0].stage_id,contest_name:recruitmentDrive?.stages[0].stage_name}});
         } else {
             setError("Recruitment ID is missing.");
         }
@@ -100,15 +100,18 @@ const RecruitmentDashboard: React.FC = () => {
                         <div>
                             <h2 className="text-3xl font-bold mb-4">Stages</h2>
                             <div className="accordion space-y-4">
-                                {recruitmentDrive.stages?.map((stage) => (
+                                {recruitmentDrive.stages?.map((stage:any,index:number) => (
                                     <div
                                         key={stage.stage_id}
                                         className="border border-purple-500 rounded-lg overflow-hidden shadow-md"
                                     >
+                                        <h1>{index}</h1>
                                         <div className="p-4 bg-purple-600 font-semibold">
                                             {stage.stage_name} - {stage.stage_type}
                                         </div>
-                                        <button onClick={()=>{navigate(`/community/join/${stage.stage_id}`,{state:{contest_name:stage.stage_name,contest_id:stage.stage_id}})}}>Connect</button>
+                                        
+                                        
+                                        <button onClick={()=>{navigate(`/community/join/${stage.stage_id}`,{state:{contest_name:recruitmentDrive["stages"][index+1].stage_name,contest_id:recruitmentDrive.stages[index+1].stage_id}})}}>Connect</button>
                                         <div className="p-4 bg-black bg-opacity-50">
                                             <p className="text-sm text-gray-300">
                                                 {stage.description || "No description provided."}

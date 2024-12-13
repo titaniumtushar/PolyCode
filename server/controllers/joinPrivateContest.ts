@@ -26,7 +26,7 @@ export async function joinPrivateContest(req:any,res:any,next:any){
 
     const isRegistered = await RegisteredModel.findOne({user_id:req.decoded.id, contest_id:contest_id});
     if(!isRegistered){
-                return res.status().json({message:"Not Registered."});
+                return res.status(403).json({message:"Not Registered."});
 
     }
     
