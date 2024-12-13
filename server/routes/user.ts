@@ -11,16 +11,13 @@ import { CONTEST_SECRET, JWT_SECRET } from "../server";
 import { submitProblems } from "../controllers/submitProblems";
 import { pollContest } from "../utils/mongoPolling";
 import { getProducts } from "./product";
-
 import { generateMultipleUrls } from "./s3upload";
-
 import { populateQuiz } from "../middlewares/populateQuiz"; // Import the middleware
 import { authenticateToken } from "../middlewares/authenticateToken"; // Import the authentication middleware
-import { quizModel } from "../models/quiz"; // Import the quiz model
+import { quizModel } from "../models/quiz"; //
 import { registerQuiz } from "../controllers/registerQuiz";
 import { submitQuiz } from "../controllers/submitQuiz";
 import { joinPrivateContest } from "../controllers/joinPrivateContest";
-
 
 require("dotenv");
 
@@ -102,8 +99,7 @@ user.post("/unverified-signup", async (req, res) => {
         const urls = await generateMultipleUrls(name, contentType);
         console.log("Generated URLs:", urls);
 
-
-        await generateWallet(walletId,"U",500);
+        await generateWallet(walletId, "U", 500);
         return res.status(201).json({
             message: "Signup successful. Please Wait for Verification",
             urls: urls,
@@ -126,6 +122,36 @@ user.get("/auth", (req, res) => {
     return res.status(200).json({ message: "Authenticated." });
 });
 
+user.get("/assets", async (req, res) => {
+    try {
+        const userId = req.decoded?.id;
+        // Access userId from decoded token
+        console.log(userId + " user id in asset routes ");
+        // Fetch user data from the database
+        const user = await UserModel.findById(userId).select(
+            "profile_pic resume_url certificates name tag"
+        );
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Respond with the user's assets
+        return res.status(200).json({
+            profilePic: user.profile_pic,
+            resumeUrl: user.resume_url,
+            certificates: user.certificates,
+            username: user.name,
+            tag: user.tag,
+        });
+    } catch (error) {
+        console.error("Error fetching user assets:", error);
+        return res
+            .status(500)
+            .json({ message: "An error occurred while fetching user assets." });
+    }
+});
+
 // Contest Routes
 user.get("/contest", findContest);
 user.post("/contest/register", registerContest);
@@ -144,53 +170,58 @@ user.get("/quizzes", async (req, res) => {
     }
 });
 
-user.post("/quiz/register", registerQuiz)
+user.post("/quiz/register", registerQuiz);
 
 // Join Quiz Route with Token Verification
 user.get("/quiz/join/:token", (req, res) => {
     const { token } = req.params;
-  
+
     try {
-      const verify = jwt.verify(token, String(CONTEST_SECRET)) as CustomJwtPayload;
-  
-      if (!verify || !verify.quiz_id) {
-        return res.status(500).json({ message: "Invalid or missing quiz ID in token." });
-      }
-  
-      res.setHeader("Content-Type", "text/event-stream");
-      res.setHeader("Cache-Control", "no-cache");
-      res.setHeader("Connection", "keep-alive");
-  
-      const data = JSON.stringify({
-        message: "Update from Stream 1",
-        timestamp: new Date().toISOString(),
-        quiz: verify,
-      });
-      res.write(`data: ${data}\n\n`);
-  
-      const sendEvent = async () => {
+        const verify = jwt.verify(
+            token,
+            String(CONTEST_SECRET)
+        ) as CustomJwtPayload;
+
+        if (!verify || !verify.quiz_id) {
+            return res
+                .status(500)
+                .json({ message: "Invalid or missing quiz ID in token." });
+        }
+
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
         const data = JSON.stringify({
-          message: "Quiz update",
-          timestamp: new Date().toISOString(),
+            message: "Update from Stream 1",
+            timestamp: new Date().toISOString(),
+            quiz: verify,
         });
         res.write(`data: ${data}\n\n`);
-      };
-  
-      sendEvent();
-  
-      const interval = setInterval(sendEvent, 4000);
-  
-      req.on("close", () => {
-        clearInterval(interval);
-        res.end();
-      });
-    } catch (error) {
-      console.error("Error verifying token:", error);
-      return res.status(500).json({ message: "Invalid token." });
-    }
-  });
 
-  user.get("/quiz/:id/questions", authenticateToken, async (req, res) => {
+        const sendEvent = async () => {
+            const data = JSON.stringify({
+                message: "Quiz update",
+                timestamp: new Date().toISOString(),
+            });
+            res.write(`data: ${data}\n\n`);
+        };
+
+        sendEvent();
+
+        const interval = setInterval(sendEvent, 4000);
+
+        req.on("close", () => {
+            clearInterval(interval);
+            res.end();
+        });
+    } catch (error) {
+        console.error("Error verifying token:", error);
+        return res.status(500).json({ message: "Invalid token." });
+    }
+});
+
+user.get("/quiz/:id/questions", authenticateToken, async (req, res) => {
     const { id } = req.params;
     try {
         const quiz = await quizModel.findById(id);
@@ -201,7 +232,9 @@ user.get("/quiz/join/:token", (req, res) => {
         // Access the question_set inside the meta object
         const questions = quiz.meta.question_set;
         if (!questions || questions.length === 0) {
-            return res.status(404).json({ message: "No questions found for this quiz." });
+            return res
+                .status(404)
+                .json({ message: "No questions found for this quiz." });
         }
 
         res.status(200).json({ questions });
@@ -211,56 +244,59 @@ user.get("/quiz/join/:token", (req, res) => {
     }
 });
 
-
-user.post("/join/private/contest",joinPrivateContest);
-
-
+user.post("/join/private/contest", joinPrivateContest);
 
 user.get("/join/:token", (req, res) => {
-  const { token } = req.params;
+    const { token } = req.params;
 
-  try {
-    const verify = jwt.verify(token, String(CONTEST_SECRET));
-    console.log(verify, "this is coolll");
+    try {
+        const verify = jwt.verify(token, String(CONTEST_SECRET));
+        console.log(verify, "this is coolll");
 
-    if (!verify) {
-      return res.status(500).json({ message: "You cannot join the room." });
-    } else if (!verify.contest_id) {
-      throw new Error("Token does not contain contest ID.");
+        if (!verify) {
+            return res
+                .status(500)
+                .json({ message: "You cannot join the room." });
+        } else if (!verify.contest_id) {
+            throw new Error("Token does not contain contest ID.");
+        }
+
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache");
+        res.setHeader("Connection", "keep-alive");
+
+        const data = JSON.stringify({
+            message: "Update from Stream 1",
+            timestamp: new Date().toISOString(),
+            contest: verify,
+        });
+        res.write(`data: ${data}\n\n`);
+
+        const sendEvent = async () => {
+            const contestRankings = await pollContest(verify.contest_id);
+            const kapa = {
+                message: "Update from Stream 1",
+                rankings: contestRankings.rankings,
+                timestamp: new Date().toISOString(),
+            };
+            const data = JSON.stringify(kapa);
+            res.write(`data: ${data}\n\n`);
+        };
+
+        sendEvent();
+
+        const interval = setInterval(sendEvent, 4000);
+
+        req.on("close", () => {
+            clearInterval(interval);
+            res.end();
+        });
+    } catch (error) {
+        console.error("Error verifying token:", error);
+        return res.status(500).json({ message: "Invalid token." });
     }
-
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-
-    const data = JSON.stringify({ message: 'Update from Stream 1', timestamp: new Date().toISOString() ,contest:verify});
-  res.write(`data: ${data}\n\n`);
-
-    const sendEvent = async () => {
-      const contestRankings = await pollContest(verify.contest_id);
-      const kapa = {
-        message: "Update from Stream 1",
-        rankings: contestRankings.rankings,
-        timestamp: new Date().toISOString(),
-      };
-      const data = JSON.stringify(kapa);
-      res.write(`data: ${data}\n\n`);
-    };
-
-    sendEvent();
-
-    const interval = setInterval(sendEvent, 4000);
-
-    req.on("close", () => {
-      clearInterval(interval);
-      res.end();
-    });
-  } catch (error) {
-    console.error("Error verifying token:", error);
-    return res.status(500).json({ message: "Invalid token." });
-  }
 });
-  
+
 user.post("/submit/quiz", submitQuiz);
 // Problem Submission Route
 user.post("/submit", submitProblems);
