@@ -13,12 +13,12 @@ interface Item {
 }
 
 const ProfilePage = () => {
-    const [username, setUsername] = useState<string>("JohnDoe");
+    const [username, setUsername] = useState<string>("");
     const [verified, setVerified] = useState<boolean>(true);
     const [skills, setSkills] = useState<string[]>([]);
     const [user, setUser] = useState<any>({
-        name: username,
-        rank: "Beginner",
+        // name: username,
+        // rank: "Beginner",
         views: 1200,
         solution_count: 25,
         reputation_count: 350,

@@ -37,23 +37,30 @@ const QuizCreation: React.FC = () => {
     questionIndex?: number,
     optionIndex?: number
   ) => {
-    const value = e.target.value;
-
+    const value = e.target.value; // Assume `value` is string by default
+  
     setQuizData((prevState) => {
       const newState = { ...prevState };
-
+  
       if (section === "quiz") {
-        newState[key as keyof QuizData] = value;
+        // Cast key to keyof QuizData and ensure value matches the expected type
+        newState[key as keyof QuizData] = value as any;
       } else if (section === "questions" && questionIndex !== undefined) {
+        const question = newState.question_set[questionIndex];
+  
         if (optionIndex !== undefined) {
-          newState.question_set[questionIndex].options[optionIndex] = value;
+          // Ensure options exist and assign value
+          question.options[optionIndex] = value;
         } else {
-          newState.question_set[questionIndex][key as keyof Question] = value;
+          // Assign to a property of Question, with proper type assertions
+          question[key as keyof Question] = value as any;
         }
       }
+  
       return newState;
     });
   };
+  
 
   const handleAddQuestion = () => {
     setQuizData((prevState) => ({
