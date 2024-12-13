@@ -32,6 +32,8 @@ export function authenticateToken(req: any, res: any, next: any) {
         req.path === "/community/login" ||
         req.path === "/community/signup" ||
         req.path === "/community/unverified-users" ||
+        req.path === "/community/create/drive"||
+        req.path === "/community/recruitment/all"||
         req.path === "/user/login" ||
         req.path === "/user/signup" ||
         req.path === "/user/unverified-signup" ||

@@ -19,6 +19,8 @@ import { createQuiz } from "../controllers/createQuiz";
 import { addProducts, getProducts } from "./product";
 import { Document, Types } from "mongoose";
 import { populateQuiz } from "../middlewares/populateQuiz";
+import { addUserToStageParticipants, createRecruitmentDrive } from "../controllers/recruitmentDrive";
+import { RecruitmentDriveModel } from "../models/recruitmentDrive";
 
 const community = express.Router();
 
@@ -30,6 +32,7 @@ community.post("/product/list", addProducts);
 community.use(authorizeCommunity);
 
 // Community Signup Route
+
 
 community.post("/signup", (req: Request, res: Response) =>
     signup(req, res, "C")
@@ -43,6 +46,99 @@ community.post("/create/contest", createContest);
 
 // Find Contest Route
 community.get("/contest", findContest);
+
+community.post("/create/drive", createRecruitmentDrive);
+community.get("/recruitment/all", async (req: Request, res: Response) => {
+    try {
+        const recruitmentDrives = await RecruitmentDriveModel.find();
+        const formattedDrives = recruitmentDrives.map(drive => ({
+            _id: drive._id,
+            drive_name: drive.meta.drive_name,
+            description: drive.meta.description,
+            company_id: drive.meta.company_id,
+            start_date: drive.meta.start_date,
+            end_date: drive.meta.end_date,
+        }));
+        res.status(200).json(formattedDrives);
+    } catch (error) {
+        console.error("Error fetching recruitment drives:", error);
+        res.status(500).json({ message: "Failed to fetch recruitment drives." });
+    }
+});
+
+community.post(
+    "/recruitment/:recruitment_id/inviteusers",
+    async (req: Request, res: Response) => {
+        const { recruitment_id } = req.params;
+        const { user_ids } = req.body; // Assume user_ids is an array of user IDs to invite
+
+        if (!user_ids || !Array.isArray(user_ids)) {
+            return res.status(400).json({ message: "Invalid request. user_ids must be an array." });
+        }
+
+        try {
+            const recruitmentDrive = await RecruitmentDriveModel.findById(recruitment_id);
+
+            if (!recruitmentDrive) {
+                return res.status(404).json({ message: "Recruitment drive not found." });
+            }
+
+            // Find the first stage in the recruitment drive
+            const firstStage = recruitmentDrive.meta.stages[0];
+
+            if (!firstStage) {
+                return res.status(404).json({ message: "No stages found in the recruitment drive." });
+            }
+
+            // Add users to the first stage participants if not already present
+            firstStage.participants = firstStage.participants || [];
+            user_ids.forEach(user_id => {
+                if (!firstStage.participants.includes(user_id)) {
+                    firstStage.participants.push(user_id);
+                }
+            });
+
+            await recruitmentDrive.save();
+
+            res.status(200).json({ message: "Users invited to the first stage successfully.", stage: firstStage });
+        } catch (error) {
+            console.error("Error inviting users to recruitment drive:", error);
+            res.status(500).json({ message: "Failed to invite users." });
+        }
+    }
+);
+community.get("/recruitment/:recruitment_id", async (req: Request, res: Response) => {
+    const { recruitment_id } = req.params;
+
+    try {
+        const recruitmentDrive = await RecruitmentDriveModel.findById(recruitment_id);
+
+        if (!recruitmentDrive) {
+            return res.status(404).json({ message: "Recruitment drive not found." });
+        }
+
+        res.status(200).json({
+            recruitmentDrive: {
+                meta: {
+                    drive_name: recruitmentDrive.meta.drive_name,
+                    invitation_code: recruitmentDrive.meta.invitation_code,
+                    stages: recruitmentDrive.meta.stages,
+                    company_id: recruitmentDrive.meta.company_id,
+                    start_date: recruitmentDrive.meta.start_date,
+                    end_date: recruitmentDrive.meta.end_date,
+                    description: recruitmentDrive.meta.description,
+                },
+                _id: recruitmentDrive._id,
+                start_date: recruitmentDrive.start_date,
+                end_date: recruitmentDrive.end_date,
+            },
+        });
+    } catch (error) {
+        console.error("Error fetching recruitment drive:", error);
+        res.status(500).json({ message: "Failed to fetch recruitment drive." });
+    }
+});
+
 
 // Quiz Rout
 
@@ -198,17 +294,17 @@ community.post(
 );
 
 // Fetch All Users Route
-community.get("/users", async (_req: Request, res: Response) => {
-    try {
-        const users = await UserModel.find({}, { name: 1, _id: 1 });
-        res.status(200).json({ users });
-    } catch (error) {
-        console.error("Error verifying user:", error);
-        res.status(500).json({
-            message: "An error occurred during verification.",
-        });
-    }
-});
+// community.get("/users", async (_req: Request, res: Response) => {
+//     try {
+//         const users = await UserModel.find({}, { name: 1, _id: 1 });
+//         res.status(200).json({ users });
+//     } catch (error) {
+//         console.error("Error verifying user:", error);
+//         res.status(500).json({
+//             message: "An error occurred during verification.",
+//         });
+//     }
+// });
 
 // Contest Reward Payment Route
 community.post(
@@ -251,15 +347,16 @@ community.post(
 // Fetch All Users Route
 community.get("/users", async (_req: Request, res: Response) => {
     try {
-        const users = await UserModel.find({}, { name: 1, _id: 1 });
+        // Fetch all users with all their fields
+        const users = await UserModel.find(); // No projection, fetches all fields
         res.status(200).json({ users });
     } catch (error) {
         console.error("Error fetching users:", error);
-        res.status(500).json({
-            message: "An error occurred while fetching users.",
-        });
+        res.status(500).json({ message: "Failed to fetch users." });
     }
 });
+
+  
 
 // Fetch All Unverified Users Route
 community.get("/unverified-users", async (_req: Request, res: Response) => {

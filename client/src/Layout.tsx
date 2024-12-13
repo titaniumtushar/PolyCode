@@ -8,7 +8,7 @@ const Layout = () => {
         <div>
             {/* Render MainHeading first */}
             <MainHeading data={{role:"C", items: [
-                    { text: "Recruitment", link_path: "community/recruitment" },
+                    { text: "Recruitment", link_path: "/community/recruitment" },
                     { text: "Marketplace", link_path: "/community/listproduct" },
                     { text: "Store", link_path: "/community/store" },
                     { text: "Verification", link_path: "/community/verification" },

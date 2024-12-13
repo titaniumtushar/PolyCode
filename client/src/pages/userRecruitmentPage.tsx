@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const RecruitmentPage: React.FC = () => {
+const userRecruitmentPage: React.FC = () => {
     const [recruitments, setRecruitments] = useState<any[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -9,7 +9,7 @@ const RecruitmentPage: React.FC = () => {
     useEffect(() => {
         const fetchRecruitments = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/community/recruitment/all", {
+                const response = await fetch("http://localhost:8080/api/user/recruitment/all", {
                     headers: { "Content-Type": "application/json" },
                 });
 
@@ -29,7 +29,7 @@ const RecruitmentPage: React.FC = () => {
     }, []);
 
     const handleViewDetails = (recruitmentId: string) => {
-        navigate(`/community/recruitment/${recruitmentId}`);
+        navigate(`/user/recruitment/${recruitmentId}`);
     };
 
     return (
@@ -89,4 +89,4 @@ const RecruitmentPage: React.FC = () => {
     );
 };
 
-export default RecruitmentPage;
+export default userRecruitmentPage;
