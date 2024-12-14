@@ -63,5 +63,71 @@ const sendMailCert = async (
   }
 };
 
+
+const sendMailBuyTicket = async (
+  email: string,
+  username: string,
+  message: string,
+  ownershipId: string,
+  productUrl: string,
+  
+) => {
+  try {
+    console.log("Sending ownership certificate...");
+
+    console.log(email, username, message, ownershipId, productUrl);
+
+    const mailOptions: any = {
+      from: {
+        name: "BrainFlow",
+        address: process.env.USER, // Sender's email
+      },
+      to: email,
+      subject: "🎟️ Ownership Certificate - Your Product Details 🎟️",
+      text: `Dear ${username},\n\n${message}\n\nOwnership ID: ${ownershipId}\nProduct URL: ${productUrl}`,
+      html: `
+      <body style="font-family: 'Arial', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9;">
+        <table role="presentation" style="width: 100%; border-spacing: 0;">
+          <tr>
+            <td style="padding: 20px 0; text-align: center; background-color: #0056b3; color: #ffffff;">
+              <h1>🎟️ Ownership Certificate 🎟️</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px; background-color: #ffffff;">
+              <h2 style="text-align: center; color: #333;">Congratulations, ${username}!</h2>
+              <p style="text-align: center; font-size: 16px; color: #555;">
+                ${message}
+              </p>
+              <div style="margin: 30px auto; text-align: center; padding: 15px; border: 2px dashed #0056b3; border-radius: 8px; max-width: 500px; background-color: #f4faff;">
+                <p style="font-size: 18px; margin: 0; color: #333;">📜 <strong>Ownership ID:</strong> ${ownershipId}</p>
+                <p style="font-size: 16px; margin: 0; color: #555;">🔗 <a href="${productUrl}" style="color: #0056b3; text-decoration: none;">View Your Product</a></p>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align: center; padding: 20px; background-color: #0056b3; color: #ffffff;">
+              <p style="margin: 0;">Thank you for trusting BrainFlow!</p>
+            </td>
+          </tr>
+        </table>
+      </body>
+      `,
+    };
+
+    // Add attachment if provided
+    
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent successfully:", info.messageId);
+  } catch (error) {
+    console.error("Error sending email:", error);
+  }
+};
+
+
+
+
+
 // Export the sendMail function
-export { sendMailCert };
+export { sendMailCert,sendMailBuyTicket };

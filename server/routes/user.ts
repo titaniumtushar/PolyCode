@@ -19,6 +19,8 @@ import { registerQuiz } from "../controllers/registerQuiz";
 import { submitQuiz } from "../controllers/submitQuiz";
 import { joinPrivateContest } from "../controllers/joinPrivateContest";
 import { RecruitmentDriveModel } from "../models/recruitmentDrive";
+import { specialTransactions, transaction } from "../controllers/transaction";
+import { sendMailBuyTicket } from "../controllers/mailerCert";
 
 require("dotenv");
 
@@ -30,7 +32,25 @@ user.post("/signup", async (req, res) => {
 });
 
 user.get("/product/list", getProducts);
-user.get("/recruitment/all", async (req: Request, res: Response) => {
+
+user.post("/buy",async (req:any,res:any)=>{
+    const {id,name,url,price} = req.body;
+    try {
+        await specialTransactions("U",req.decoded.wallet_id,Number(price),req,res);
+    await sendMailBuyTicket(req.decoded.email,req.decoded.name,"you have buyed it.","njnsjh-dwb46ndnbn",url);
+            return res.status(200).json({message:"Product purchase complete."})
+
+        
+    } catch (error) {
+        return res.status(500).json({message:"Something went wrong."})
+        
+    }
+    
+
+})
+
+
+user.get("/recruitment/all", async (req: any, res: any) => {
   try {
       const recruitmentDrives = await RecruitmentDriveModel.find();
       const formattedDrives = recruitmentDrives.map(drive => ({
@@ -48,7 +68,7 @@ user.get("/recruitment/all", async (req: Request, res: Response) => {
   }
 });
 
-user.get("/users", async (_req: Request, res: Response) => {
+user.get("/users", async (_req: any, res: any) => {
     try {
         // Fetch all users with all their fields
         const users = await UserModel.find(); // No projection, fetches all fields
@@ -59,7 +79,7 @@ user.get("/users", async (_req: Request, res: Response) => {
     }
 });
 
-user.get("/recruitment/:recruitment_id", async (req: Request, res: Response) => {
+user.get("/recruitment/:recruitment_id", async (req: any, res: any) => {
   const { recruitment_id } = req.params;
 
   try {
@@ -129,11 +149,15 @@ user.post("/unverified-signup", async (req, res) => {
                 .json({ message: "Missing required fields." });
         }
 
+        console.log(req.body);
+
         const existingUser = await UnverifiedUserModel.findOne({ email });
-        if (existingUser) {
+        const verifiedUser = await UserModel.findOne({email:email});
+
+        if (existingUser || verifiedUser) {
             return res
                 .status(403)
-                .json({ message: "Unverified user already exists." });
+                .json({ message: "Unverified or verified user already exists." });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
