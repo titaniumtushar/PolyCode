@@ -381,7 +381,9 @@ community.get("/join/:token", async (req: Request, res: Response) => {
             return res
                 .status(400)
                 .json({ message: "You cannot join the room." });
+                
         }
+        
         req.contest = verify;
         await joinContestCommunity(req, res);
     } catch (error) {
@@ -389,5 +391,6 @@ community.get("/join/:token", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Invalid token." });
     }
 });
+
 
 export { community };
