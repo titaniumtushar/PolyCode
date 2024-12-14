@@ -30,6 +30,10 @@ import RecruitmentDashboard from "./pages/recruitmentDashboard";
 import RecruitmentInvite from "./pages/recruitmentInvitePage";
 import UserRecruitmentPage from "./pages/userRecruitmentPage";
 import PrivateContest from "./pages/PrivateContest";
+import Dashboard from "./pages/adminDashboardPage";
+import UserRecruitmentDashboard from "./pages/userRecruitmentDashboardPage";
+import CompanyDashboard from "./pages/companyDashboard";
+
 
 export const TOKEN_STORAGE_KEY = "authToken";
 export const ID_STORAGE_KEY = "id";
@@ -106,11 +110,15 @@ function App() {
                                 element={<RecruitmentPage />}
                             />
                             <Route
+                                path="/community/marketplace"
+                                element={<MarketplacePage />}
+                            />
+                            <Route
                                 path="/dashboard"
                                 element={<AdminDashboard />}
                             />
                             <Route
-                                path="/community/dashboard"
+                                path="/community/leaderboard"
                                 element={<AdminDashboard />}
                             />
                             <Route
@@ -120,6 +128,10 @@ function App() {
                             <Route
                                 path="/community/contest"
                                 element={<ContestPageCommunity />}
+                            />
+                            <Route
+                                path="/community/dashboard"
+                                element={<CompanyDashboard />}
                             />
                             <Route
                                 path="/community/create/quiz"
@@ -177,8 +189,8 @@ function App() {
                             />
                             <Route path="/user/quiz" element={<QuizPage />} />
                             <Route
-                                path="/dashboard"
-                                element={<ProfilePage />}
+                                path="/leaderboard"
+                                element={<Dashboard />}
                             />
 
                             <Route
@@ -209,6 +221,10 @@ function App() {
                             <Route
                                 path="/user/pay/:receiverid"
                                 element={<PaymentForm />}
+                            />
+                            <Route
+                                path="/user/recruitment/:recruitment_id"
+                                element={<UserRecruitmentDashboard/>}
                             />
                         </Route>
                     </Route>

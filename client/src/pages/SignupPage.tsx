@@ -17,6 +17,16 @@ const SignupPage = () => {
     const [message, setMessage] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    const predefinedTags = [
+        "Backend Development",
+        "UI/UX Designer",
+        "DevOps",
+        "Data Science",
+        "AI/ML",
+        "Full Stack Development",
+        "Frontend Development",
+    ];
+
     const handleFileChange = (
         setter: React.Dispatch<React.SetStateAction<File | null>>,
         files: FileList | null
@@ -54,8 +64,6 @@ const SignupPage = () => {
             description: description,
             contentType: profilePic?.type,
         };
-
-        console.log(profilePic?.type + "content type of profile pic ");
 
         const payload =
             role === "participant"
@@ -161,15 +169,11 @@ const SignupPage = () => {
     // Function to upload a file to S3 using the pre-signed URL
     const uploadFileToS3 = async (file: File, url: string) => {
         try {
-            const formData = new FormData();
-            formData.append("file", file);
-
             const res = await fetch(url, {
                 method: "PUT",
                 headers: {
                     "Content-Type": file.type,
                     "Content-Disposition": "inline",
-                    // "Content-Length": "97970",
                 },
                 body: file,
             });
@@ -195,7 +199,7 @@ const SignupPage = () => {
                     <span>Arena</span>
                 </div>
             </Link>
-            <div className="min-h-fit w-[300px] mx-auto text-[14px]">
+            <div className="min-h-fit w-[500px] mx-auto text-[14px]">
                 <div className="relative bg-black shadow-md rounded px-8 pt-6 pb-8 mb-4">
                     <h2 className="text-[34px] font-bold mb-[30px] text-center mt-[60px]">
                         Sign Up
@@ -237,16 +241,23 @@ const SignupPage = () => {
                     {role === "participant" && (
                         <>
                             <div className="mb-4">
-                                <input
+                                <select
                                     className="appearance-none border w-full py-2 px-3 bg-black rounded border-borders leading-tight focus:outline-none"
-                                    type="number"
-                                    placeholder="College Year"
                                     value={collegeYear}
                                     onChange={(e) =>
                                         setCollegeYear(Number(e.target.value))
                                     }
                                     required
-                                />
+                                >
+                                    <option value="" disabled>
+                                        Select College Year
+                                    </option>
+                                    {[1, 2, 3, 4].map((year) => (
+                                        <option key={year} value={year}>
+                                            {year}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-4">
                                 <input
@@ -262,14 +273,21 @@ const SignupPage = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <input
+                                <select
                                     className="appearance-none border w-full py-2 px-3 bg-black rounded border-borders leading-tight focus:outline-none"
-                                    type="text"
-                                    placeholder="Tag"
                                     value={tag}
                                     onChange={(e) => setTag(e.target.value)}
                                     required
-                                />
+                                >
+                                    <option value="" disabled>
+                                        Select Tag
+                                    </option>
+                                    {predefinedTags.map((tag) => (
+                                        <option key={tag} value={tag}>
+                                            {tag}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="mb-4">
                                 <textarea

@@ -93,18 +93,37 @@ const RecruitmentDashboard: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-purple-500 to-orange-600 text-white p-6">
-            <div className="container mx-auto bg-black bg-opacity-70 rounded-lg shadow-lg p-6">
+        <div
+            className="min-h-screen p-6 flex items-center justify-center"
+            style={{
+                background: "linear-gradient(to right, #9b5de5, #f15bb5)",
+                color: "#fff",
+            }}
+        >
+            <div
+                className="container mx-auto rounded-lg shadow-lg p-6"
+                style={{
+                    background: "linear-gradient(to bottom, #111, #222)",
+                    boxShadow: "0 0 10px rgba(0, 255, 255, 0.2)",
+                }}
+            >
                 {recruitmentDrive ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Stages Section */}
                         <div>
                             <h2 className="text-3xl font-bold mb-4">Stages</h2>
                             <div className="accordion space-y-4">
                                 {recruitmentDrive.stages?.map((stage:any,index:number) => (
                                     <div
                                         key={stage.stage_id}
-                                        className="border border-purple-500 rounded-lg overflow-hidden shadow-md"
+                                        className="rounded-lg overflow-hidden shadow-md"
+                                        style={{
+                                            background: "linear-gradient(to right, #111, #333)",
+                                            border: "1px solid rgba(0, 255, 255, 0.2)",
+                                            boxShadow: "0 0 5px rgba(0, 255, 255, 0.2)",
+                                        }}
                                     >
+
                                         <h1>{index}</h1>
                                         <div className="p-4 bg-purple-600 font-semibold">
                                             {stage.stage_name} - {stage.stage_type}
@@ -116,25 +135,113 @@ const RecruitmentDashboard: React.FC = () => {
                                             <p className="text-sm text-gray-300">
                                                 {stage.description || "No description provided."}
                                             </p>
+
+                                        <div
+                                            className="p-4 font-semibold"
+                                            style={{
+                                                backgroundColor: "#000",
+                                                color: "#0ff",
+                                            }}
+                                        >
+                                            {stage.stage_name} - {stage.stage_type}
+                                        </div>
+                                        <div
+                                            className="p-4"
+                                            style={{
+                                                backgroundColor: "#222",
+                                                color: "#ccc",
+                                            }}
+                                        >
+                                            <p>{stage.description || "No description provided."}</p>
+                                            {stage.participants && stage.participants.length > 0 ? (
+                                                <div className="mt-4">
+                                                    <h4 style={{ color: "#0ff" }}>Participants:</h4>
+                                                    <ul className="list-disc list-inside">
+                                                        {stage.participants.map((participant) => (
+                                                            <li key={participant}>{participant}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            ) : (
+                                                <p className="mt-4 text-gray-400">No participants yet.</p>
+                                            )}
+
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
-                        <div className="p-6 rounded-lg shadow-md bg-gradient-to-t from-black via-purple-800 to-black">
+                        {/* Recruitment Details Section */}
+                        <div>
                             <h2 className="text-3xl font-bold mb-4">Recruitment Details</h2>
-                            <ul className="space-y-2">
-                                <li><strong>Drive Name:</strong> {recruitmentDrive.drive_name}</li>
-                                <li><strong>Invitation Code:</strong> {recruitmentDrive.invitation_code}</li>
-                                <li><strong>Company ID:</strong> {recruitmentDrive.company_id}</li>
-                                <li><strong>Start Date:</strong> {new Date(recruitmentDrive.start_date * 1000).toLocaleDateString()}</li>
-                                <li><strong>End Date:</strong> {new Date(recruitmentDrive.end_date * 1000).toLocaleDateString()}</li>
-                                <li><strong>Description:</strong> {recruitmentDrive.description || "N/A"}</li>
-                            </ul>
+                            <div
+                                className="rounded-lg overflow-hidden shadow-md"
+                                style={{
+                                    background: "linear-gradient(to right, #111, #333)",
+                                    border: "1px solid rgba(0, 255, 255, 0.2)",
+                                    boxShadow: "0 0 5px rgba(0, 255, 255, 0.2)",
+                                }}
+                            >
+                                <div
+                                    className="p-4"
+                                    style={{
+                                        backgroundColor: "#000",
+                                    }}
+                                >
+                                    {Object.entries({
+                                        "Drive Name": recruitmentDrive.drive_name,
+                                        "Invitation Code": recruitmentDrive.invitation_code,
+                                        "Company ID": recruitmentDrive.company_id,
+                                        "Start Date": new Date(recruitmentDrive.start_date * 1000).toLocaleDateString(),
+                                        "End Date": new Date(recruitmentDrive.end_date * 1000).toLocaleDateString(),
+                                        Description: recruitmentDrive.description || "N/A",
+                                    }).map(([key, value]) => (
+                                        <div
+                                            className="flex flex-col items-center py-2"
+                                            key={key}
+                                            style={{
+                                                color: "#0ff",
+                                                textAlign: "center",
+                                            }}
+                                        >
+                                            <div
+                                                className="w-full py-2 mb-2 text-lg font-semibold rounded-md"
+                                                style={{
+                                                    backgroundColor: "#111",
+                                                }}
+                                            >
+                                                {key}
+                                            </div>
+                                            <div
+                                                className="w-full py-2 px-4 rounded-md text-lg"
+                                                style={{
+                                                    backgroundColor: "#333",
+                                                    color: "#fff",
+                                                }}
+                                            >
+                                                {value}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                             <button
                                 onClick={redirectToAddParticipants}
-                                className="mt-4 w-full px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-700"
+                                className="mt-6 w-full px-6 py-3 rounded-lg font-bold"
+                                style={{
+                                    background: "linear-gradient(to right, #34d399, #059669)",
+                                    color: "#000",
+                                    border: "1px solid rgba(0, 255, 0, 0.4)",
+                                    boxShadow: "0 0 5px rgba(0, 255, 0, 0.4)",
+                                    transition: "all 0.3s ease-in-out",
+                                }}
+                                onMouseOver={(e) =>
+                                    (e.currentTarget.style.background = "linear-gradient(to right, #059669, #34d399)")
+                                }
+                                onMouseOut={(e) =>
+                                    (e.currentTarget.style.background = "linear-gradient(to right, #34d399, #059669)")
+                                }
                             >
                                 Add Participant
                             </button>

@@ -9,8 +9,7 @@ const Layout = () => {
             {/* Render MainHeading first */}
             <MainHeading data={{role:"C", items: [
                     { text: "Recruitment", link_path: "/community/recruitment" },
-                    { text: "Marketplace", link_path: "/community/listproduct" },
-                    { text: "Store", link_path: "/community/store" },
+                    { text: "List Product", link_path: "/community/listproduct" },
                     { text: "Verification", link_path: "/community/verification" },
 
                   ],}} />
@@ -33,6 +32,7 @@ const LayoutTwo = () => {
                     { text: "Recruitment", link_path: "user/recruitment" },
                     { text: "Marketplace", link_path: "/user/marketplace" },
                     { text: "Contests", link_path: "/user/contests" },
+                    { text: "quizzes", link_path: "/user/quiz" },
 
                   ]}} />
 

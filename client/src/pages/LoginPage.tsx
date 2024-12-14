@@ -53,7 +53,7 @@ const LoginPage = () => {
 
                 }
                 else{
-                    navigate("/user/profile");
+                    navigate("/leaderboard");
 
                 }
                 
