@@ -21,6 +21,9 @@ import { Document, Types } from "mongoose";
 import { populateQuiz } from "../middlewares/populateQuiz";
 import { addUserToStageParticipants, createRecruitmentDrive } from "../controllers/recruitmentDrive";
 import { RecruitmentDriveModel } from "../models/recruitmentDrive";
+import { generateCertificates } from "../controllers/certificate";
+import { RegisteredModel } from "../models/registered";
+
 
 const community = express.Router();
 
@@ -391,6 +394,20 @@ community.get("/join/:token", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Invalid token." });
     }
 });
+
+
+community.post("/generate-certificate",checkContest,async (req:any,res:any)=>{
+
+    let contest = req.contest;
+
+    const participants = await RegisteredModel.find({contest_id:contest._id});
+
+
+    generateCertificates(participants,contest._id);
+
+    res.json({message:"Email sent succesfully."});
+
+})
 
 
 export { community };

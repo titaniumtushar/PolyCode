@@ -161,3 +161,14 @@ Content-Type: application/json
 {
  "contest_id":"675860e2b3d6d502c81389d9"
 }
+
+
+
+###
+POST http://localhost:8080/api/community/generate-certificate
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYSIsImVtYWlsIjoiYSIsIndhbGxldF9pZCI6IlhRWFdQdzBHaHN2WnJiUWMiLCJyb2xlIjoiQyIsImlkIjoiNjc1MDU4MzhiYWVmZTBhN2ZmZWYxMWIwIiwiaWF0IjoxNzMzODQ0OTQ5fQ.i9xDN3p41j7fI9uacgYY67GYjQHu06rz8VA_ZAYRKHI
+Content-Type: application/json
+
+{
+ "contest_id":"675860e2b3d6d502c81389d9"
+}
