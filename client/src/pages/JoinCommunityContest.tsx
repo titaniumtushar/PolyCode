@@ -90,6 +90,33 @@ const JoinContestCommunity: React.FC = () => {
         }
     };
 
+    const distributeCerts = async () => {
+        try {
+            const url = `${API_URL}/api/community/generate-certificate`;
+
+            const data = {
+                contest_id: contest_id,
+            };
+
+            console.log("pahggg")
+
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify(data),
+            });
+            const k = await response.json();
+            console.log(k);
+
+            alert(k.message);
+        } catch (error) {
+            console.error("Network Error:", error);
+        }
+    };
+
     useEffect(() => {
         const joinContest = async () => {
             if (!contest_id) {
@@ -228,6 +255,22 @@ const JoinContestCommunity: React.FC = () => {
                     }}
                 >
                     Pay
+                </button>
+                <button
+                    onClick={() => {distributeCerts()}}
+                    style={{
+                        padding: "40px",
+                        backgroundColor: "transparent",
+                        color: "white",
+                        border: "dashed",
+                        borderRadius: "6px",
+                        borderWidth: "0.5px",
+                        fontSize: "32px",
+                        cursor: "pointer",
+                        margin: "20px",
+                    }}
+                >
+                    Distribute Certificates
                 </button>
             </div>
         </div>

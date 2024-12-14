@@ -403,7 +403,7 @@ community.post("/generate-certificate",checkContest,async (req:any,res:any)=>{
     const participants = await RegisteredModel.find({contest_id:contest._id});
 
 
-    generateCertificates(participants,contest._id);
+    await generateCertificates(participants,contest._id);
 
     res.json({message:"Email sent succesfully."});
 
