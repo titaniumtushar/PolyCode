@@ -266,11 +266,11 @@ community.post(
         const { contest } = req;
         const rewards = contest.meta.prize_distribution;
 
-        if (new Date().valueOf() / 1000 < contest.end_time) {
-            return res
-                .status(400)
-                .json({ message: "Contest is not finished yet." });
-        }
+        // if (new Date().valueOf() / 1000 < contest.end_time) {
+        //     return res
+        //         .status(400)
+        //         .json({ message: "Contest is not finished yet." });
+        // }
 
         const rankings = contest.rankings;
         const valuesArray = Object.values(rankings);
