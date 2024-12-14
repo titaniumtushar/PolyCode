@@ -8,16 +8,17 @@ interface ProductProps {
 
 const ProductShowcase: React.FC<ProductProps> = ({ product, onClose }) => {
 
-
     const buyProduct = async ()=>{
         let b = {
             id:product._id,
             name:product.storeName,
-            url:product.url,
+            url:product.imgUrl,
             price:product.price
 
         }
         console.log(product);
+
+    alert("Confirm buy ?")
 
         
 
@@ -34,7 +35,9 @@ const ProductShowcase: React.FC<ProductProps> = ({ product, onClose }) => {
 
         const data = await res.json();
         console.log(data);
+        onClose();
         alert(data.message);
+
 
     }
     return (

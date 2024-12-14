@@ -29,7 +29,7 @@ const sendMailCert = async (
     console.log(email,username,message);
     const mailOptions: any = {
       from: {
-        name: "BrainFlow",
+        name: "PolyCode Arena",
         address: process.env.USER, // Ensure this is the sender's email address
       },
       to: email,
@@ -79,7 +79,7 @@ const sendMailBuyTicket = async (
 
     const mailOptions: any = {
       from: {
-        name: "BrainFlow",
+        name: "PolyCode Arena",
         address: process.env.USER, // Sender's email
       },
       to: email,
@@ -101,13 +101,25 @@ const sendMailBuyTicket = async (
               </p>
               <div style="margin: 30px auto; text-align: center; padding: 15px; border: 2px dashed #0056b3; border-radius: 8px; max-width: 500px; background-color: #f4faff;">
                 <p style="font-size: 18px; margin: 0; color: #333;">📜 <strong>Ownership ID:</strong> ${ownershipId}</p>
-                <p style="font-size: 16px; margin: 0; color: #555;">🔗 <a href="${productUrl}" style="color: #0056b3; text-decoration: none;">View Your Product</a></p>
+                <p style="text-align: center; margin: 20px 0;">
+  <img src=${productUrl} alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIPbAPw5iG90-9SzSQnphfdPfK5J1-PdTY8g&s" 
+    style="
+      width: 100%; 
+      max-width: 400px; 
+      height: auto; 
+      border: 2px solid #ddd; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    "
+  />
+</p>
+
               </div>
             </td>
           </tr>
           <tr>
             <td style="text-align: center; padding: 20px; background-color: #0056b3; color: #ffffff;">
-              <p style="margin: 0;">Thank you for trusting BrainFlow!</p>
+              <p style="margin: 0;">Thank you for your purchase!</p>
             </td>
           </tr>
         </table>

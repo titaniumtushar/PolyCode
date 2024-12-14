@@ -35,9 +35,19 @@ user.get("/product/list", getProducts);
 
 user.post("/buy",async (req:any,res:any)=>{
     const {id,name,url,price} = req.body;
+
+    const ticketmessage = `You have purchased this ${id},
+    user_id:${req.decoded.id},
+    paid:${price},
+    status:done,
+    
+    
+    `
+
+
     try {
         await specialTransactions("U",req.decoded.wallet_id,Number(price),req,res);
-    await sendMailBuyTicket(req.decoded.email,req.decoded.name,"you have buyed it.","njnsjh-dwb46ndnbn",url);
+    await sendMailBuyTicket(req.decoded.email,req.decoded.name,ticketmessage,generateRandomString(10),url);
             return res.status(200).json({message:"Product purchase complete."})
 
         
